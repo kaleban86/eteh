@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <head>
+        <title>Добавить нового клиента</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+
+</head>
+<body>
+
+<div class="container mt-5 mb-5">
+    <h2>Добавить нового клиента</h2>
+
+    <form th:action="@{/customeradd/add}" method="post">
+        <div class="form-group">
+            <label for=>Название Организации:</label>
+            <input type="text"name="nameCompany" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for=>Полное название Организации:</label>
+            <input type="text" name="fullNameCompany" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for=>Юридический адрес:</label>
+            <input type="text" name="legalAddress" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for=>Фактический адрес:</label>
+            <input type="text" name="actualAddress" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for=>ИНН:</label>
+            <input type="text" name="inn" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for=>ОГРН:</label>
+            <input type="text" name="ogrnip" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for=>ОКПО:</label>
+            <input type="text" name="okpo" class="form-control">
+
+        </div>
+        <div class="form-group">
+            <label for=>Саайт:</label>
+            <input type="text" name="site" class="form-control">
+
+        </div>
+        <div class="form-group">
+            <label for=><email></email>email:</label>
+            <input type="text" name="email" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for=>Номер телефона:</label>
+            <input type="text" name="phone" class="form-control">
+
+        </div>
+
+        <button type="submit"href="/customer" class="btn btn-success">Сахранить</button>
+    </form>
+</div>
+<script language="JavaScript">
+
+</script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <head>
+        <title>Распоряжение производственное</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+
+</head>
+<body>
+
+<div class="container mt-5 mb-5">
+    <h2>Распоряжение производственное</h2>
+
+    <form th:action="@{/productionorder/order/add}" method="post">
+        <div class="form-group">
+            <label for=>Организация:</label>
+            <input type="text"name="organization" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for=>Номер распоряжения:</label>
+            <input type="text" name="numberOrder" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for=>Дата создания:</label>
+            <input type="date" class="form-control" id="date1" name="creationDate" placeholder="Дата" required>
+        </div>
+        <div class="form-group">
+            <label for=>Дата отгрузки:</label>
+
+
+            <input type="date" class="form-control" id="date2" name="dateShipment" placeholder="Дата" required>
+
+        </div>
+        <div class="form-group">
+            <label for=>Список ответственных:</label>
+            <input type="text" name="listResponsiblePersons" class="form-control">
+        </div>
+        <table id="tabl" border="1" align="left" style="width:100%">
+
+
+            <div class="form-group">
+                <label for=>Список оборудования:</label><br>
+            </div>
+
+
+        </table>
+
+        <input type='button' value='-' onClick='removeBlock ();'>
+        <input type='button' value='+' onClick='add();'>
+
+
+        <div class="container" mt-5-br-5>
+
+            <div class="row">
+                <div class="form-group">
+                    <label for="exampleFormControlFile1" align="right">Прикрепить файл</label>
+                    <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                </div>
+
+
+            </div>
+        </div>
+        <button type="submit"href="/home" class="btn btn-success">Создать распоряжение</button>
+    </form>
+</div>
+<script language="JavaScript">
+
+
+    function sendPost() {
+
+        alert("hello-worold")
+    }
+
+    function add() {
+
+
+        var nodet = document.createElement('tr');
+
+        var node = document.createElement('td');
+
+        node.innerHTML = "<input type='text' name='1'style=\"width:100%\">";
+
+        document.getElementById('tabl').appendChild(nodet);
+
+        nodet.appendChild(node);
+
+    }
+
+    function removeBlock() {
+        document.getElementById("tabl").getElementsByTagName('tr')[document.getElementById("tabl").getElementsByTagName('tr').length - 1].remove()
+    }
+
+
+</script>
+</body>
+</html>
