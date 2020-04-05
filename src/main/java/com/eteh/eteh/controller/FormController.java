@@ -89,9 +89,10 @@ public class FormController {
 
 
     @GetMapping("/registration")
-    public String registration() {
+    public String registration(String name,Model model) {
 
-        return "registration";
+        model.addAttribute("name",name);
+        return "/registration";
     }
 
     @PostMapping("/registration")
@@ -100,7 +101,7 @@ public class FormController {
 
         if (userFromDb != null) {
             model.put("message", "User exists!");
-            return "registration";
+            return "/registration";
         }
 
         user.setActive(true);
