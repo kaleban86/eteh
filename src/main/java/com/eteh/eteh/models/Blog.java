@@ -20,6 +20,7 @@ public class Blog {
 
     public Blog(String title, String text) {
 
+
         this.title = title;
         this.text = text;
     }

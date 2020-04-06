@@ -6,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @Entity
-@Table(name = "production")
 public class Production {
 
     @Id
