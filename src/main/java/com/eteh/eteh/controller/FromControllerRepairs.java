@@ -16,6 +16,13 @@ public class FromControllerRepairs {
         return "/repairs";
     }
 
+    @GetMapping("/repairsadd")
+    public String repairsadd(String name, Model model){
+        model.addAttribute("name" ,name);
+
+        return "/repairsadd";
+    }
+
 
 
 }

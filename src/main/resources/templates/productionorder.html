@@ -76,7 +76,14 @@
 
     function sendPost() {
 
-        alert("hello-worold")
+        let techArr = [];
+
+        let inputTexts = document.querySelectorAll('.techPoint');
+
+        for(let i = 0; i < inputTexts.length; i++) {
+            techArr.push(inputTexts[i].value);
+        }
+        //alert(techArr);
     }
 
     function add() {

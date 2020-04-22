@@ -1,0 +1,169 @@
+<!DOCTYPE HTML>
+<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <head>
+        <title>Входящие обращения</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+              crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+                integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+                crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"
+                integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm"
+                crossorigin="anonymous"></script>
+    </head>
+
+</head>
+<h1> Входящие обращения </h1>
+<body>
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+            </nav>
+        </div>
+        <div class="col-5" style="border-block-end-color: ivory">
+
+
+            <form>
+                <label for=>От:</label>
+                <div class="row">
+
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="Фамилия">
+
+                    </div>
+
+
+                </div>
+                <div>
+                    <label for=>Основание:</label>
+
+                    <select class="custom-select">
+                        <option selected>Датчик давления</option>
+                        <option value="1">Не испарвана</option>
+                        <option value="2">резинка</option>
+                        <option value="3">Three</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for=>Видите текст:</label>
+                    <textarea class="form-control" name="text" id="exampleFormControlTextarea1" rows="23"></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="col-4" style="border-block-end-color: ivory">
+            <div class="form-group">
+                <label for=>Дата создания:</label>
+                <input type="date" class="form-control" id="date1" name="creationDate" placeholder="Дата" required>
+
+
+                <label for=>Исполнители:</label>
+                <select class="custom-select">
+                    <option selected>Датчик давления</option>
+                    <option value="1">Не испарвана</option>
+                    <option value="2">резинка</option>
+                    <option value="3">Three</option>
+                </select>
+                <label for=>Контроллер:</label>
+                <select class="custom-select">
+                    <option selected>Датчик давления</option>
+                    <option value="1">Не испарвана</option>
+                    <option value="2">резинка</option>
+                    <option value="3">Three</option>
+                </select>
+                <label for=>Статус:</label>
+                <select class="custom-select">
+                    <option selected>Датчик давления</option>
+                    <option value="1">Не испарвана</option>
+                    <option value="2">резинка</option>
+                    <option value="3">Three</option>
+                </select>
+
+                <h3> Информация о клиенте </h3>
+                <form>
+                    <div>
+                        <select class="custom-select">
+                            <option selected>Название компании</option>
+                            <option value="1">Не испарвана</option>
+                            <option value="2">резинка</option>
+                            <option value="3">Three</option>
+                        </select>
+                        <label for="inputAddress">Если нет в списки</label>
+                        <input type="text" class="form-control" placeholder="Название компании">
+
+
+                    </div>
+                    <label for=>Сотрудник от которого поступило обращение:</label>
+                    <div class="input-group">
+
+                        <div class="input-group-prepend">
+
+                            <span class="input-group-text" id="">Имя и фамилия</span>
+                        </div>
+                        <input type="text" class="form-control">
+                        <input type="text" class="form-control">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="inputAddress">Телефон</label>
+                        <input type="text" class="form-control" id="inputAddress" placeholder="+7 (000) 000-00-00">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAddress2">Адрес</label>
+                        <input type="text" class="form-control" id="inputAddress2"
+                               placeholder="Apartment, studio, or floor">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group" >
+                            <label for="exampleInputEmail1" >Email address</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1"
+                                   aria-describedby="emailHelp" placeholder="Enter email">
+
+                        </div>
+                        <div class="m - 3 p - 3"   >
+                            <label for="exampleFormControlFile1"  align="right" >Прикрепить файл</label>
+                            <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                        </div>
+
+                    </div>
+
+                </form>
+                <div>
+                    <button type="submit" href="/home" class="btn btn-success">Сохранить</button>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="col-4" style="border-block-end-color: ivory">
+
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<script language="JavaScript">
+
+</script>
+</body>
+</html>

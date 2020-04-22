@@ -74,39 +74,37 @@
 
         <div class="col-sm-9">
             <h1><small>Новости Компании</small></h1>
-            </iframe>
 
             <div class="container mt-5"/>
-           <h1>Собшения</h1>
-            <div th:each="text : ${blog}" class="alert alert-info mt-2">
-                <ul th:object="${person}">
-                    <li>Name: <!--/*@thymesVar id="text" type="java"*/-->
-                    <span th:text="*{text.text}"></span></li>
-                    <li>Address: <span th:text="*{text.title}"></span></li>
-                    <a th:href="@{/home}">Home</a>
-                    <a th:href="@{/messages(page=${page + 1})}">Messages</a>
-                    <a th:href="@{/users/{id}/profile(id=${user.id})}">Profile</a>
-                </ul>
 
 
-            </div>
-
-
-            <form th:action="@{blog}" method="post">
-                <div class="form-group">
-                    <label for=>Видите название:</label>
-                    <input type="text" name="title" class="form-control">
-                    <label for=>Видите текст:</label>
-                    <input type="text" name="text" class="form-control">
-                </div>
-                <button type="submit" class="btn btn-success">Опубликовать</button>
-            </form>
 
 
 
         </div>
 
+
+        <div class="container mt-5"/>
+
+
+
+
+
+        <form th:action="@{blog}" method="post">
+            <div class="form-group">
+                <label for=>Видите название:</label>
+                <input type="text" name="title" class="form-control">
+                <label for=>Видите текст:</label>
+                <textarea class="form-control" name="text" id="exampleFormControlTextarea1" rows="3"></textarea>
+
+            </div>
+            <button type="submit" class="btn btn-success">Опубликовать</button>
+        </form>
+
+
     </div>
+
+</div>
 </div>
 </div>
 </div>
@@ -115,7 +113,7 @@
 <footer class="container-fluid">
 
 </footer>
-
+<input type="text" name="text" class="form-control">
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

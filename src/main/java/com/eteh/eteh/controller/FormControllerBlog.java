@@ -39,7 +39,7 @@ public class FormControllerBlog {
 
     }
 
-/*
+
     @GetMapping("/blog/{id}")
     public String blogInfo(@PathVariable(value = "id") long id, Model model){
 
@@ -51,5 +51,5 @@ public class FormControllerBlog {
 
     }
 
- */
+
 }
