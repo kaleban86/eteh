@@ -1,132 +1,138 @@
 <!DOCTYPE html>
 <html lang="ru">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html  xmlns:th="https://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
 <head>
-
-    <title>Bootstrap Example</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <style>
-        /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
-        .row.content {
-            height: 1500px
-        }
-
-        /* Set gray background color and 100% height */
-        .sidenav {
-            background-color: #f1f1f1;
-            height: 100%;
-        }
-
-        /* Set black background color, white text and some padding */
-        footer {
-            background-color: #555;
-            color: white;
-            padding: 15px;
-        }
-
-        /* On small screens, set height to 'auto' for sidenav and grid */
-        @media screen and (max-width: 767px) {
-            .sidenav {
-                height: auto;
-                padding: 15px;
-            }
-
-            .row.content {
-                height: auto;
-            }
-        }
-    </style>
+    <title>Новости компании </title>
 </head>
 <body>
-
 <div class="container-fluid">
-    <div class="row content">
-        <div class="col-sm-3 sidenav">
 
-            <h2>Электротех</h2>
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Поиск на странице..">
-                <span class="input-group-btn">
-          <button class="btn btn-default" type="button">
-            <span class="glyphicon glyphicon-search"></span>
-          </button>
-        </span>
+
+    <div class="row">
+
+        <div class="col-1" style="border-block-end-color: ivory">
+            <div class="col-1" style="border-block-end-color: ivory">
+
+                <div>
+
+                </div>
+                <div class="sidenav ">
+                    <a href="/user-profile">Профиль</a>
+
+<!--                  <a href="/blogadd">Добавить новость</a>-->
+<!--                    <a href="/manufacture">Производство</a>-->
+<!--                    <a href="/customer">Коммерческий отдел</a>-->
+                    <a href="/appealHome">Входящие обращения</a>
+
+                    <ul class="nav navbar-nav navbar-right">
+
+                        <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span>Выйти</a></li>
+                    </ul>
+<!--                    <a href="/svg">Служба ввода и гарантии</a>-->
+<!--                    <a href="/otc">Отдел контроля качества</a>-->
+<!--                    <a href="/repairs">Ремонт и сервисное обслуживание</a>-->
+<!--                    <a href="/software">Отдел разработки программного обеспечения</a>-->
+<!--                    <a href="/mechanic">Отдел конструирования механических компонентов</a>-->
+<!--                    <a href="/electronic">Отдел конструирования электронных компонентов</a>-->
+
+                </div>
+
 
             </div>
-            <ul class="nav nav-pills nav-stacked">
-                <li><a href="/manufacture">Производство</a></li>
-                <li><a href="/home">Коммерческий отдел</a></li>
-                <li><a href="/svg">Служба ввода и гарантии</a></li>
-                <li><a href="/otc">Отдел контроля качества</a></li>
-                <li><a href="/repairs">Ремонт и сервисное обслуживание</a></li>
-                <li><a href="/software">Отдел разработки программного обеспечения</a></li>
-                <li><a href="/mechanic">Отдел конструирования механических компонентов</a></li>
-                <li><a href="/electronic">Отдел конструирования электронных компонентов</a></li>
-            </ul>
-            <br>
-
         </div>
 
-        <div class="col-sm-9">
-            <h1><small>Новости Компании</small></h1>
-
-            <div class="container mt-5"/>
+        <div class="col-11" style="border-block-end-color: ivory">
 
 
+            <div class="container mt- 5" th:switch="${appeal}">
 
+                <div>
+                    <h1>Новости Компании</h1>
+                </div>
 
+                <div th:each="user : ${appeal}" class="alert alert-info mt-2">
+                    <h4 th:text="${user.text}"></h4>
+                    <p th:text="${user.title}"></p>
 
-        </div>
+                    <a th:href="@{blog/{id}(id=${user.id})}">Редактировать</a>
+                    <a th:href="@{blog-delete/{id}(id=${user.id})}">Удалить</a>
+                </div>
 
-
-        <div class="container mt-5"/>
-
-
-
-
-
-        <form th:action="@{blog}" method="post">
-            <div class="form-group">
-                <label for=>Видите название:</label>
-                <input type="text" name="title" class="form-control">
-                <label for=>Видите текст:</label>
-                <textarea class="form-control" name="text" id="exampleFormControlTextarea1" rows="3"></textarea>
 
             </div>
-            <button type="submit" class="btn btn-success">Опубликовать</button>
-        </form>
-
-
+        </div>
     </div>
+</div>
+<style>
+    * {
+        box-sizing: border-box;
+    }
 
-</div>
-</div>
-</div>
-</div>
-</div>
 
-<footer class="container-fluid">
+    table {
+        border-spacing: 0;
+        width: 100%;
+        border: 1px solid #ddd;
+    }
 
-</footer>
-<input type="text" name="text" class="form-control">
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+    th {
+        cursor: pointer;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 16px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2
+    }
+
+
+    .sidenav {
+        height: 100%;
+        width: 160px;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #708090;
+        overflow-x: hidden;
+        padding-top: 20px;
+    }
+
+    .sidenav a {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        font-size: 20px;
+        color: #000000;
+        display: block;
+    }
+
+    .sidenav a:hover {
+        color: #f1f1f1;
+    }
+
+    .main {
+        margin-left: 160px; /* Same as the width of the sidenav */
+        font-size: 28px; /* Increased text to enable scrolling */
+        padding: 0px 10px;
+    }
+
+    @media screen and (max-height: 450px) {
+        .sidenav {
+            padding-top: 15px;
+        }
+
+        .sidenav a {
+            font-size: 18px;
+        }
+    }
+    </style>
+</style>
 </body>
 </html>
-
-
-

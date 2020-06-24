@@ -1,45 +1,48 @@
 <!DOCTYPE HTML>
 <html lang="ru">
 <html xmlns:th="http://www.thymeleaf.org">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <head>
     <head>
         <title>Входящие обращения</title>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
-              integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
               crossorigin="anonymous">
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-                integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-                crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"
-                integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm"
-                crossorigin="anonymous"></script>
+
     </head>
 
 </head>
-<h1> Входящие обращения </h1>
+<div class="tab">
+    <a href="/appealHome" class="backLink" style="color: #000 !important; text-decoration: none">
+        <div class="backButton">⟵</div>
+    </a>
+    <div id="tabBlocks">
+
+    </div>
+
+</div>
+
 <body>
+<!--/*@thymesVar id="message" type="com"*/-->
 
 <div class="container-fluid">
-
+    <h3>Новое входящие обращение </h3>
     <div class="row">
-        <div class="container">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-            </nav>
-        </div>
         <div class="col-5" style="border-block-end-color: ivory">
 
 
-            <form>
-                <label for=>От:</label>
+            <!--/*@thymesVar id="customerList" type="com"*/-->
+            <form enctype="multipart/form-data" th:action="@{/appeal/appalAdd} " method="post">
+                <label for=>Краткое описание:</label>
                 <div class="row">
 
                     <div class="col">
-                        <input type="text" class="form-control" placeholder="Фамилия">
+                        <input type="text" name="briefDescription" class="form-control" placeholder="Краткое описание "
+                               required maxlength="75" data-toggle="tooltip" data-placement="top"
+                               title="Описание не должно превышать 75 символов.">
 
                     </div>
 
@@ -48,100 +51,115 @@
                 <div>
                     <label for=>Основание:</label>
 
-                    <select class="custom-select">
-                        <option selected>Датчик давления</option>
-                        <option value="1">Не испарвана</option>
-                        <option value="2">резинка</option>
-                        <option value="3">Three</option>
+                    <select class="custom-select" name="footing" required>
+                        <option value="" disabled selected>Вид обращения</option>
+                        <option value="Официальное письмо">Официальное письмо</option>
+                        <option value="Обращение от оператора">Обращение от оператора</option>
+                        <option value="Иное, не придусмотренное">Иное, не придусмотренное</option>
                     </select>
+
                 </div>
 
                 <div>
                     <label for=>Видите текст:</label>
-                    <textarea class="form-control" name="text" id="exampleFormControlTextarea1" rows="23"></textarea>
+                    <textarea class="form-control" name="text" id="exampleFormControlTextarea1" rows="23"
+                              required></textarea>
                 </div>
-            </form>
+
         </div>
         <div class="col-4" style="border-block-end-color: ivory">
             <div class="form-group">
-                <label for=>Дата создания:</label>
-                <input type="date" class="form-control" id="date1" name="creationDate" placeholder="Дата" required>
+                <label for=>Дата закрытия:</label>
+                <input type="date" id="datepicker" class="form-control" name="dataAnswer" placeholder="Дата" required>
 
 
                 <label for=>Исполнители:</label>
-                <select class="custom-select">
-                    <option selected>Датчик давления</option>
-                    <option value="1">Не испарвана</option>
-                    <option value="2">резинка</option>
-                    <option value="3">Three</option>
+                <select class="form-control" name="executor" id="executor" required>
+                    <option value="" disabled selected>Выберите из списка</option>
+                    <!--/*@thymesVar id="users" type="com"*/-->
+                    <option th:each="user : ${user}"
+                            th:value="${user.lastName +' '+ user.name + ' ' + user.firstName+ ' '+ user.email}"
+                            th:text="${user.lastName +'  '+ user.name +' ' + user.firstName }"></option>
                 </select>
-                <label for=>Контроллер:</label>
-                <select class="custom-select">
-                    <option selected>Датчик давления</option>
-                    <option value="1">Не испарвана</option>
-                    <option value="2">резинка</option>
-                    <option value="3">Three</option>
-                </select>
+                <!--/*@thymesVar id="user" type="com"*/-->
+                <label for=>Контролёр:</label>
+                <div class="form-group blu-margin">
+                    <select class="form-control" name="controller" id="controller" required>
+                        <option value="" disabled selected>Выберите из списка</option>
+                        <!--/*@thymesVar id="users" type="com"*/-->
+                        <option th:each="user : ${user}"
+                                th:value="${user.lastName +' '+ user.name + ' ' + user.firstName+ ' '+ user.email }"
+                                th:text="${user.lastName +' '+ user.name + ' ' + user.firstName  } "></option>
+                    </select>
+                </div>
                 <label for=>Статус:</label>
-                <select class="custom-select">
-                    <option selected>Датчик давления</option>
-                    <option value="1">Не испарвана</option>
-                    <option value="2">резинка</option>
-                    <option value="3">Three</option>
+                <select class="custom-select" name="status" required>
+                    <option value="Новое">Новое</option>
+                    <option value="Ответ отправлен">Ответ отправлен</option>
+                    <option value="Закрыто">Закрыто</option>
+                    <option value="В работе">В работе</option>
+
                 </select>
 
                 <h3> Информация о клиенте </h3>
-                <form>
-                    <div>
-                        <select class="custom-select">
-                            <option selected>Название компании</option>
-                            <option value="1">Не испарвана</option>
-                            <option value="2">резинка</option>
-                            <option value="3">Three</option>
-                        </select>
-                        <label for="inputAddress">Если нет в списки</label>
-                        <input type="text" class="form-control" placeholder="Название компании">
+                <div class="form-group blu-margin">
+                    <label for=>Организация:</label>
+                    <select class="form-control" name="nameCompany" id="nameCompany" required>
+                        <option value="Нет в списке">Нет в списке</option>
+                        <option th:each="user : ${customerList}" th:value="${user.fullNameCompany }"
+                                th:text="${user.fullNameCompany } "></option>
+                    </select>
+
+                </div>
 
 
+                <label for=>Сотрудник от которого поступило обращение:</label>
+                <div class="input-group">
+
+                    <div class="input-group-prepend">
+
+                        <span class="input-group-text" id="">ФИО</span>
                     </div>
-                    <label for=>Сотрудник от которого поступило обращение:</label>
-                    <div class="input-group">
+                    <input type="text" class="form-control" name="surname" required>
 
-                        <div class="input-group-prepend">
-
-                            <span class="input-group-text" id="">Имя и фамилия</span>
-                        </div>
-                        <input type="text" class="form-control">
-                        <input type="text" class="form-control">
-                    </div>
+                </div>
 
 
+                <div class="form-group">
+                    <label>Телефон</label>
+                    <!--/*@thymesVar id="error" type="com"*/-->
+                    <input type="text" class="form-control" id="nam" name="address" placeholder="+7 (000) 000-00-00"
+                           required>
+                </div>
+                <div class="form-group">
+                    <label for="inputAddress2">Адрес</label>
+                    <input type="text" class="form-control " name="tel" id="inputAddress2"
+                           placeholder="Apartment, studio, or floor">
+                </div>
+                <div class="form-row">
                     <div class="form-group">
-                        <label for="inputAddress">Телефон</label>
-                        <input type="text" class="form-control" id="inputAddress" placeholder="+7 (000) 000-00-00">
-                    </div>
-                    <div class="form-group">
-                        <label for="inputAddress2">Адрес</label>
-                        <input type="text" class="form-control" id="inputAddress2"
-                               placeholder="Apartment, studio, or floor">
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group" >
-                            <label for="exampleInputEmail1" >Email address</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1"
-                                   aria-describedby="emailHelp" placeholder="Enter email">
-
-                        </div>
-                        <div class="m - 3 p - 3"   >
-                            <label for="exampleFormControlFile1"  align="right" >Прикрепить файл</label>
-                            <input type="file" class="form-control-file" id="exampleFormControlFile1">
-                        </div>
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input style="font-size: 12px" type="email" class="form-control" name="emailAddress"
+                               id="exampleInputEmail1"
+                               aria-describedby="emailHelp" placeholder="Enter email">
 
                     </div>
+                    <div class="col-md-4 col-md-offset-4 ">
+                        <label for="inputAddress2">Прикрепить файл 1</label>
 
-                </form>
+
+                        <input style="height: auto" type="file" name="file" multiple data-toggle="tooltip"
+                               data-placement="top" title="Максимальный размер файла 100 MB">
+                        <label for="inputAddress2">Прикрепить файл 2</label>
+                        <input style="height: auto" type="file" name="file2" multiple data-toggle="tooltip"
+                               data-placement="top" title="Максимальный размер файла 100 MB">
+                    </div>
+
+
+                    <input style="display: none" type="text" class="form-control" name="authorUpdate">
+                </div>
                 <div>
-                    <button type="submit" href="/home" class="btn btn-success">Сохранить</button>
+                    <button type="submit" href="/appealHome" class="btn btn-success">Сохранить</button>
                 </div>
 
             </div>
@@ -150,20 +168,116 @@
         </div>
 
 
-        <div class="col-4" style="border-block-end-color: ivory">
+    </div>
 
 
+    <div class="col-4" style="border-block-end-color: ivory">
 
-        </div>
 
     </div>
+
+</div>
+
+
+</form>
 
 
 </div>
 
 
-<script language="JavaScript">
+<script type="text/javascript">
+    (function () {
+        let date = new Date();
+        let year = date.getFullYear();
+        let month = ('0' + (date.getMonth() + 1)).slice(-2);
+        let day = ('0' + date.getDate()).slice(-2);
+        let formedDate = year + '-' + month + '-' + day;
+
+        let picker = document.getElementById('datepicker');
+        picker.setAttribute('min', formedDate);
+
+        maxDate = new Date(year + 3, day, month);
+        let maxYear = maxDate.getFullYear();
+        let maxMonth = ('0' + (maxDate.getMonth() + 1)).slice(-2);
+        let maxDay = ('0' + maxDate.getDate()).slice(-2);
+        maxFormedDate = maxYear + '-' + maxMonth + '-' + maxDay;
+
+        picker.setAttribute('max', maxFormedDate);
+    })();
 
 </script>
 </body>
+<style>
+    body {
+        font-family: Arial;
+    }
+
+    /* Style the tab */
+    .tab {
+        overflow: hidden;
+    / / border: 1 px solid #ccc;
+        background-color: #f1f1f1;
+        height: 38px;
+    }
+
+    /* Style the buttons inside the tab */
+    .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+    / / border-radius: 5 px;
+        outline: none;
+        cursor: pointer;
+        padding: 2px 16px;
+        transition: 0.3s;
+        height: 38px;
+    / / margin: 5 px 5 px 5 px 5 px;
+        color: #3f3939;
+    }
+
+    /* Change background color of buttons on hover */
+    .tab button:hover, .backButton:hover {
+        background-color: #b5f1cf;
+    }
+
+    /* Create an active/current tablink class */
+    .tab button.active {
+        background-color: #b5f1cf;
+        color: #3f3939;
+    }
+
+    .backButton {
+        font-size: 17px;
+        height: 38px;
+        font-weight: bold;
+        padding-right: 20px;
+        padding-left: 20px;
+        padding-top: 5px;
+        display: block;
+    / / margin: 6 px;
+        float: left;
+        vertical-align:
+    }
+
+    #tabBlocks {
+    . . margin-left: 20 px;
+        display: inline-block;
+
+        font-size: 17px;
+    }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+
+    .bigText {
+        height: auto;
+    }
+
+
+</style>
 </html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+
+<div class="tab">
+    <a href="/appealHome" class="backLink" style="color: #000 !important; text-decoration: none">
+        <div class="backButton">⟵</div>
+    </a>
+    <div id="tabBlocks">
+
+    </div>
+
+</div>
+
+
+<div class="container-fluid">
+
+    <div class="form-group row" mt-5 style="border-block-end-color: ivory">
+
+        <!--/*@thymesVar id="update" type="com"*/-->
+        <div class="col-0"></div>
+
+        <form class="form-group row col-lg-8" action="#" th:action="@{/appeal/reading/{id}}" th:object="${Update}"
+              method="post">
+
+            <div id="leftBlock" class="col-md-6">
+
+                <label>№</label>
+                <input readonly type="number" th:field="*{id}" class="form-control">
+                <div th:each="userId : ${userId}">
+                    <label>Автор:</label>
+                    <text readonly type="text" th:text="${userId.name + ' ' + userId.lastName}"
+                          class="form-control"></text>
+
+                </div>
+                <label>Краткое описание:</label>
+                <input readonly type="text" th:field="*{briefDescription}" class="form-control">
+
+
+                <label for=>Текст:</label>
+                <textarea readonly class="form-control" th:field="*{text}" rows="23"></textarea>
+
+
+            </div>
+
+            <div id="rightBlock" class="col-md-6">
+                <label>Основание:</label>
+                <input readonly type="text" th:field="*{footing}" class="form-control">
+                <label>Статус:</label>
+                <input readonly type="text" th:field="*{status}" class="form-control">
+                <label>Исполнитель:</label>
+                <input readonly type="text" th:field="*{executor}" class="form-control">
+                <label>Контролёр:</label>
+                <input readonly type="text" th:field="*{controller}" class="form-control">
+                <label>Компания:</label>
+                <input readonly type="text" th:field="*{nameCompany}" class="form-control">
+                <label>Телефон:</label>
+                <input readonly type="text" th:field="*{tel}" class="form-control">
+
+                <label>Адрес:</label>
+                <input readonly type="text" th:field="*{address}" class="form-control">
+
+                <label>От кого поступило обращение:</label>
+                <input readonly type="text" th:field="*{surname}" class="form-control">
+                <label>Дата создания:</label>
+                <input readonly type="text" th:field="*{{dataCreation}}" class="form-control">
+                <label>Дата закрытия:</label>
+                <input readonly type="text" th:field="*{{dataAnswer}}" class="form-control">
+
+                <label>Email address:</label>
+                <text readonly type="text" th:text="*{emailAddress}" class="form-control"></text>
+                <br>
+
+                <div th:each="file : ${Update}">
+
+                    <a id="download" th:href="@{|/download-document/${file.fileName}|}">Скачать файл 1</a>
+                    <a id="downloadFile" th:href="@{|/download-document/${file.fileName2}|}">Скачать файл 2</a>
+
+
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+</div>
+
+</body>
+
+<script>
+    (function () {
+        let link = document.querySelector('#download');
+        if ((/\/$/).test(link.href)) link.style.display = 'none';
+    })();
+    (function () {
+        let link = document.querySelector('#downloadFile');
+        if ((/\/$/).test(link.href)) link.style.display = 'none';
+    })();
+</script>
+<style>
+    body {
+        font-family: Arial;
+    }
+
+    /* Style the tab */
+    .tab {
+        overflow: hidden;
+    / / border: 1 px solid #ccc;
+        background-color: #f1f1f1;
+        height: 38px;
+    }
+
+    /* Style the buttons inside the tab */
+    .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+    / / border-radius: 5 px;
+        outline: none;
+        cursor: pointer;
+        padding: 2px 16px;
+        transition: 0.3s;
+        height: 38px;
+    / / margin: 5 px 5 px 5 px 5 px;
+        color: #3f3939;
+    }
+
+    /* Change background color of buttons on hover */
+    .tab button:hover, .backButton:hover {
+        background-color: #b5f1cf;
+    }
+
+    /* Create an active/current tablink class */
+    .tab button.active {
+        background-color: #b5f1cf;
+        color: #3f3939;
+    }
+
+    .backButton {
+        font-size: 17px;
+        height: 38px;
+        font-weight: bold;
+        padding-right: 20px;
+        padding-left: 20px;
+        padding-top: 5px;
+        display: block;
+    / / margin: 6 px;
+        float: left;
+        vertical-align:
+    }
+
+    #tabBlocks {
+    . . margin-left: 20 px;
+        display: inline-block;
+
+        font-size: 17px;
+    }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+
+    .bigText {
+        height: auto;
+    }
+</style>
+
+</html>

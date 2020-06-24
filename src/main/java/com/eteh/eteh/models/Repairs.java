@@ -102,4 +102,20 @@ public class Repairs  {
     public void setExecutionWork(String executionWork) {
         this.executionWork = executionWork;
     }
+
+    @Override
+    public String toString() {
+        return "Repairs{" +
+                "id=" + id +
+                ", dataReceipt=" + dataReceipt +
+                ", repairPeriod=" + repairPeriod +
+                ", repairOver=" + repairOver +
+                ", dateShipment=" + dateShipment +
+                ", serialNumber='" + serialNumber + '\'' +
+                ", descriptionRepair='" + descriptionRepair + '\'' +
+                ", diagnosticsRepairs='" + diagnosticsRepairs + '\'' +
+                ", replacingAppliances='" + replacingAppliances + '\'' +
+                ", executionWork='" + executionWork + '\'' +
+                '}';
+    }
 }

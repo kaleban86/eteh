@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<html  xmlns:th="https://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"
+        integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm"
+        crossorigin="anonymous"></script>
+
+<head>
+    <title>Spring Security Example </title>
+</head>
+<body>
+
+
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        <div class="col-5" style="border-block-end-color: ivory" ></div>
+        <div class="col-4" style="border-block-end-color: ivory">
+
+
+            <form role="form" th:action="@{/activate}" method="post">
+                <!--/*@thymesVar id="message" type="com"*/-->
+                <!--/*@thymesVar id="message1" type="com"*/-->
+                <div th:if="${message1}">
+                    Неверное имя пользователя и пароль.
+                </div>
+                <div th:if="${message1}">
+                    Вы вышли из системы.
+                </div>
+                <div>
+                    <label> Логин: <input type="text" name="username" class="form-control" placeholder="Логин"/> </label>
+                </div>
+                <div>
+                    <label> Пароль: <input type="password" name="password" class="form-control" placeholder="Пароль" /> </label>
+                </div>
+
+                <div class="custom-checkbox">
+                    <input type="checkbox" > Запомнить меня
+
+                </div>
+                <div>
+                    <input type="submit"  value="Войти" class="btn-success"/>
+                </div>
+
+
+            </form>
+
+            <div>
+                <a href="/registration" class="btn btn-primary ">Зарегистрироваться</a>
+            </div>
+        </div>
+        <div class="col-4" style="border-block-end-color: ivory"></div>
+    </div>
+
+
+</div>
+</body>
+<style>
+</style>
+</html>

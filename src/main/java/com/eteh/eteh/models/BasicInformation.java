@@ -73,4 +73,16 @@ public class BasicInformation {
     public void setSystemSerialNumber(String systemSerialNumber) {
         this.systemSerialNumber = systemSerialNumber;
     }
+
+    @Override
+    public String toString() {
+        return "BasicInformation{" +
+                "id=" + id +
+                ", productType='" + productType + '\'' +
+                ", designFeatures='" + designFeatures + '\'' +
+                ", modifications='" + modifications + '\'' +
+                ", serialNumber='" + serialNumber + '\'' +
+                ", systemSerialNumber='" + systemSerialNumber + '\'' +
+                '}';
+    }
 }

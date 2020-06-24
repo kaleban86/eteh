@@ -171,6 +171,30 @@ public class ManufacturingInformation {
     public void setPsiMaximumError(String psiMaximumError) {
         this.psiMaximumError = psiMaximumError;
     }
+
+    @Override
+    public String toString() {
+        return "ManufacturingInformation{" +
+                "id=" + id +
+                ", softwareVersion='" + softwareVersion + '\'' +
+                ", designFeatures='" + designFeatures + '\'' +
+                ", controllerBoard='" + controllerBoard + '\'' +
+                ", preampBoard='" + preampBoard + '\'' +
+                ", sensorSystem='" + sensorSystem + '\'' +
+                ", weightPipe1='" + weightPipe1 + '\'' +
+                ", weightPipe2='" + weightPipe2 + '\'' +
+                ", sensorsL1='" + sensorsL1 + '\'' +
+                ", sensorsL2='" + sensorsL2 + '\'' +
+                ", pressureSensorNumber='" + pressureSensorNumber + '\'' +
+                ", checkStabilityWater='" + checkStabilityWater + '\'' +
+                ", coss='" + coss + '\'' +
+                ", balance='" + balance + '\'' +
+                ", amplitude='" + amplitude + '\'' +
+                ", shift='" + shift + '\'' +
+                ", purity='" + purity + '\'' +
+                ", psiMaximumError='" + psiMaximumError + '\'' +
+                '}';
+    }
 }
 
 

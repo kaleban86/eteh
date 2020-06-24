@@ -90,9 +90,18 @@ public class Production {
     private String equipmentList;
 
 
-
-
-
+    @Override
+    public String toString() {
+        return "Production{" +
+                "id=" + id +
+                ", organization='" + organization + '\'' +
+                ", numberOrder=" + numberOrder +
+                ", dateShipment=" + dateShipment +
+                ", creationDate=" + creationDate +
+                ", listResponsiblePersons='" + listResponsiblePersons + '\'' +
+                ", equipmentList='" + equipmentList + '\'' +
+                '}';
+    }
 }
 
 

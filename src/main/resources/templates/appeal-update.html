@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+    <title>Login</title>
+</head>
+<body>
+
+<div class="tab">
+    <a href="/appealHome" class="backLink" style="color: #000 !important; text-decoration: none">
+        <div class="backButton">⟵</div>
+    </a>
+    <div id="tabBlocks">
+        <button class="tablinks incomingCall" onclick="openCity(event, 'London')">Входящие обращение</button>
+        <!--    <button class="tablinks" onclick="openCity(event, 'Paris')">Внести изменение</button>-->
+        <button class="tablinks" onclick="openCity(event, 'Tokyo')">История</button>
+    </div>
+
+
+</div>
+
+<div id="London" class="tabcontent">
+    <h3>Входящие обращение</h3>
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="form-group col-8" mt-8 style="border-block-end-color: ivory">
+
+              
+
+                <!--/*@thymesVar id="Update" type="com"*/-->
+                <form class="form-group row col-lg-50" action="#" th:action="@{/appeal-update}" th:object="${Update}"
+                      method="post">
+                    <div id="leftBlock" class="col-md-6">
+
+                        <label>№:</label>
+                        <input readonly type="number" th:field="*{id}" class="form-control">
+
+                        <div th:each="userId : ${userId}">
+                            <label>Автор:</label>
+                            <text readonly type="text" th:text="${userId.name + ' ' + userId.lastName}"
+                                  class="form-control"></text>
+
+                        </div>
+
+                        <input style="display: none" type="text" th:field="*{dataCreation}" class="form-control">
+                        <label>Краткое описание:</label>
+
+                        <input type="text" th:field="*{briefDescription}" class="form-control" maxlength="50">
+
+
+                        <label for=>Текст:</label>
+                        <!--/*@thymesVar id="user" type="com"*/-->
+                        <textarea class="form-control" th:field="*{text}" rows="23"></textarea>
+
+
+                    </div>
+
+                    <div id="rightBlock" class="col-md-6">
+                        <div>
+                            <label for=>Основание:</label>
+
+                            <select class="custom-select" selected th:field="*{footing}">
+                                <!--                                <option >Вид обращения</option>-->
+                                <option value="Официальное письмо">Официальное письмо</option>
+                                <option value="Обращение от оператора">Обращение от оператора</option>
+                                <option value="Иное, не придусмотренное">Иное, не придусмотренное</option>
+                            </select>
+                        </div>
+                        <!--                        <label>Основание:</label>-->
+                        <!--                        <input type="text" th:field="*{footing}" class="form-control">-->
+                        <label>Статус:</label>
+                        <!--                        <input type="text" th:field="*{status}" class="form-control">-->
+
+                        <select class="custom-select" th:field="*{status}">
+                            <option value="Новое">Новое</option>
+                            <option value="Ответ отправлен">Ответ отправлен</option>
+                            <option value="Закрыто">Закрыто</option>
+                            <option value="В работе">В работе</option>
+
+                        </select>
+                        <div class="form-group blu-margin">
+                            <label for=>Исполнители:</label>
+                            <select class="custom-select" th:field="*{executor}">
+                                <option value="0"></option>
+                                <option th:each="user : ${user}"
+                                        th:value="${user.lastName +' '+ user.name + ' ' + user.firstName }"
+                                        th:text="${user.lastName +'  '+ user.name +' ' + user.firstName }"></option>
+                            </select>
+                            <div class="form-group blu-margin">
+                                <label>Контролёр:</label>
+                                <select class="custom-select" th:field="*{controller}">
+                                    <option value="0">Выберите из списка</option>
+                                    <option th:each="user : ${user}"
+                                            th:value="${user.lastName +' '+ user.name + ' ' + user.firstName }"
+                                            th:text="${user.lastName +'  '+ user.name +' ' + user.firstName }"></option>
+                                </select>
+
+
+                                <div class="form-group blu-margin">
+                                    <label>Компания:</label>
+                                    <select class="form-control" th:field="*{nameCompany}">
+                                        <option value="Нет в списке">Нет в списке</option>
+                                        <option th:each="user : ${customerList}" th:value="${user.fullNameCompany }"
+                                                th:text="${user.fullNameCompany } "></option>
+                                    </select>
+                                    <label>Телефон:</label>
+                                    <input type="text" th:field="*{tel}" class="form-control">
+
+                                    <label>Адрес:</label>
+                                    <input type="text" th:field="*{address}" class="form-control">
+                                    <label>Дата создания:</label>
+                                    <input readonly type="date" th:field="*{{dataCreation}}" class="form-control">
+                                    <label for=>Дата закрытия:</label>
+                                    <input type="date" id="datepicker" th:field="*{{dataAnswer}}" class="form-control"
+                                           name="dataAnswer" placeholder="Дата" required>
+                                    <label for=>Сотрудник от которого поступило обращение:</label>
+                                    <div class="input-group">
+
+                                        <div class="input-group-prepend">
+
+                                            <span class="input-group-text">ФИО</span>
+                                        </div>
+                                        <input type="text" class="form-control" th:field="*{surname}" name="surname">
+
+                                    </div>
+
+                                    <input style="display: none" type="text" class="form-control" th:field="*{author}"
+                                           name="surname">
+                                    <input style="display: none" type="text" class="form-control" th:field="*{fileName}"name="surname">
+                                    <input style="display: none" type="text" class="form-control" th:field="*{fileName2}"name="surname">
+
+                                    <label>email:</label>
+                                    <input type="text" th:field="*{emailAddress}" class="form-control">
+
+                                    <div class="col-md-4 col-md-offset-4 ">
+
+
+                                    </div>
+                                    <br>
+                                    <div class="form-select-button">
+
+
+                                        <div th:each="file : ${Update}" >
+
+                                            <button type="submit" class="btn btn-success">Сохранить</button>
+
+
+                                            <a id="download" th:href="@{|/download-document/${file.fileName}|}">Скачать файл 1</a>
+                                            <a id="downloadFile" th:href="@{|/download-document/${file.fileName2}|}">Скачать файл 2</a>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+<div id="Tokyo" class="tabcontent">
+
+
+    <details class="form-group row col-lg-50" th:each="user : ${appealAud}">
+
+
+        <summary
+                th:text="  ' Дата изменения '+ ${#dates.format(user.dataChange, 'dd-MM-yyyy' + ' ' +'Автор '+ user.authorUpdate) }">
+            Версия
+        </summary>
+
+
+        <div class="row col-2"></div>
+        <div class="form-group col-8 row " mt-8 style="border-block-end-color: ivory">
+            <div id="leftBlock1" class="col-md-6">
+
+                <label>Краткое описание:</label>
+                <text readonly type="text" th:text="${user.briefDescription}" class="form-control"></text>
+                <label>Основание:</label>
+                <text readonly type="text" th:text="${user.footing}" class="form-control"></text>
+                <label>Текст:</label>
+                <textarea readonly class="form-control" th:text="${user.text}" rows="23"></textarea>
+            </div>
+
+            <div id="rightBlock1" class="col-md-6">
+                <label>Дата создания:</label>
+                <text readonly type="text" th:text="${#dates.format(user.dataCreation, 'dd.MM.yyyy') }"
+                      class="form-control"></text>
+                <label>Дата закрытия:</label>
+                <text readonly type="text" th:text="${#dates.format(user.dataAnswer, 'dd.MM.yyyy') }"
+                      class="form-control"></text>
+                <label>Исполнители:</label>
+                <text readonly type="text" th:text="${user.executor}" class="form-control"></text>
+                <label>Контролёр:</label>
+                <text readonly type="text" th:text="${user.controller}" class="form-control"></text>
+                <label>Статус:</label>
+                <text readonly type="text" th:text="${user.status}" class="form-control"></text>
+
+                <label>Компания:</label>
+                <text readonly type="text" th:text="${user.nameCompany}" class="form-control"></text>
+
+                <label>ФИО:</label>
+                <text readonly type="text" th:text="${user.surname}" class="form-control">
+
+                </text>
+                <label>Телефон:</label>
+                <text readonly type="text" th:text="${user.tel}" class="form-control"></text>
+                <label>Адрес:</label>
+                <text readonly type="text" th:text="${user.address}" class="form-control"></text>
+                <label>Email address:</label>
+                <text readonly type="text" th:text="${user.emailAddress}" class="form-control"></text>
+
+
+            </div>
+        </div>
+
+    </details>
+
+
+</div>
+</div>
+</div>
+</div>
+
+
+</body>
+
+<script>
+    (function () {
+        let link = document.querySelector('#download');
+        if ((/\/$/).test(link.href)) link.style.display = 'none';
+    })();
+    (function () {
+        let link = document.querySelector('#downloadFile');
+        if ((/\/$/).test(link.href)) link.style.display = 'none';
+    })();
+
+    (function () {
+        //подсвечивает изменённые поля
+        let detList = document.querySelectorAll('details');
+        let detArr = [];
+        if (detList.length > 1) {
+
+            for (let i = 0; i < detList.length; i++) {
+                let fieldsArr = [];
+                let fields = detList[i].querySelectorAll('.form-control');
+                for (let i = 0; i < fields.length; i++) {
+                    let field = fields[i];
+                    let val = fields[i].value;
+                    if (!val) {
+                        val = fields[i].innerHTML;
+                    }
+                    fieldsArr.push([val, field]);
+                }
+                detArr.push(fieldsArr);
+            }
+        }
+        //console.log(detArr);
+        for (let i = 1; i < detArr.length; i++) {
+            let det = detArr[i];
+            for (let j = 0; j < det.length; j++) {
+                let val = det[j][0];
+                let prevVal = detArr[i - 1][j][0];
+                let valField = det[j][1];
+                if (val != prevVal) {
+                    valField.style.border = '2px dashed red';
+                }
+            }
+        }
+    })();
+
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    (function () {
+        let date = new Date();
+        let year = date.getFullYear();
+        let month = ('0' + (date.getMonth() + 1)).slice(-2);
+        let day = ('0' + date.getDate()).slice(-2);
+        let formedDate = year + '-' + month + '-' + day;
+
+        let picker = document.getElementById('datepicker');
+        picker.setAttribute('min', formedDate);
+
+        maxDate = new Date(year + 3, day, month);
+        let maxYear = maxDate.getFullYear();
+        let maxMonth = ('0' + (maxDate.getMonth() + 1)).slice(-2);
+        let maxDay = ('0' + maxDate.getDate()).slice(-2);
+        maxFormedDate = maxYear + '-' + maxMonth + '-' + maxDay;
+
+        picker.setAttribute('max', maxFormedDate);
+    })();
+
+    (function () {
+        // приписывает версию согласно номеру по списку
+        let fields = document.querySelectorAll('#Tokyo summary');
+        let i = 0;
+        for (let field of fields) {
+            field.innerHTML = `<div style="display:inline; color:red">Версия ${++i}</div> ${field.innerHTML}`;
+        }
+    })();
+
+    (function () {
+        // открывается вкладка "входящие обращения" 
+        //(чтобы по умолчанию было что-то открыто)
+        let incomingCallbutton = document.getElementsByClassName('incomingCall')[0];
+        incomingCallbutton.click();
+    })();
+
+
+</script>
+<style>
+    body {
+        font-family: Arial;
+    }
+
+    /* Style the tab */
+    .tab {
+        overflow: hidden;
+    / / border: 1 px solid #ccc;
+        background-color: #f1f1f1;
+        height: 38px;
+    }
+
+    /* Style the buttons inside the tab */
+    .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+    / / border-radius: 5 px;
+        outline: none;
+        cursor: pointer;
+        padding: 2px 16px;
+        transition: 0.3s;
+        height: 38px;
+    / / margin: 5 px 5 px 5 px 5 px;
+        color: #3f3939;
+    }
+
+    /* Change background color of buttons on hover */
+    .tab button:hover, .backButton:hover {
+        background-color: #b5f1cf;
+    }
+
+    /* Create an active/current tablink class */
+    .tab button.active {
+        background-color: #b5f1cf;
+        color: #3f3939;
+    }
+
+    .backButton {
+        font-size: 17px;
+        height: 38px;
+        font-weight: bold;
+        padding-right: 20px;
+        padding-left: 20px;
+        padding-top: 5px;
+        display: block;
+    / / margin: 6 px;
+        float: left;
+        vertical-align:
+    }
+
+    #tabBlocks {
+    . . margin-left: 20 px;
+        display: inline-block;
+
+        font-size: 17px;
+    }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+
+    .bigText {
+        height: auto;
+    }
+</style>
+</html>

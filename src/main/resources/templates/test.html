@@ -1,26 +1,31 @@
 <!DOCTYPE html>
-<html lang="ru">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"
-        integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm"
-        crossorigin="anonymous"></script>
-
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <title>Spring Security Example </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Please sign in</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
 </head>
 <body>
+<h2>Spring MVC file upload using Annotation configuration Metadata</h2>
+<<a href="<c:url value='/download/a'/>">Download file via servlet response.</a><br/>
+<a href="<c:url value='/download/b'/>">Download file via http entity.</a><br/>
+<a href="<c:url value='/download/c'/>">Download file via file system resource.</a><br/>
+
+<form method="POST" action="uploadFile" enctype="multipart/form-data">
+    File to upload: <input type="file" name="file"><br />
+
+    <input type="submit" value="Upload">
+    Press here to upload the file!
 
 
-
-
-</body>
-<style>
-</style>
-</html>
+    <div th:if="param.name" >
+        <H1 > sss</H1>
+    </div>
+</form>
+<a th:href="@{|/download/a/${'ed504408-07a1-411f-9e59-051eb12e3e97.sms-app.iml'}/|}">Download</a>
+</body></html>

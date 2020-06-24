@@ -126,4 +126,21 @@ public class Customer {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", nameCompany='" + nameCompany + '\'' +
+                ", fullNameCompany='" + fullNameCompany + '\'' +
+                ", legalAddress='" + legalAddress + '\'' +
+                ", actualAddress='" + actualAddress + '\'' +
+                ", inn=" + inn +
+                ", ogrnip=" + ogrnip +
+                ", okpo=" + okpo +
+                ", email='" + email + '\'' +
+                ", site='" + site + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
+    }
 }
