@@ -9,7 +9,7 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 
-    <title>Login</title>
+    <title>Входящeе обращение</title>
 </head>
 <body>
 
@@ -18,7 +18,7 @@
         <div class="backButton">⟵</div>
     </a>
     <div id="tabBlocks">
-        <button class="tablinks incomingCall" onclick="openCity(event, 'London')">Входящие обращение</button>
+        <button class="tablinks incomingCall" onclick="openCity(event, 'London')">Входящeе обращение</button>
         <!--    <button class="tablinks" onclick="openCity(event, 'Paris')">Внести изменение</button>-->
         <button class="tablinks" onclick="openCity(event, 'Tokyo')">История</button>
     </div>
@@ -27,7 +27,7 @@
 </div>
 
 <div id="London" class="tabcontent">
-    <h3>Входящие обращение</h3>
+    <h3>Входящeе обращение</h3>
 
     <div class="container-fluid">
 
@@ -122,7 +122,7 @@
                                     <label for=>Дата закрытия:</label>
                                     <input type="date" id="datepicker" th:field="*{{dataAnswer}}" class="form-control"
                                            name="dataAnswer" placeholder="Дата" required>
-                                    <label for=>Сотрудник от которого поступило обращение:</label>
+                                    <label for=>Сотрудник, от которого поступило обращение:</label>
                                     <div class="input-group">
 
                                         <div class="input-group-prepend">
@@ -138,7 +138,7 @@
                                     <input style="display: none" type="text" class="form-control" th:field="*{fileName}"name="surname">
                                     <input style="display: none" type="text" class="form-control" th:field="*{fileName2}"name="surname">
 
-                                    <label>email:</label>
+                                    <label>Email:</label>
                                     <input type="text" th:field="*{emailAddress}" class="form-control">
 
                                     <div class="col-md-4 col-md-offset-4 ">
@@ -182,7 +182,7 @@
 
 
         <summary
-                th:text="  ' Дата изменения '+ ${#dates.format(user.dataChange, 'dd-MM-yyyy' + ' ' +'Автор '+ user.authorUpdate) }">
+                th:text="  ' Дата изменения: '+ ${#dates.format(user.dataChange, 'dd-MM-yyyy.' + ' ' +'Автор: '+ user.authorUpdate) }">
             Версия
         </summary>
 
@@ -224,7 +224,7 @@
                 <text readonly type="text" th:text="${user.tel}" class="form-control"></text>
                 <label>Адрес:</label>
                 <text readonly type="text" th:text="${user.address}" class="form-control"></text>
-                <label>Email address:</label>
+                <label>Email:</label>
                 <text readonly type="text" th:text="${user.emailAddress}" class="form-control"></text>
 
 
