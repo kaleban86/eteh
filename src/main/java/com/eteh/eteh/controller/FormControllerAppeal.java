@@ -130,11 +130,14 @@ public class FormControllerAppeal {
 
             if (file != null) {
 
+
+
                 File uploadDir = new File(uploadPath);
 
                 if (!uploadDir.exists()) {
                     uploadDir.mkdir();
                 }
+
 
              //   String uuidFile = UUID.randomUUID().toString();
                 String resultFilename = file1.getOriginalFilename();
@@ -147,6 +150,8 @@ public class FormControllerAppeal {
 
 
             }
+
+
 
             for(MultipartFile file3  : file2){
 

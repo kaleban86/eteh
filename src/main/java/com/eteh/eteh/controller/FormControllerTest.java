@@ -11,22 +11,24 @@ import com.eteh.eteh.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.jws.WebParam;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class FormControllerTest {
@@ -53,7 +55,7 @@ public class FormControllerTest {
     }
 
 
-    @RequestMapping("/test")
+
     public String test(String name, Model model){
 
 
@@ -64,7 +66,7 @@ public class FormControllerTest {
 
     }
 
-
+    @RequestMapping("/test")
     public String test(String name, Model model,@AuthenticationPrincipal User user){
        List<User> user1 = userService.findAll();
        model.addAttribute("user", user);
@@ -73,10 +75,70 @@ public class FormControllerTest {
 
         model.addAttribute("userId", userId);
 
+
+
        return "/test";
 
 
     }
+
+//   / / 3.1.2 Загрузка нескольких файлов
+    @PostMapping("/api/upload/multi")
+    public ResponseEntity uploadFileMulti(
+            @RequestParam("extraField") String extraField,
+            @RequestParam("files") MultipartFile[] uploadfiles) {
+
+
+
+// Получить имя файла
+        String uploadedFileName = Arrays.stream(uploadfiles).map(x -> x.getOriginalFilename())
+                .filter(x -> !StringUtils.isEmpty(x)).collect(Collectors.joining(" , "));
+
+        if (StringUtils.isEmpty(uploadedFileName)) {
+            return new ResponseEntity("please select a file!", HttpStatus.OK);
+        }
+
+        try {
+
+            saveUploadedFiles(Arrays.asList(uploadfiles));
+
+        } catch (IOException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity("Successfully uploaded - "
+                + uploadedFileName, HttpStatus.OK);
+
+    }
+
+    // 3.1.3 отображает HTML-форму в модель
+    @PostMapping("/api/upload/multi/model")
+    public ResponseEntity multiUploadFileModel(@ModelAttribute Model model) {
+
+
+        //  saveUploadedFiles(Arrays.asList(model.getFiles()));
+
+        return new ResponseEntity("Successfully uploaded!", HttpStatus.OK);
+
+    }
+
+    //сохранить файл
+    private void saveUploadedFiles(List files) throws IOException {
+
+//        for (MultipartFile file : files) {
+//
+//            if (file.isEmpty()) {
+//                continue; // следующий пожалуйста
+//            }
+//
+//            byte[] bytes = file.getBytes();
+//            Path path = Paths.get(uploadPath + file.getOriginalFilename());
+//            Files.write(path, bytes);
+//
+//        }
+
+    }
+
 
 
     @RequestMapping(value = "/a{id}", method = RequestMethod.GET, produces = APPLICATION_PDF)

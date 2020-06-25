@@ -154,8 +154,8 @@
                                             <button type="submit" class="btn btn-success">Сохранить</button>
 
 
-                                            <a id="download" th:href="@{|/download-document/${file.fileName}|}">Скачать файл 1</a>
-                                            <a id="downloadFile" th:href="@{|/download-document/${file.fileName2}|}">Скачать файл 2</a>
+                                            <a id="download" th:href="@{|/download-document/${file.fileName}|}" >Файл 1</a>
+                                            <a id="downloadFile" th:href="@{|/download-document/${file.fileName2}|}">Файл 2</a>
 
                                         </div>
 
@@ -182,7 +182,7 @@
 
 
         <summary
-                th:text="  ' Дата изменения: '+ ${#dates.format(user.dataChange, 'dd-MM-yyyy.' + ' ' +'Автор: '+ user.authorUpdate) }">
+                th:text="  ' Дата изменения: '+ ${#dates.format(user.dataChange, 'dd.MM.yyyy.' + ' ' +'Автор: '+ user.authorUpdate) }">
             Версия
         </summary>
 
