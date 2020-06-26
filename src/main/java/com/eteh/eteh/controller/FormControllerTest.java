@@ -4,6 +4,7 @@ package com.eteh.eteh.controller;
 import com.eteh.eteh.models.AppealAud;
 import com.eteh.eteh.models.User;
 import com.eteh.eteh.models.UserProfileModels;
+import com.eteh.eteh.repository.AppealRepository;
 import com.eteh.eteh.repository.AppealUadRepo;
 import com.eteh.eteh.repository.UserProfileRepo;
 import com.eteh.eteh.service.MailSender;
@@ -20,12 +21,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.jws.WebParam;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,12 +43,13 @@ public class FormControllerTest {
     UserService userService;
     private final UserProfileRepo userProfileRepo;
     private final AppealUadRepo appealUadRepo;
-
-    public FormControllerTest(UserService userService, MailSender mailSender, UserProfileRepo userProfileRepo, AppealUadRepo appealUadRepo) {
+    private final AppealRepository appealRepository;
+    public FormControllerTest(UserService userService, MailSender mailSender, UserProfileRepo userProfileRepo, AppealUadRepo appealUadRepo, AppealRepository appealRepository) {
         this.userService = userService;
         this.mailSender = mailSender;
         this.userProfileRepo = userProfileRepo;
         this.appealUadRepo = appealUadRepo;
+        this.appealRepository = appealRepository;
     }
 
 
@@ -72,7 +70,7 @@ public class FormControllerTest {
        model.addAttribute("user", user);
         Long userId1 = user.getId();
         List<UserProfileModels> userId = userProfileRepo.fainBiId(userId1);
-
+        model.addAttribute("appeal", appealRepository.findAll());
         model.addAttribute("userId", userId);
 
 

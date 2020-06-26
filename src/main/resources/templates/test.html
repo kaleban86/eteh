@@ -19,170 +19,167 @@
 </div>
 
 <main class="main">
-    <section class="hero">
-        <div class="hero__content">
-            <title>Новости компании </title>
+    <div  th:switch="${appeal}">
+
+
+
+
+        <div th:switch="${appeal}">
+
+
+            <table style="border: 2px solid green" id="myTable" class="table table-bordered">
+                <thead>
+                <tr>
+                    <th class="table-active" onclick="sortTable(0)">№</th>
+                    <th class="table-active" onclick="sortTable(1)">Организация</th>
+                    <th class="table-active" onclick="sortTable(2)">Дата создания</th>
+                    <th class="table-active" onclick="sortTable(3)">Дата закрытия</th>
+                    <th class="table-active" onclick="sortTable(4)">Ответственный</th>
+                    <th class="table-active" onclick="sortTable(5)">Статус</th>
+                    <th class="table-active" onclick="sortTable(6)">Описание</th>
+                    <th class="table-active" onclick="sortTable(7)">Редактировать</th>
+                    <th class="table-active" onclick="sortTable(8)">Посмотреть</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr  th:each="user : ${appeal}">
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.nameCompany}"></td>
+                    <td th:text="${#dates.format(user.dataCreation, 'dd.MM.yyyy')}"></td>
+                    <td th:text="${#dates.format(user.dataAnswer, 'dd.MM.yyyy')}"></td>
+                    <td th:text="${user.executor}"></td>
+                    <td th:text="${user.status}"></td>
+                    <td th:text="${user.briefDescription}"></td>
+
+
+                    <td><a th:href="@{appeal/{id}(id=${user.id})}"><svg class="bi bi-pencil" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M11.293 1.293a1 1 0 0 1 1.414 0l2 2a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z"/>
+                        <path fill-rule="evenodd" d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"/>
+                    </svg></a></td>
+                    <td><a th:href="@{appeal/reading/{id}(id=${user.id})}"><svg class="bi bi-eye" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.134 13.134 0 0 0 1.66 2.043C4.12 11.332 5.88 12.5 8 12.5c2.12 0 3.879-1.168 5.168-2.457A13.134 13.134 0 0 0 14.828 8a13.133 13.133 0 0 0-1.66-2.043C11.879 4.668 10.119 3.5 8 3.5c-2.12 0-3.879 1.168-5.168 2.457A13.133 13.133 0 0 0 1.172 8z"/>
+                        <path fill-rule="evenodd" d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                    </svg></a></td>
+
+
+
+
+
+                    </td>
+
+
+
+                    </td>
+
+
+                </tr>
+
+                </tbody>
+            </table>
+
+
+
         </div>
-    </section>
+    </div>
 
     <section class="content">
         <article class="article">
-            <div  th:switch="${appeal}">
 
-                <div>
-                    <h1>Новости Компании</h1>
-                </div>
-
-
-
-                    <div th:switch="${appeal}">
-
-
-                        <table style="border: 2px solid green" id="myTable" class="table table-bordered">
-                            <thead>
-                            <tr>
-                                <th class="table-active" onclick="sortTable(0)">№</th>
-                                <th class="table-active" onclick="sortTable(1)">Организация</th>
-                                <th class="table-active" onclick="sortTable(2)">Дата создания</th>
-                                <th class="table-active" onclick="sortTable(3)">Дата закрытия</th>
-                                <th class="table-active" onclick="sortTable(4)">Ответственный</th>
-                                <th class="table-active" onclick="sortTable(5)">Статус</th>
-                                <th class="table-active" onclick="sortTable(6)">Описание</th>
-                                <th class="table-active" onclick="sortTable(7)">Редактировать</th>
-                                <th class="table-active" onclick="sortTable(8)">Посмотреть</th>
-
-
-
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr  th:each="user : ${appeal}">
-                                <td th:text="${user.id}"></td>
-                                <td th:text="${user.nameCompany}"></td>
-                                <td th:text="${#dates.format(user.dataCreation, 'dd.MM.yyyy')}"></td>
-                                <td th:text="${#dates.format(user.dataAnswer, 'dd.MM.yyyy')}"></td>
-                                <td th:text="${user.executor}"></td>
-                                <td th:text="${user.status}"></td>
-                                <td th:text="${user.briefDescription}"></td>
-
-
-                                <td><a th:href="@{appeal/{id}(id=${user.id})}">Редактировать</a></td>
-                                <td><a th:href="@{appeal/reading/{id}(id=${user.id})}">Посмотреть</a></td>
-
-
-
-
-
-                                </td>
-
-
-
-                                </td>
-
-
-                            </tr>
-
-                            </tbody>
-                        </table>
-
-
-
-                </div>
-            </div>
 
         </article>
 
         <article class="article">
-<!--            <a href class="article__title">Tofu Vinyl Salvia Readymade Mixtape Viral</a>-->
+            <!--            <a href class="article__title">Tofu Vinyl Salvia Readymade Mixtape Viral</a>-->
 
-<!--            <time class="article__time">SEPTEMBER 29, 2015</time>-->
+            <!--            <time class="article__time">SEPTEMBER 29, 2015</time>-->
 
-<!--            <p class="article__content">-->
-<!--                Retro keffiyeh flannel kogi asymmetrical Portland Etsy mumblecore craft beer occupy fap Neutra organic 3 wolf moon pour-over tofu vinyl salvia readymade mixtape viral 90's single-origin coffee Bushwick kale chips church-key art party Thundercats...-->
-<!--            </p>-->
+            <!--            <p class="article__content">-->
+            <!--                Retro keffiyeh flannel kogi asymmetrical Portland Etsy mumblecore craft beer occupy fap Neutra organic 3 wolf moon pour-over tofu vinyl salvia readymade mixtape viral 90's single-origin coffee Bushwick kale chips church-key art party Thundercats...-->
+            <!--            </p>-->
         </article>
 
         <article class="article">
-<!--            <a href="#" class="article__title">Umami Quinoa Blog Kitsch Gluten-Free Plaid Pug</a>-->
+            <!--            <a href="#" class="article__title">Umami Quinoa Blog Kitsch Gluten-Free Plaid Pug</a>-->
 
-<!--            <time class="article__time">AUGUST 17, 2015</time>-->
+            <!--            <time class="article__time">AUGUST 17, 2015</time>-->
 
-<!--            <p class="article__content">-->
-<!--                Before they sold out crucifix Kickstarter Godard Marfa chambray four loko wolf scenester Tumblr heirloom chia put a bird on it umami quinoa blog kitsch gluten-free plaid pug.-->
-<!--            </p>-->
+            <!--            <p class="article__content">-->
+            <!--                Before they sold out crucifix Kickstarter Godard Marfa chambray four loko wolf scenester Tumblr heirloom chia put a bird on it umami quinoa blog kitsch gluten-free plaid pug.-->
+            <!--            </p>-->
         </article>
 
         <article class="article">
-<!--            <a href="#" class="article__title">Chillwave Stumptown Leggings Raw Denim</a>-->
-<!--            <time class="article__time">AUGUST 05, 2015</time>-->
+            <!--            <a href="#" class="article__title">Chillwave Stumptown Leggings Raw Denim</a>-->
+            <!--            <time class="article__time">AUGUST 05, 2015</time>-->
 
-<!--            <p class="article__content">-->
-<!--                Intelligentsia pickled photo booth McSweeney's +1 actually Schlitz whatever 8-bit sriracha iPhone stumptown leggings raw denim Williamsburg food truck aesthetic narwhal authentic selvage Wes Anderson disrupt.-->
-<!--            </p>-->
+            <!--            <p class="article__content">-->
+            <!--                Intelligentsia pickled photo booth McSweeney's +1 actually Schlitz whatever 8-bit sriracha iPhone stumptown leggings raw denim Williamsburg food truck aesthetic narwhal authentic selvage Wes Anderson disrupt.-->
+            <!--            </p>-->
         </article>
 
         <article class="article">
-<!--            <a href="#" class="article__title">Shoreditch Cardigan Farm-to-Table Butcher</a>-->
+            <!--            <a href="#" class="article__title">Shoreditch Cardigan Farm-to-Table Butcher</a>-->
 
-<!--            <time class="article__time">JULY 31, 2015</time>-->
+            <!--            <time class="article__time">JULY 31, 2015</time>-->
 
-<!--            <p class="article__content">-->
-<!--                Tonx PBR ethical banjo trust fund meggings fingerstache ennui ugh cornhole fixie meh try-hard Shoreditch cardigan farm-to-table butcher synth DIY irony Banksy paleo mustache.-->
-<!--            </p>-->
+            <!--            <p class="article__content">-->
+            <!--                Tonx PBR ethical banjo trust fund meggings fingerstache ennui ugh cornhole fixie meh try-hard Shoreditch cardigan farm-to-table butcher synth DIY irony Banksy paleo mustache.-->
+            <!--            </p>-->
         </article>
 
         <article class="article">
-<!--            <a href="#" class="article__title">Artisan Echo Park Gastropub Brunch</a>-->
+            <!--            <a href="#" class="article__title">Artisan Echo Park Gastropub Brunch</a>-->
 
-<!--            <time class="article__time">JULY 13, 2015</time>-->
+            <!--            <time class="article__time">JULY 13, 2015</time>-->
 
-<!--            <form action="#" th:action="@{/test}" th:object="${user}" method="post">-->
-<!--                <label style="display: none" for="id">ID</label>-->
-<!--                <input style="display: none" readonly type="number" th:field="*{id}" id="id" placeholder="ID" class="form-control" ><br>-->
+            <!--            <form action="#" th:action="@{/test}" th:object="${user}" method="post">-->
+            <!--                <label style="display: none" for="id">ID</label>-->
+            <!--                <input style="display: none" readonly type="number" th:field="*{id}" id="id" placeholder="ID" class="form-control" ><br>-->
 
-<!--                <label for="id">Логин:</label>-->
-<!--                <input type="text" th:field="*{username}" id="username" placeholder="username" class="form-control" minlength="1" maxlength="20" required><br>-->
+            <!--                <label for="id">Логин:</label>-->
+            <!--                <input type="text" th:field="*{username}" id="username" placeholder="username" class="form-control" minlength="1" maxlength="20" required><br>-->
 
-<!--                <label for="lastName">Фамилия:</label>-->
-<!--                <input type="text" th:field="*{lastName}" id="lastName"  class="form-control" minlength="1" maxlength="40" required><br>-->
+            <!--                <label for="lastName">Фамилия:</label>-->
+            <!--                <input type="text" th:field="*{lastName}" id="lastName"  class="form-control" minlength="1" maxlength="40" required><br>-->
 
-<!--                <label for="name">Имя:</label>-->
-<!--                <input type="text" th:field="*{name}" id="name" placeholder="Name" class="form-control" minlength="1" maxlength="20" required><br>-->
+            <!--                <label for="name">Имя:</label>-->
+            <!--                <input type="text" th:field="*{name}" id="name" placeholder="Name" class="form-control" minlength="1" maxlength="20" required><br>-->
 
-<!--                <label for="firstName">Отчество:</label>-->
-<!--                <input type="text" th:field="*{firstName}" id="firstName" placeholder="First Name" class="form-control"><br>-->
-
-
-
-<!--                <label style="display: none" for="roles1">Роль</label>-->
-<!--                <input style="display: none" readonly type="text" th:field="*{roles}" id="roles1" placeholder="Roles1" class="form-control"><br>-->
-
-<!--                <label for="email">Email:</label>-->
-<!--                <input type="text" th:field="*{email}" id="email" placeholder="Email" class="form-control"minlength="1" required><br>-->
-
-<!--                <div>-->
-<!--                    <button type="submit"href="/appealHome" class="btn btn-success">Сохранить</button>-->
-<!--                </div>-->
+            <!--                <label for="firstName">Отчество:</label>-->
+            <!--                <input type="text" th:field="*{firstName}" id="firstName" placeholder="First Name" class="form-control"><br>-->
 
 
 
+            <!--                <label style="display: none" for="roles1">Роль</label>-->
+            <!--                <input style="display: none" readonly type="text" th:field="*{roles}" id="roles1" placeholder="Roles1" class="form-control"><br>-->
 
+            <!--                <label for="email">Email:</label>-->
+            <!--                <input type="text" th:field="*{email}" id="email" placeholder="Email" class="form-control"minlength="1" required><br>-->
 
-<!--                <label style="display: none" for="email">ActivationCode</label>-->
-<!--                <input style="display: none" readonly type="text" th:field="*{activationCode}" id="activation_code"-->
-<!--                       placeholder="ActivationCode" class="form-control"><br>-->
-
-<!--                <div  class="form-group col-5" mt-5>-->
-<!--                    <label style="display: none" class="form-check-label" for="exampleCheck1">Active</label><br>-->
-<!--                    <input style="display: none" readonly type="checkbox" th:field="*{active}" class="form-check-input" id="exampleCheck1">-->
-<!--                </div>-->
-<!--                <label style="display: none" for="password">Password</label>-->
-<!--                <input style="display: none" readonly type="text" th:field="*{password}" id="password" placeholder="Password"-->
-<!--                       class="form-control"><br>-->
+            <!--                <div>-->
+            <!--                    <button type="submit"href="/appealHome" class="btn btn-success">Сохранить</button>-->
+            <!--                </div>-->
 
 
 
-<!--            </form>-->
+
+
+            <!--                <label style="display: none" for="email">ActivationCode</label>-->
+            <!--                <input style="display: none" readonly type="text" th:field="*{activationCode}" id="activation_code"-->
+            <!--                       placeholder="ActivationCode" class="form-control"><br>-->
+
+            <!--                <div  class="form-group col-5" mt-5>-->
+            <!--                    <label style="display: none" class="form-check-label" for="exampleCheck1">Active</label><br>-->
+            <!--                    <input style="display: none" readonly type="checkbox" th:field="*{active}" class="form-check-input" id="exampleCheck1">-->
+            <!--                </div>-->
+            <!--                <label style="display: none" for="password">Password</label>-->
+            <!--                <input style="display: none" readonly type="text" th:field="*{password}" id="password" placeholder="Password"-->
+            <!--                       class="form-control"><br>-->
+
+
+
+            <!--            </form>-->
         </article>
     </section>
 </main>
@@ -480,7 +477,7 @@
         padding: 1.5rem;
         position: relative;
     }
-    @media (min-width: 600px) {
+    @media (min-width: 300px) {
         .article {
             padding: 6vmin;
         }
@@ -494,7 +491,7 @@
         height: 2px;
         background-color: #7d87a8;
     }
-    @media (min-width: 600px) {
+    @media (min-width: 300px) {
         .article:not(:last-of-type):after {
             left: 6vmin;
         }
@@ -507,7 +504,7 @@
         font-size: 1.5rem;
         color: #191b22;
     }
-    @media (min-width: 600px) {
+    @media (min-width: 300px) {
         .article__title {
             font-size: 3vmin;
         }

@@ -1,201 +1,35 @@
 <!DOCTYPE html>
-<html lang="ru">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" media="all" href="static/css/bootstrap.min.css" th:href="@{static/script/jquery-ui.js}" />
-<link rel="stylesheet" type="text/css" media="all" href="static/css/bootstrap.min.css" th:href="@{static/script/jquery.js}" />
+<html lang="ru" class="container-fluid">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Входящeе обращение</title>
-
-
-<title>Sort a HTML Table Alphabetically</title>
-
-</head>
-<body>
-
-<div class="container-fluid">
-
-    <div class="row">
-        <div c class="col-1 container-fluid" style="border-block-end-color: ivory">
-            <div class="sidenav">
-                <a href="appeal">Новое обращение</a>
-                <a href="/hello">Главная</a>
-
-            </div>
-
-            <!--/*@thymesVar id="userId" type="com"*/-->
-
-
-        </div>
-
-        <div  class="col-11" style="border-block-end-color: ivory">
-
-            <div th:switch="${appeal}">
-
-
-                <table style="border: 2px solid green" id="myTable" class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th class="table-active" onclick="sortTable(0)">№</th>
-                        <th class="table-active" onclick="sortTable(1)">Организация</th>
-                        <th class="table-active" onclick="sortTable(2)">Дата создания</th>
-                        <th class="table-active" onclick="sortTable(3)">Дата закрытия</th>
-                        <th class="table-active" onclick="sortTable(4)">Ответственный</th>
-                        <th class="table-active" onclick="sortTable(5)">Статус</th>
-                        <th class="table-active" onclick="sortTable(6)">Описание</th>
-                        <th class="table-active" onclick="sortTable(7)">Редактировать</th>
-                        <th class="table-active" onclick="sortTable(8)">Посмотреть</th>
-
-
-
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr  th:each="user : ${appeal}">
-                        <td th:text="${user.id}"></td>
-                        <td th:text="${user.nameCompany}"></td>
-                        <td th:text="${#dates.format(user.dataCreation, 'dd.MM.yyyy')}"></td>
-                        <td th:text="${#dates.format(user.dataAnswer, 'dd.MM.yyyy')}"></td>
-                        <td th:text="${user.executor}"></td>
-                        <td th:text="${user.status}"></td>
-                        <td th:text="${user.briefDescription}"></td>
-
-
-                        <td><a th:href="@{appeal/{id}(id=${user.id})}">Редактировать</a></td>
-                        <td><a th:href="@{appeal/reading/{id}(id=${user.id})}">Посмотреть</a></td>
-
-
-
-
-
-                        </td>
-
-
-
-                        </td>
-
-
-                    </tr>
-
-                    </tbody>
-                </table>
-
-
-            </div>
-        </div>
-
-
-    </div>
-</div>
-
-</body>
-
-    <script>
-        function sortTable(n) {
-            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-            table = document.getElementById("myTable");
-            switching = true;
-            //Set the sorting direction to ascending:
-            dir = "asc";
-            /*Make a loop that will continue until
-            no switching has been done:*/
-            while (switching) {
-                //start by saying: no switching is done:
-                switching = false;
-                rows = table.getElementsByTagName("TR");
-                /*Loop through all table rows (except the
-                first, which contains table headers):*/
-                for (i = 1; i < (rows.length - 1); i++) {
-                    //start by saying there should be no switching:
-                    shouldSwitch = false;
-                    /*Get the two elements you want to compare,
-                    one from current row and one from the next:*/
-                    x = rows[i].getElementsByTagName("TD")[n];
-                    y = rows[i + 1].getElementsByTagName("TD")[n];
-                    /*check if the two rows should switch place,
-                    based on the direction, asc or desc:*/
-                    if (dir == "asc") {
-                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                            //if so, mark as a switch and break the loop:
-                            shouldSwitch = true;
-                            break;
-                        }
-                    } else if (dir == "desc") {
-                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                            //if so, mark as a switch and break the loop:
-                            shouldSwitch = true;
-                            break;
-                        }
-                    }
-                }
-                if (shouldSwitch) {
-                    /*If a switch has been marked, make the switch
-                    and mark that a switch has been done:*/
-                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                    switching = true;
-                    //Each time a switch is done, increase this count by 1:
-                    switchcount++;
-                } else {
-                    /*If no switching has been done AND the direction is "asc",
-                    set the direction to "desc" and run the while loop again.*/
-                    if (switchcount == 0 && dir == "asc") {
-                        dir = "desc";
-                        switching = true;
-                    }
-                }
-            }
-        }
-
-        (function() {
-            let day = new Date();
-            let nowDate = new Date( day.getFullYear(), day.getMonth(), day.getDate() );
-            let nowTimeUnix = nowDate.getTime();
-            let trArr = document.querySelectorAll('#myTable tr');
-
-            for (let i = 1; i < trArr.length; i++) {
-                let tdArr = trArr[i].querySelectorAll('td');
-
-                let answerDate = tdArr[3].innerHTML;
-                let status = tdArr[5].innerHTML;
-
-                let answerUnixTime = new Date(
-                    answerDate.substr(6, 4),
-                    answerDate.substr(3, 2) - 1,
-                    answerDate.substr(0, 2)
-                ).getTime();
-
-                if ( status == 'Новое' ) {
-                    tdArr[5].style.backgroundColor = '#9dd3fa';
-                }
-
-                if ( ( status == 'Новое' || status == 'В работе' )
-                    && ( nowTimeUnix > answerUnixTime ) ) {
-                    //просрочено
-                    tdArr[5].style.backgroundColor = '#fa6565';
-                } else if ( status == 'В работе' ) {
-                    tdArr[5].style.backgroundColor = '#a4faaa';
-                }
-
-                if ( status == 'Закрыто' || status == 'Ответ отправлен' ) {
-                    tdArr[5].style.backgroundColor = '#BDBDBD';
-                }
-            }
-        })();
-
-    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="all" href="static/css/bootstrap.min.css" th:href="@{static/script/jquery-ui.js}" />
+    <link rel="stylesheet" type="text/css" media="all" href="static/css/bootstrap.min.css" th:href="@{static/script/jquery.js}" />
     <style>
-
-        * {
-            box-sizing: border-box;
+        body, html {
+            height: 100%;
         }
 
+        #menu {
+            background-color: #708090;
+        }
+
+        #menu * {
+            margin: 30px 5px;
+            height: 50px;
+            width: 50px;
+        }
+
+        #content {
+            height: 100%;
+            overflow-y: scroll;
+        }
 
         table {
             border-spacing: 0;
             width: 100%;
-            border: 1px solid green;
         }
 
         th {
@@ -211,11 +45,9 @@
             background-color: #f2f2f2
         }
 
-
         .sidenav {
             height: 100%;
-            width: 160px;
-            position: fixed;
+            width: 90px;
             z-index: 1;
             top: 0;
             left: 0;
@@ -228,17 +60,19 @@
             padding: 6px 8px 6px 16px;
             text-decoration: none;
             font-size: 20px;
-            color: #000000;
+            color: #3f3939;
             display: block;
         }
 
         .sidenav a:hover {
-            color: #f1f1f1;
+            color: #3f3939;
         }
 
         .main {
-            margin-left: 160px; /* Same as the width of the sidenav */
-            font-size: 28px; /* Increased text to enable scrolling */
+            margin-left: 160px;
+            /* Same as the width of the sidenav */
+            font-size: 28px;
+            /* Increased text to enable scrolling */
             padding: 0px 10px;
         }
 
@@ -251,5 +85,169 @@
                 font-size: 18px;
             }
         }
+
     </style>
+</head>
+
+<body class="row">
+
+<div id="menu" class="">
+    <a class="data-placement= right"
+       title="Новое обращение" href="appeal"><svg class="bi bi-file-earmark-plus" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9 1H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h5v-1H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h5v2.5A1.5 1.5 0 0 0 10.5 6H13v2h1V6L9 1z"/>
+        <path fill-rule="evenodd" d="M13.5 10a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1H13v-1.5a.5.5 0 0 1 .5-.5z"/>
+        <path fill-rule="evenodd" d="M13 12.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0v-2z"/>
+    </svg></a><br>
+    <a class="data-placement= right"
+       title="Главная" href="/hello"><svg class="bi bi-arrow-left-circle-fill" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.646 2.646a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L6.207 7.5H11a.5.5 0 0 1 0 1H6.207l2.147 2.146z"/>
+    </svg></a><br>
+</div>
+
+<div id="content" class="col">
+
+    <div th:switch="${appeal}">
+        <table style="" id="myTable" class="table table-bordered">
+            <thead>
+            <tr>
+                <th class="table-active" onclick="sortTable(0)">№</th>
+                <th class="table-active" onclick="sortTable(1)">Организация</th>
+                <th class="table-active" onclick="sortTable(2)">Дата создания</th>
+                <th class="table-active" onclick="sortTable(3)">Дата закрытия</th>
+                <th class="table-active" onclick="sortTable(4)">Ответственный</th>
+                <th class="table-active" onclick="sortTable(5)">Статус</th>
+                <th class="table-active" onclick="sortTable(6)">Описание</th>
+                <th class="table-active" onclick="sortTable(7)"></th>
+                <th class="table-active" onclick="sortTable(8)"></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr  th:each="user : ${appeal}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.nameCompany}"></td>
+                <td th:text="${#dates.format(user.dataCreation, 'dd.MM.yyyy')}"></td>
+                <td th:text="${#dates.format(user.dataAnswer, 'dd.MM.yyyy')}"></td>
+                <td th:text="${user.executor}"></td>
+                <td th:text="${user.status}"></td>
+                <td th:text="${user.briefDescription}"></td>
+
+
+                <td>
+                    <a th:href="@{appeal/{id}(id=${user.id})}">
+                        <svg class="bi bi-pencil" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M11.293 1.293a1 1 0 0 1 1.414 0l2 2a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z"></path>
+                            <path fill-rule="evenodd" d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"></path>
+                        </svg>
+                    </a>
+                </td>
+                <td>
+                    <a th:href="@{appeal/reading/{id}(id=${user.id})}">
+                        <svg class="bi bi-eye" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.134 13.134 0 0 0 1.66 2.043C4.12 11.332 5.88 12.5 8 12.5c2.12 0 3.879-1.168 5.168-2.457A13.134 13.134 0 0 0 14.828 8a13.133 13.133 0 0 0-1.66-2.043C11.879 4.668 10.119 3.5 8 3.5c-2.12 0-3.879 1.168-5.168 2.457A13.133 13.133 0 0 0 1.172 8z"></path>
+                            <path fill-rule="evenodd" d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"></path>
+                        </svg>
+                    </a>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("myTable");
+        switching = true;
+        //Set the sorting direction to ascending:
+        dir = "asc";
+        /*Make a loop that will continue until
+        no switching has been done:*/
+        while (switching) {
+            //start by saying: no switching is done:
+            switching = false;
+            rows = table.getElementsByTagName("TR");
+            /*Loop through all table rows (except the
+            first, which contains table headers):*/
+            for (i = 1; i < (rows.length - 1); i++) {
+                //start by saying there should be no switching:
+                shouldSwitch = false;
+                /*Get the two elements you want to compare,
+                one from current row and one from the next:*/
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                /*check if the two rows should switch place,
+                based on the direction, asc or desc:*/
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        //if so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        //if so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                /*If a switch has been marked, make the switch
+                and mark that a switch has been done:*/
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                //Each time a switch is done, increase this count by 1:
+                switchcount++;
+            } else {
+                /*If no switching has been done AND the direction is "asc",
+                set the direction to "desc" and run the while loop again.*/
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
+
+    (function() {
+
+        let day = new Date();
+        let nowDate = new Date( day.getFullYear(), day.getMonth(), day.getDate() );
+        let nowTimeUnix = nowDate.getTime();
+        let trArr = document.querySelectorAll('#myTable tr');
+
+        for (let i = 1; i < trArr.length; i++) {
+            let tdArr = trArr[i].querySelectorAll('td');
+
+            let answerDate = tdArr[3].innerHTML;
+            let status = tdArr[5].innerHTML;
+
+            let answerUnixTime = new Date(
+                answerDate.substr(6, 4),
+                answerDate.substr(3, 2) - 1,
+                answerDate.substr(0, 2)
+            ).getTime();
+
+            if ( status == 'Новое' ) {
+                tdArr[5].style.backgroundColor = '#9dd3fa';
+            }
+
+            if ( ( status == 'Новое' || status == 'В работе' )
+                && ( nowTimeUnix > answerUnixTime ) ) {
+                //просрочено
+                tdArr[5].style.backgroundColor = '#fa6565';
+            } else if ( status == 'В работе' ) {
+                tdArr[5].style.backgroundColor = '#a4faaa';
+            }
+
+            if ( status == 'Закрыто' || status == 'Ответ отправлен' ) {
+                tdArr[5].style.backgroundColor = '#BDBDBD';
+            }
+        }
+    })();
+</script>
+</body>
 </html>

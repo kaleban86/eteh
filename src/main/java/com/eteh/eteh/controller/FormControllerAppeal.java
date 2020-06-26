@@ -12,30 +12,20 @@ import com.eteh.eteh.service.MailSender;
 import com.eteh.eteh.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.Id;
-import javax.validation.Valid;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 
 @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')  ")
 @Controller
@@ -187,10 +177,23 @@ public class FormControllerAppeal {
 
         if (!StringUtils.isEmpty(user.getEmail())) {
             String message = String.format(
-                    "Новое входящие обращение  ,Краткое описание  %s, Название компании  %s    \n " +
-                            " http://10.0.1.32:8080/appeal/reading/%s",
+                            "Новое входящие обращение: № %s. \n" +
+
+
+                            "Краткое описание:  %s. \n" +
+
+                            "Название компании:  %s.\n" +
+
+                            "Дата создания: %s \n" +
+
+                            "Дата закрытия: %s \n"+
+
+                            "http://10.0.1.32:8080/appeal/reading/%s",
+                    appeal.getId(),
                     appeal.getBriefDescription(),
                     appeal.getNameCompany(),
+                    appeal.getDataCreation(),
+                    appeal.getDataAnswer(),
                     appeal.getId()
 
 
