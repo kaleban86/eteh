@@ -15,6 +15,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import static com.eteh.eteh.models.Role.ADMIN;
 import static com.eteh.eteh.models.Role.USER;
 
 import java.util.*;

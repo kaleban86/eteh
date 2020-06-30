@@ -26,10 +26,61 @@
 </div>
 
 <div id="content" class="col">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-    <div th:switch="${appeal}">
-        <table style="" id="myTable" class="table table-bordered">
-            <thead>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+
+                <li class="nav-item active">
+                    <input type="date" id="datepicker" class="form-control"  >
+                </li>
+
+                <li class="nav-item dropdown">
+
+                    <input type="date" id="datepicker1" class="form-control"  >
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                        <div class="dropdown-divider"></div>
+
+                    </div>
+                <li class="nav-item">
+                    <select class="custom-select" name="footing" required>
+                        <option value="" disabled selected>Выберите из списка</option>
+                        <option value="Официальное письмо">ГазПром</option>
+                        <option value="Обращение от оператора">Обращение от оператора</option>
+                        <option value="Иное, не придусмотренное">Иное, не придусмотренное</option>
+                    </select>
+                </li>
+                </li>
+                <li class="nav-item">
+                    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                        <div class="btn-group mr-2" role="group" aria-label="First group">
+                            <button type="button" id="digits" class="btn btn-primary">Новое</button>
+                            <button type="button" class="btn btn-success">В работе</button>
+                            <button type="button" class="btn btn-secondary">Ответ отправлен</button>
+                            <button type="button" class="btn btn-secondary">Закрыто</button>
+
+                        </div>
+
+                        </div>
+
+                </li>
+
+            </ul>
+
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control" type="text" placeholder="Поиск по странице" id="search-text" onkeyup="tableSearch()">
+
+            </form>
+        </div>
+    </nav>
+    <div  th:switch="${appeal}">
+        <table style=""  id="myTable" class="table table-bordered">
+            <thead >
             <tr>
                 <th class="table-active" onclick="sortTable(0)">№</th>
                 <th class="table-active" onclick="sortTable(1)">Организация</th>
@@ -43,7 +94,7 @@
             </tr>
             </thead>
 
-            <tbody>
+            <tbody >
             <tr  th:each="user : ${appeal}">
                 <td th:text="${user.id}"></td>
                 <td th:text="${user.nameCompany}"></td>
@@ -169,6 +220,93 @@
             }
         }
     })();
+
+
+    function tableSearch() {
+        var phrase = document.getElementById('search-text');
+        var table = document.getElementById('myTable');
+        var regPhrase = new RegExp(phrase.value, 'i');
+        var flag = false;
+        for (var i = 1; i < table.rows.length; i++) {
+            flag = false;
+            for (var j = table.rows[i].cells.length - 1; j >= 0; j--) {
+                flag = regPhrase.test(table.rows[i].cells[j].innerHTML);
+                if (flag) break;
+            }
+            if (flag) {
+                table.rows[i].style.display = "";
+            } else {
+                table.rows[i].style.display = "none";
+            }
+
+        }
+    }
+
+    filterTable(
+        /* Ссылка на элемент <tbody> таблицы */
+        document.getElementById("myTable"),
+
+        /* Объект-конфигурация фильтров: */
+        {
+            /* Фильтр для первого столбца чекбоксы: */
+            0: new filterTable.Filter([ /* Элементы фильтра */
+                    document.getElementById("charA"),
+                    document.getElementById("charB"),
+                    document.getElementById("charC")
+                ],
+                /* Коллбэк ф-ция валидации */
+                function (value, filters, i) {
+                    /* Если чекбокс не отмечен - его значение не учавствует
+                     в валидации поэтому мы обязаны вернуть true */
+                    if (false === filters[i].checked) return true;
+                    /* Далее, при проверке, мы должны одновременно проверять
+                     значения всех элементов набора при условии чекбокс
+                     отмечен */
+                    return filters[0].checked && filters[0].value === value ||
+                        filters[1].checked && filters[1].value === value ||
+                        filters[2].checked && filters[2].value === value;
+                }
+            ),
+
+            /* Фильтр для второго столбца текстовое поле - только точное совпадение: */
+            1: document.getElementById("text"),
+
+            /* Фильтр для третьего столбца выпадающий список: */
+            2: document.getElementById("digits"),
+
+            /* Фильтр для четвертого столбца радио кнопки: */
+            3: new filterTable.Filter([/* Элеменеты фильтра */
+                    document.getElementById("radioZ"),
+                    document.getElementById("radioA"),
+                    document.getElementById("radioB"),
+                    document.getElementById("radioC")
+                ],
+                /* Коллбэк ф-ция валидации */
+                function (value, filters, i) {
+                    /* В filters[0] - у нас радио кнопка "Не выбрано", если она
+                     установлена фильтр не участвует в валидации и мы
+                     обязаны вернуть true */
+                    if (true === filters[0].checked) return true;
+                    /* Если какая то радио-кнопка отмечена и содержимое проверяемой
+                     ячейки совпало то вернем true */
+                    return filters[1].checked && filters[1].value === value ||
+                        filters[2].checked && filters[2].value === value ||
+                        filters[3].checked && filters[3].value === value;
+                }
+            ),
+
+            /* Фильтр для пятого столбца Постепенный ввод слова: */
+            4: new filterTable.Filter(document.getElementById("regexp"),
+                /* Коллбэк ф-ция валидации */
+                function (value, filters, i) {
+                    return value.indexOf(filters[i].value) === 0;
+                },
+                /* Будем вызывать валидацию по событию onkeyup фильтра */
+                "onkeyup"
+            )
+        }
+    );
+
 </script>
 </body>
 <style>
@@ -192,6 +330,7 @@
     }
 
     table {
+
         border-spacing: 0;
         width: 100%;
     }

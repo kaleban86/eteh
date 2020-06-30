@@ -37,7 +37,7 @@
 
 
                 <label for="roles1">Роль:</label>
-                <input type="text" th:field="*{roles}" id="roles1" placeholder="Roles1" class="form-control"><br>
+                <input type="text" th:field="*{roles}"   id="roles1" placeholder="Roles1" class="form-control"><br>
 
                 <label for="email">Email:</label>
                 <input type="text" th:field="*{email}" id="email" placeholder="Email" class="form-control"><br>
@@ -47,6 +47,7 @@
                     <label class="form-check-label" for="exampleCheck1">Active:</label><br>
                     <input type="checkbox" th:field="*{active}" class="form-check-input" id="exampleCheck1">
                 </div>
+
 
                 <input style="display: none" readonly type="text" th:field="*{password}" id="password" placeholder="Password"
                        class="form-control"><br>
