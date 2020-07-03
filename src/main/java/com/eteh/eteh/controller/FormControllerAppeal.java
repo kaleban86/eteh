@@ -1,12 +1,8 @@
 package com.eteh.eteh.controller;
 
 
-import com.eteh.eteh.models.Appeal;
-import com.eteh.eteh.models.Customer;
-import com.eteh.eteh.models.User;
-import com.eteh.eteh.repository.AppealRepository;
-import com.eteh.eteh.repository.CustomerRepository;
-import com.eteh.eteh.repository.UserRepository;
+import com.eteh.eteh.models.*;
+import com.eteh.eteh.repository.*;
 import com.eteh.eteh.service.CostumerService;
 import com.eteh.eteh.service.MailSender;
 import com.eteh.eteh.service.UserService;
@@ -16,7 +12,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,7 +22,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')  ")
+@PreAuthorize("hasAnyAuthority('APPEAL_CREATE','SUPER_ADMIN')  ")
 @Controller
 public class FormControllerAppeal {
 
@@ -39,6 +34,9 @@ public class FormControllerAppeal {
 
     private final UserRepository userRepository;
     private final CustomerRepository customerRepository;
+    private final AppealStatusRepo appealStatusRepo;
+    private final FootingRepo footingRepo;
+    private final StatusColor statusColor;
 
     private
     CostumerService costumerService;
@@ -47,10 +45,13 @@ public class FormControllerAppeal {
     private UserService userService;
 
     @Autowired
-    public FormControllerAppeal(MailSender mailSender, UserRepository userRepository, CustomerRepository customerRepository, AppealRepository appealRepository, UserService userService) {
+    public FormControllerAppeal(MailSender mailSender, UserRepository userRepository, CustomerRepository customerRepository, AppealStatusRepo appealStatusRepo, FootingRepo footingRepo, StatusColor statusColor, AppealRepository appealRepository, UserService userService) {
         this.mailSender = mailSender;
         this.userRepository = userRepository;
         this.customerRepository = customerRepository;
+        this.appealStatusRepo = appealStatusRepo;
+        this.footingRepo = footingRepo;
+        this.statusColor = statusColor;
         this.appealRepository = appealRepository;
         this.userService = userService;
     }
@@ -63,21 +64,25 @@ public class FormControllerAppeal {
         model.addAttribute("user", user);
         Iterable<Customer> customersList = customerRepository.findAll();
         model.addAttribute("customerList", customersList);
+        List<AppealStatus> appealStatusList = appealStatusRepo.findAll();
+        model.addAttribute("appealStatusList",appealStatusList);
+        List<Footing> footings = footingRepo.findAll();
+        model.addAttribute("footings",footings);
 
         return "appeal";
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN')  ")
+
     @PostMapping("/appeal/appalAdd")
     public String appealAdd(@RequestParam String briefDescription,
                             @AuthenticationPrincipal User user,
                             @RequestParam("file") MultipartFile[] file,
                             @RequestParam("file2") MultipartFile[] file2,
-                            @RequestParam String footing,
+                            @RequestParam Long footing,
                             @RequestParam String text,
-                            @RequestParam String executor,
-                            @RequestParam(required = false) String controller,
-                            @RequestParam String status,
+                            @RequestParam Long executor,
+                            @RequestParam Long controller,
+                            @RequestParam Long status,
                             @RequestParam String surname,
                             @RequestParam(required = false) String lastName,
                             @RequestParam(required = false) java.sql.Date dataCreation,
@@ -85,32 +90,38 @@ public class FormControllerAppeal {
                             @RequestParam String nameCompany,
                             @RequestParam String address,
                             @RequestParam String tel,
-                            @RequestParam String emailAddress, @RequestParam String authorUpdate) throws IOException, SQLException {
+                            @RequestParam String emailAddress,
+                            @RequestParam Long authorUpdate ,
+                            @RequestParam(required = false) String color) throws IOException, SQLException {
 
 
-        String lastNameAuthorUpdate = user.getLastName();
-        String nameAuthorUpdate = user.getName();
+
+        Long lastNameAuthorUpdate = user.getId();
+        Long nameAuthorUpdate = user.getId();
 
 
-        String string = executor;
-        String[] str_array = string.split(" ");
-        String last_name = str_array[0];
-        String first_name = str_array[1];
-        String name = str_array[2];
-        String emailExecutor = str_array[3];
+        authorUpdate = user.getId();
 
 
-        String stringController = controller;
-        String[] str_arrayController = stringController.split(" ");
-        String last_nameController = str_arrayController[0];
-        String first_nameController = str_arrayController[1];
-        String nameController = str_arrayController[2];
-        String emailController = str_arrayController[3];
-
+//        String string = executor;
+//        String[] str_array = string.split(" ");
+//        String last_name = str_array[0];
+//        String first_name = str_array[1];
+//        String name = str_array[2];
+//        String emailExecutor = str_array[3];
+//
+//
+//        String stringController = controller;
+//        String[] str_arrayController = stringController.split(" ");
+//        String last_nameController = str_arrayController[0];
+//        String first_nameController = str_arrayController[1];
+//        String nameController = str_arrayController[2];
+//        String emailController = str_arrayController[3];
+//
 
         Appeal appeal = new Appeal(user, briefDescription, footing,
-                text, last_nameController + " " + first_nameController + " " + nameController, last_name + " " + first_name + " " + name, status, surname,
-                lastName, dataAnswer, dataCreation, nameCompany, address, tel, emailAddress, lastNameAuthorUpdate + " " + nameAuthorUpdate);
+                text, executor, controller, status, surname,
+                lastName, dataAnswer, dataCreation, nameCompany, address, tel, emailAddress, authorUpdate,color );
 
 
         appeal.getId();
@@ -175,36 +186,38 @@ public class FormControllerAppeal {
 
         appealRepository.save(appeal);
 
-        if (!StringUtils.isEmpty(user.getEmail())) {
-            String message = String.format(
-                            "Новое входящие обращение: № %s. \n" +
-
-
-                            "Краткое описание:  %s. \n" +
-
-                            "Название компании:  %s.\n" +
-
-                            "Дата создания: %s \n" +
-
-                            "Дата закрытия: %s \n"+
-
-                            "http://10.0.1.32:8080/appeal/reading/%s",
-                    appeal.getId(),
-                    appeal.getBriefDescription(),
-                    appeal.getNameCompany(),
-                    appeal.getDataCreation(),
-                    appeal.getDataAnswer(),
-                    appeal.getId()
-
-
-
-            );
-
-
-            mailSender.send(emailExecutor, "Вы назначены исполнителем ", message);
-            mailSender.send(emailController, "Вы назначены контролёром ", message);
-
-        }
+        statusColor.colorSearch(appeal.getId(),appeal.getStatus());
+//
+////        if (!StringUtils.isEmpty(user.getEmail())) {
+////            String message = String.format(
+////                            "Новое входящие обращение: № %s. \n" +
+////
+////
+////                            "Краткое описание:  %s. \n" +
+////
+////                            "Название компании:  %s.\n" +
+////
+////                            "Дата создания: %s \n" +
+////
+////                            "Дата закрытия: %s \n"+
+////
+////                            "http://10.0.1.32:8080/appeal/reading/%s",
+////                    appeal.getId(),
+////                    appeal.getBriefDescription(),
+////                    appeal.getNameCompany(),
+////                    appeal.getDataCreation(),
+////                    appeal.getDataAnswer(),
+////                    appeal.getId()
+////
+////
+////
+////            );
+//
+//
+////            mailSender.send(emailExecutor, "Вы назначены исполнителем ", message);
+////            mailSender.send(emailController, "Вы назначены контролёром ", message);
+//
+//        }
 
         return "redirect:/appealHome";
 

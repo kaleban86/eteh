@@ -2,13 +2,16 @@ package com.eteh.eteh.repository;
 
 import com.eteh.eteh.models.AppealAud;
 import com.eteh.eteh.models.UserProfileModels;
-import org.hibernate.envers.AuditReader;
-import org.joda.time.DateTime;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -20,19 +23,19 @@ public class AppealUadRepo {
         this.dataSource = dataSource;
     }
 
-    public List<AppealAud> faindAllBiUD(Long id){
+    public List<AppealAud> faindAllBiUD(Long id) throws SQLException {
 
-        try (Connection c  = dataSource.getConnection() ){
+        try (Connection c  = dataSource.getConnection() ) {
 
             String sql = "select   * from appeal_aud where id = ?";
-            PreparedStatement preparedStatement  =  c.prepareStatement(sql);
-            preparedStatement.setObject(1,id);
+            PreparedStatement preparedStatement = c.prepareStatement(sql);
+            preparedStatement.setObject(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
             int n = resultSetMetaData.getColumnCount();
 
             List<AppealAud> appealAuds = new ArrayList<>();
-            while (resultSet.next()){
+            while (resultSet.next()) {
 
                 int rev = resultSet.getInt("rev");
                 String briefDescription = resultSet.getString("brief_Description");
@@ -40,19 +43,21 @@ public class AppealUadRepo {
                 String text = resultSet.getString("text");
                 String executor = resultSet.getString("executor");
                 String controller = resultSet.getString("controller");
-                String status = resultSet.getString("status");
-                String  surname = resultSet.getString("surname");
-                String   lastName = resultSet.getString("last_Name");
-                String   nameCompany = resultSet.getString("name_Company");
-                String  tel = resultSet.getString("tel");
-                String   address = resultSet.getString("address");
-                String   emailAddress = resultSet.getString("email_Address");
+                Long status = resultSet.getLong("status");
+                String surname = resultSet.getString("surname");
+                String lastName = resultSet.getString("last_Name");
+                String nameCompany = resultSet.getString("name_Company");
+                String tel = resultSet.getString("tel");
+                String address = resultSet.getString("address");
+                String emailAddress = resultSet.getString("email_Address");
                 Date dataChange = resultSet.getDate("data_Change");
-                Date  dataCreation = resultSet.getDate("data_creation");
+                Date dataCreation = resultSet.getDate("data_creation");
                 Date dataAnswer = resultSet.getDate("data_answer");
                 int userId = resultSet.getInt("user_id");
-                String authorUpdate = resultSet.getString("author_update");
+                Long authorUpdate = resultSet.getLong("author_update");
                 String fileName = resultSet.getString("file_name");
+                String author = resultSet.getString("author_update_history");
+
 
                 AppealAud appealAud = new AppealAud();
                 appealAud.setAddress(address);
@@ -72,26 +77,48 @@ public class AppealUadRepo {
                 appealAud.setDataCreation(dataCreation);
                 appealAud.setDataAnswer(dataAnswer);
                 appealAud.setUserId(userId);
-                appealAud.setAuthorUpdate(authorUpdate);
+                 appealAud.setAuthorUpdate(authorUpdate);
                 appealAud.setFileName(fileName);
 
-                appealAuds.add(appealAud);
 
 
 
+//                sql = "select last_name,first_name,name  from user where id = ?";
+//                preparedStatement = c.prepareStatement(sql);
+//                preparedStatement.setObject(1, controller);
+//                resultSet = preparedStatement.executeQuery();
+//                resultSetMetaData = resultSet.getMetaData();
+//                int n1 = resultSetMetaData.getColumnCount();
+//
+//                List<AppealAud> appealAuds1 = new ArrayList<>();
+//                while (resultSet.next()) {
+//
+//
+//                    String lastNameHistory = resultSet.getString("Last_Name");
+//                    String firstNameHistory = resultSet.getString("first_name");
+//                    String nameHistory = resultSet.getString("name");
+//
+//
+//
+//
+//
+//
+//
+//
+//                    appealAud.setAuthorUpdateHistory(lastNameHistory+ " " + nameHistory);
+                    appealAuds.add(appealAud);
 
+                }
+
+
+                return appealAuds;
             }
-
-
-
-
-            return appealAuds;
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
 
-    }
+
+
+
+
 
     public List<AppealAud> userNameModIDEnvers(Long id) {
         try (Connection c = dataSource.getConnection()) {
@@ -201,4 +228,27 @@ public class AppealUadRepo {
         return null;
     }
 
+
+    public void updateIdAppealAud(Long id,Long userId) {
+        try (Connection c = dataSource.getConnection()) {
+
+            PreparedStatement statement = c.prepareStatement("UPDATE appeal_aud SET author_update= ? where rev = " +
+                    "(SELECT max FROM (SELECT MAX(rev) as max FROM appeal_aud WHERE id= ?) AS t2 )");
+
+            statement.setLong(1, userId);
+            statement.setLong(2, id);
+
+            int rowsUpdated = statement.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("updated successfully!");
+            }
+
+
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+
+        }
+
+    }
 }

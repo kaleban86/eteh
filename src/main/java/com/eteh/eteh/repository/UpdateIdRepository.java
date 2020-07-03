@@ -44,13 +44,13 @@ public class UpdateIdRepository {
 
     }
 
-    public void updateIdAppealAud(Long id,String userId) {
+    public void updateIdAppealAud(Long id,Long userId) {
         try (Connection c = dataSource.getConnection()) {
 
             PreparedStatement statement = c.prepareStatement("UPDATE appeal_aud SET author_update= ? where rev = " +
                     "(SELECT max FROM (SELECT MAX(rev) as max FROM appeal_aud WHERE id= ?) AS t2 )");
 
-            statement.setString(1, userId);
+            statement.setLong(1, userId);
             statement.setLong(2, id);
 
             int rowsUpdated = statement.executeUpdate();

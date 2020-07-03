@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 <meta charset="UTF-8">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 
 <title>Create user</title>
 </head>
 <body>
 <div class="tab">
-    <a href="/hello" class="backLink" style="color: #000 !important; text-decoration: none"><div class="backButton">⟵</div></a>
+    <a href="/hello" class="backLink" style="color: #000 !important; text-decoration: none">
+        <div class="backButton">⟵</div>
+    </a>
     <div id="tabBlocks">
 
     </div>
@@ -27,32 +30,63 @@
                 <input type="text" th:field="*{username}" id="username" placeholder="username" class="form-control"><br>
 
                 <label for="lastName">Фамилия:</label>
-                <input type="text" th:field="*{lastName}" id="lastName" placeholder="Last Name" class="form-control"><br>
+                <input type="text" th:field="*{lastName}" id="lastName" placeholder="Last Name"
+                       class="form-control"><br>
                 <label for="name">Имя:</label>
                 <input type="text" th:field="*{name}" id="name" placeholder="Name" class="form-control"><br>
 
                 <label for="firstName">Отчество:</label>
                 <input type="text" th:field="*{firstName}" id="firstName" placeholder="First Name" class="form-control"><br>
-
-
-
-                <label for="roles1">Роль:</label>
-                <input type="text" th:field="*{roles}"   id="roles1" placeholder="Roles1" class="form-control"><br>
+                <!--                <label for="roles1">Роль:</label>-->
+                <!--                <input type="text" th:field="*{roles}" id="roles1" placeholder="Roles1" class="form-control"><br>-->
 
                 <label for="email">Email:</label>
                 <input type="text" th:field="*{email}" id="email" placeholder="Email" class="form-control"><br>
+                <label for="firstName">Права входящее обращение:</label>
 
-
-                <div class="form-group col-5" mt-5>
-                    <label class="form-check-label" for="exampleCheck1">Active:</label><br>
-                    <input type="checkbox" th:field="*{active}" class="form-check-input" id="exampleCheck1">
+                <div class="form-check">
+                    <input th:field="*{roles}" th:value="${'USER_READING'}" type="checkbox"
+                           class="form-check-input">
+                    <label class="form-check-label">
+                        Просматривать входящие обращение
+                    </label>
                 </div>
 
+                <div class="form-check">
+                    <input th:field="*{roles}" th:value="${'APPEAL_CREATE'}" class="form-check-input"
+                           type="checkbox">
+                    <label class="form-check-label">
+                        Создавать входящее обращение
+                    </label><br>
+                </div><br>
+                <label for="firstName">Права администратора:</label>
+                <div class="form-check">
+                    <input th:field="*{roles}" th:value="${'ADMIN'}" class="form-check-input" type="checkbox">
+                    <label class="form-check-label">
+                        Редактировать роли пользователей
 
-                <input style="display: none" readonly type="text" th:field="*{password}" id="password" placeholder="Password"
+
+                    </label>
+
+                </div><br>
+                <label for="firstName">Доступ на сайт:</label>
+                <div class="form-check">
+                    <input th:field="*{active}" type="checkbox" class="form-check-input">
+                    <label class="form-check-label">
+                       Пользователь активен
+
+                    </label>
+
+
+                </div>
+                <br>
+
+
+                <input style="display: none" readonly type="text" th:field="*{password}" id="password"
+                       placeholder="Password"
                        class="form-control"><br>
                 <div>
-                    <button type="submit"href="/user" class="btn btn-success">Сахранить</button>
+                    <button type="submit" href="/user" class="btn btn-success">Сохранить</button>
                 </div>
 
             </form>
@@ -68,7 +102,7 @@
     /* Style the tab */
     .tab {
         overflow: hidden;
-    //border: 1px solid #ccc;
+    / / border: 1 px solid #ccc;
         background-color: #f1f1f1;
         height: 38px;
     }
@@ -78,14 +112,14 @@
         background-color: inherit;
         float: left;
         border: none;
-    //border-radius: 5px;
+    / / border-radius: 5 px;
         outline: none;
         cursor: pointer;
         padding: 2px 16px;
         transition: 0.3s;
         height: 38px;
-    //margin: 5px 5px 5px 5px;
-        color:#3f3939;
+    / / margin: 5 px 5 px 5 px 5 px;
+        color: #3f3939;
     }
 
     /* Change background color of buttons on hover */
@@ -96,24 +130,24 @@
     /* Create an active/current tablink class */
     .tab button.active {
         background-color: #b5f1cf;
-        color:#3f3939;
+        color: #3f3939;
     }
 
     .backButton {
         font-size: 17px;
-        height:38px;
+        height: 38px;
         font-weight: bold;
         padding-right: 20px;
         padding-left: 20px;
         padding-top: 5px;
-        display:block;
-    //margin:6px;
-        float:left;
+        display: block;
+    / / margin: 6 px;
+        float: left;
         vertical-align:
     }
 
     #tabBlocks {
-    ..margin-left: 20px;
+    . . margin-left: 20 px;
         display: inline-block;
 
         font-size: 17px;

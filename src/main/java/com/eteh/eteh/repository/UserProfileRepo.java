@@ -1,5 +1,6 @@
 package com.eteh.eteh.repository;
 
+import com.eteh.eteh.models.Appeal;
 import com.eteh.eteh.models.UserProfileModels;
 import org.hibernate.envers.AuditReader;
 import org.hibernate.envers.AuditReaderFactory;
@@ -18,6 +19,7 @@ public class UserProfileRepo {
     private DataSource dataSource;
 
 
+    private Appeal appeal;
 
     UserProfileRepo userProfile;
 
@@ -27,6 +29,8 @@ public class UserProfileRepo {
 
 
     public List<UserProfileModels> fainBiId(Long id) {
+
+
         try (Connection c = dataSource.getConnection()) {
 
 
@@ -34,7 +38,7 @@ public class UserProfileRepo {
                     "from user where id  in (\n" +
                     "    select user_id from appeal where id = ?);";
             PreparedStatement preparedStatement = c.prepareStatement(sql);
-            preparedStatement.setObject(1, id);
+            preparedStatement.setObject(1,   id);
             ResultSet resultSet = preparedStatement.executeQuery();
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
             int n = resultSetMetaData.getColumnCount();
@@ -92,6 +96,7 @@ public class UserProfileRepo {
                 // userProfileModels.setUsername(username);
                 userProfile.setName(name);
                 userProfile.setFirstName(firstName);
+
 
 
                 userProfiles.add(userProfile);

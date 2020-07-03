@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -141,7 +142,7 @@ public class FormControllerTest {
 
     @RequestMapping(value = "/a{id}", method = RequestMethod.GET, produces = APPLICATION_PDF)
     public @ResponseBody
-    void downloadA(HttpServletResponse response, @PathVariable("id") Long id, Model model) throws IOException {
+    void downloadA(HttpServletResponse response, @PathVariable("id") Long id, Model model) throws IOException, SQLException {
         File file = getFile();
         List<AppealAud> appealAud = appealUadRepo.faindAllBiUD(id);
         InputStream in = new FileInputStream(file);

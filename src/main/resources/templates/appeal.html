@@ -52,10 +52,9 @@
                     <label for=>Основание:</label>
 
                     <select class="custom-select" name="footing" required>
-                        <option value="" disabled selected>Выберите из списка</option>
-                        <option value="Официальное письмо">Официальное письмо</option>
-                        <option value="Обращение от оператора">Обращение от оператора</option>
-                        <option value="Иное, не придусмотренное">Иное, не придусмотренное</option>
+                        <option th:each="footing : ${footings}"
+                                th:value="${footing.id}"
+                                th:text="${footing.footing}"></option>
                     </select>
 
                 </div>
@@ -78,7 +77,7 @@
                     <option value="" disabled selected>Выберите из списка</option>
                     <!--/*@thymesVar id="users" type="com"*/-->
                     <option th:each="user : ${user}"
-                            th:value="${user.lastName +' '+ user.name + ' ' + user.firstName+ ' '+ user.email}"
+                            th:value="${user.id}"
                             th:text="${user.lastName +'  '+ user.name +' ' + user.firstName }"></option>
                 </select>
                 <!--/*@thymesVar id="user" type="com"*/-->
@@ -88,24 +87,21 @@
                         <option value="" disabled selected>Выберите из списка</option>
                         <!--/*@thymesVar id="users" type="com"*/-->
                         <option th:each="user : ${user}"
-                                th:value="${user.lastName +' '+ user.name + ' ' + user.firstName+ ' '+ user.email }"
+                                th:value="${user.id}"
                                 th:text="${user.lastName +' '+ user.name + ' ' + user.firstName  } "></option>
                     </select>
                 </div>
                 <label for=>Статус:</label>
                 <select class="custom-select" name="status" required>
-                    <option value="Новое">Новое</option>
-                    <option value="Ответ отправлен">Ответ отправлен</option>
-                    <option value="Закрыто">Закрыто</option>
-                    <option value="В работе">В работе</option>
-
+                    <option th:each="status : ${appealStatusList}"
+                    th:value="${status.id}"
+                    th:text="${status.status}"></option>
                 </select>
 
                 <h3> Информация о клиенте </h3>
                 <div class="form-group blu-margin">
                     <label for=>Организация:</label>
                     <select class="form-control" name="nameCompany" id="nameCompany" required>
-                        <option value="Нет в списке">Нет в списке</option>
                         <option th:each="user : ${customerList}" th:value="${user.fullNameCompany }"
                                 th:text="${user.fullNameCompany } "></option>
                     </select>

@@ -20,11 +20,18 @@ public class AppealAud {
 
 
 
+
+    private String authorUpdateHistory;
+
+   
+
     private String footing;
     private String text;
     private String executor;
     private String controller;
-    private String status;
+    private Long status;
+
+
     private String surname;
     private String lastName;
     private String nameCompany;
@@ -35,9 +42,15 @@ public class AppealAud {
 
 
 
-    private String authorUpdate;
+    private Long authorUpdate;
 
+    public String getAuthorUpdateHistory() {
+        return authorUpdateHistory;
+    }
 
+    public void setAuthorUpdateHistory(String authorUpdateHistory) {
+        this.authorUpdateHistory = authorUpdateHistory;
+    }
     public Date getDataCreation() {
         return dataCreation;
     }
@@ -110,11 +123,11 @@ public class AppealAud {
         this.controller = controller;
     }
 
-    public String getStatus() {
+    public Long getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Long status) {
         this.status = status;
     }
 
@@ -173,14 +186,14 @@ public class AppealAud {
         this.emailAddress = emailAddress;
     }
 
-    public String getAuthorUpdate() {
+
+    public Long getAuthorUpdate() {
         return authorUpdate;
     }
 
-    public void setAuthorUpdate(String authorUpdate) {
+    public void setAuthorUpdate(Long authorUpdate) {
         this.authorUpdate = authorUpdate;
     }
-
     public String getFileName() {
         return fileName;
     }

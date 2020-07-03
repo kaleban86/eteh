@@ -4,6 +4,7 @@ package com.eteh.eteh.models;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.Audited;
+import org.hibernate.type.ClassType;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 
 @Audited
 @Entity
-public class Appeal {
+public class Appeal  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,6 +26,11 @@ public class Appeal {
     @CreationTimestamp
     @CreatedDate
     private Date dataCreation;
+
+
+
+    private String color;
+
 
 
     private Date dataAnswer;
@@ -37,43 +43,45 @@ public class Appeal {
 
 
 
+
+
+
     private String fileName2;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
-
-
     @CreatedBy
     @LastModifiedBy
     private User author;
 
-    private String authorUpdate;
+
 
 
     @Size(max = 75)
     private String briefDescription;
-    private String footing, text, executor, controller, status, surname, lastName, nameCompany;
+    private String  text,surname, lastName, nameCompany;
 
+    private Long executor, controller, authorUpdate,footing;
+
+
+
+    private Long status;
 
     private String tel;
 
     private String address, emailAddress;
 
 
-    public String getBriefDescription() {
-        return briefDescription;
-    }
 
-    public void setBriefDescription(String briefDescription) {
-        this.briefDescription = briefDescription;
-    }
 
     public Appeal() {
     }
 
-    public Appeal(User user, String briefDescription, String footing, String text, String executor, String controller, String status,
+
+
+    public Appeal(User user, String briefDescription, Long footing, String text, Long executor, Long controller, Long status,
                   String surname, String lastName, java.sql.Date dataAnswer, java.sql.Date dataCreation,
-                  String nameCompany, String tel, String address, String emailAddress, String authorUpdate) {
+                  String nameCompany, String tel, String address, String emailAddress, Long authorUpdate ,String color) {
 
         this.briefDescription = briefDescription;
         this.footing = footing;
@@ -91,10 +99,31 @@ public class Appeal {
         this.emailAddress = emailAddress;
         this.author = user;
         this.authorUpdate = authorUpdate;
+        this.color = color;
 
 
     }
+    public String getBriefDescription() {
+        return briefDescription;
+    }
+    public String getColor() {
+        return color;
+    }
 
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public void setBriefDescription(String briefDescription) {
+        this.briefDescription = briefDescription;
+    }
+    public Long getFooting() {
+        return footing;
+    }
+
+    public void setFooting(Long footing) {
+        this.footing = footing;
+    }
     public LocalDateTime getDataChange() {
         return dataChange;
     }
@@ -175,13 +204,7 @@ public class Appeal {
         this.briefDescription = briefDescription;
     }
 
-    public String getFooting() {
-        return footing;
-    }
 
-    public void setFooting(String footing) {
-        this.footing = footing;
-    }
 
     public String getText() {
         return text;
@@ -191,27 +214,27 @@ public class Appeal {
         this.text = text;
     }
 
-    public String getExecutor() {
+    public Long getExecutor() {
         return executor;
     }
 
-    public void setExecutor(String executor) {
+    public void setExecutor(Long executor) {
         this.executor = executor;
     }
 
-    public String getController() {
+    public Long getController() {
         return controller;
     }
 
-    public void setController(String controller) {
+    public void setController(Long controller) {
         this.controller = controller;
     }
 
-    public String getStatus() {
+    public Long getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Long status) {
         this.status = status;
     }
 
@@ -239,11 +262,11 @@ public class Appeal {
         this.fileName = fileName;
     }
 
-    public String getAuthorUpdate() {
+    public Long getAuthorUpdate() {
         return authorUpdate;
     }
 
-    public void setAuthorUpdate(String authorUpdate) {
+    public void setAuthorUpdate(Long authorUpdate) {
         this.authorUpdate = authorUpdate;
     }
     public String getFileName2() {
@@ -253,6 +276,8 @@ public class Appeal {
     public void setFileName2(String fileName2) {
         this.fileName2 = fileName2;
     }
+
+
     @Override
     public String toString() {
         return "Appeal{" +

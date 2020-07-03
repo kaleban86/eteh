@@ -28,6 +28,8 @@ public class AppealService  {
     }
 
     public Appeal findById(Long id){
+
+
         return appealRepository.getOne(id);
     }
 

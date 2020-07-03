@@ -35,8 +35,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
 
+
                 <li class="nav-item active">
-                    <input type="date" id="datepicker" class="form-control"  >
+
+                    <input type="date"  id="datepicker" class="form-control"   >
                 </li>
 
                 <li class="nav-item dropdown">
@@ -47,8 +49,12 @@
                         <div class="dropdown-divider"></div>
 
                     </div>
-                <li class="nav-item">
-                    <select class="custom-select" name="footing" required>
+                </li>
+                </li>
+
+                 <li  class="nav-item">
+
+                    <select class="custom-select" required>
                         <option value="" disabled selected>Выберите из списка</option>
                         <option value="Официальное письмо">ГазПром</option>
                         <option value="Обращение от оператора">Обращение от оператора</option>
@@ -56,6 +62,7 @@
                     </select>
                 </li>
                 </li>
+
                 <li class="nav-item">
                     <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                         <div class="btn-group mr-2" role="group" aria-label="First group">
@@ -73,7 +80,7 @@
             </ul>
 
             <form class="form-inline my-2 my-lg-0">
-                <input class="form-control" type="text" placeholder="Поиск по странице" id="search-text" onkeyup="tableSearch()">
+                <input class="form-control" type="text" placeholder="Поиск" id="search-text" onkeyup="tableSearch()">
 
             </form>
         </div>
@@ -95,13 +102,15 @@
             </thead>
 
             <tbody >
-            <tr  th:each="user : ${appeal}">
+            <tr  th:each="user : ${appeal} " >
                 <td th:text="${user.id}"></td>
                 <td th:text="${user.nameCompany}"></td>
                 <td th:text="${#dates.format(user.dataCreation, 'dd.MM.yyyy')}"></td>
                 <td th:text="${#dates.format(user.dataAnswer, 'dd.MM.yyyy')}"></td>
-                <td th:text="${user.executor}"></td>
-                <td th:text="${user.status}"></td>
+                <td th:text="${user.executor}"  ></a></td>
+                <td th:text="${user.status}" th:bgcolor="${user.color}" data-toggle="tooltip" data-placement="top"
+                    title="Значение статусов: Зеленое в работе, Серый Закрыто,Новое  Синие, "
+                ></td>
                 <td th:text="${user.briefDescription}"></td>
 
 
@@ -114,7 +123,7 @@
                     </a>
                 </td>
                 <td>
-                    <a th:href="@{appeal/reading/{id}(id=${user.id})}">
+                    <a th:href="@{appeal-reading/{id}(id=${user.id})}">
                         <svg class="bi bi-eye" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.134 13.134 0 0 0 1.66 2.043C4.12 11.332 5.88 12.5 8 12.5c2.12 0 3.879-1.168 5.168-2.457A13.134 13.134 0 0 0 14.828 8a13.133 13.133 0 0 0-1.66-2.043C11.879 4.668 10.119 3.5 8 3.5c-2.12 0-3.879 1.168-5.168 2.457A13.133 13.133 0 0 0 1.172 8z"></path>
                             <path fill-rule="evenodd" d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"></path>
@@ -203,21 +212,14 @@
                 answerDate.substr(0, 2)
             ).getTime();
 
-            if ( status == 'Новое' ) {
-                tdArr[5].style.backgroundColor = '#9dd3fa';
-            }
 
-            if ( ( status == 'Новое' || status == 'В работе' )
+
+            if ( ( status == '1' || status == '4' )
                 && ( nowTimeUnix > answerUnixTime ) ) {
                 //просрочено
                 tdArr[5].style.backgroundColor = '#fa6565';
-            } else if ( status == 'В работе' ) {
-                tdArr[5].style.backgroundColor = '#a4faaa';
             }
 
-            if ( status == 'Закрыто' || status == 'Ответ отправлен' ) {
-                tdArr[5].style.backgroundColor = '#BDBDBD';
-            }
         }
     })();
 
