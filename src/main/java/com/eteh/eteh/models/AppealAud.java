@@ -1,8 +1,12 @@
 package com.eteh.eteh.models;
 
-import java.util.Date;
+import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
+import java.util.Date;
+@Service
 public class AppealAud {
+
 
     private Date dataCreation;
 
@@ -21,46 +25,32 @@ public class AppealAud {
 
 
 
-    private String authorUpdateHistory;
+
 
    
 
     private String footing;
     private String text;
-    private String executor;
-    private String controller;
-    private Long status;
+    private Long executor;
+    private Long controller;
 
+
+
+    private String status;
+    private String name,firstName;
 
     private String surname;
     private String lastName;
-    private String nameCompany;
+    private Long nameCompany;
     private String tel;
     private String address;
     private String emailAddress;
     private String fileName;
-
-
-
     private Long authorUpdate;
 
-    public String getAuthorUpdateHistory() {
-        return authorUpdateHistory;
-    }
 
-    public void setAuthorUpdateHistory(String authorUpdateHistory) {
-        this.authorUpdateHistory = authorUpdateHistory;
-    }
     public Date getDataCreation() {
         return dataCreation;
-    }
-
-    public int getRev() {
-        return rev;
-    }
-
-    public void setRev(int rev) {
-        this.rev = rev;
     }
 
     public void setDataCreation(Date dataCreation) {
@@ -90,13 +80,35 @@ public class AppealAud {
     public void setBriefDescription(String briefDescription) {
         this.briefDescription = briefDescription;
     }
-
-    public String getFooting() {
-        return footing;
+    public Long getExecutor() {
+        return executor;
     }
 
-    public void setFooting(String footing) {
-        this.footing = footing;
+    public void setExecutor(Long executor) {
+        this.executor = executor;
+    }
+
+    public Long getController() {
+        return controller;
+    }
+
+    public void setController(Long controller) {
+        this.controller = controller;
+    }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getText() {
@@ -107,27 +119,26 @@ public class AppealAud {
         this.text = text;
     }
 
-    public String getExecutor() {
-        return executor;
+    public void setDataChange(Date dataChange) {
+        this.dataChange = dataChange;
     }
 
-    public void setExecutor(String executor) {
-        this.executor = executor;
+    public String getFooting() {
+        return footing;
     }
 
-    public String getController() {
-        return controller;
+    public void setFooting(String footing) {
+        this.footing = footing;
     }
 
-    public void setController(String controller) {
-        this.controller = controller;
-    }
 
-    public Long getStatus() {
+
+
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Long status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -147,11 +158,11 @@ public class AppealAud {
         this.lastName = lastName;
     }
 
-    public String getNameCompany() {
+    public Long getNameCompany() {
         return nameCompany;
     }
 
-    public void setNameCompany(String nameCompany) {
+    public void setNameCompany(Long nameCompany) {
         this.nameCompany = nameCompany;
     }
 

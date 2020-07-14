@@ -88,13 +88,13 @@
                         <!--/*@thymesVar id="users" type="com"*/-->
                         <option th:each="user : ${user}"
                                 th:value="${user.id}"
-                                th:text="${user.lastName +' '+ user.name + ' ' + user.firstName  } "></option>
+                                th:text="${user.lastName +' '+ user.name + ' ' + user.firstName  }" ></option>
                     </select>
                 </div>
                 <label for=>Статус:</label>
                 <select class="custom-select" name="status" required>
-                    <option th:each="status : ${appealStatusList}"
-                    th:value="${status.id}"
+                    <option th:each="status : ${appealStatusList} "
+                    th:value="${status.id }"
                     th:text="${status.status}"></option>
                 </select>
 
@@ -102,7 +102,8 @@
                 <div class="form-group blu-margin">
                     <label for=>Организация:</label>
                     <select class="form-control" name="nameCompany" id="nameCompany" required>
-                        <option th:each="user : ${customerList}" th:value="${user.fullNameCompany }"
+                        <option th:value="${user.id }"
+                                th:each="user : ${customerList}"
                                 th:text="${user.fullNameCompany } "></option>
                     </select>
 

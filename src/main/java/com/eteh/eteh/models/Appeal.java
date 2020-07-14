@@ -2,6 +2,8 @@ package com.eteh.eteh.models;
 
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OptimisticLockType;
+import org.hibernate.annotations.OptimisticLocking;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.Audited;
 import org.hibernate.type.ClassType;
@@ -16,6 +18,7 @@ import java.time.LocalDateTime;
 
 @Audited
 @Entity
+//@OptimisticLocking(type = OptimisticLockType.DIRTY)
 public class Appeal  {
 
     @Id
@@ -27,9 +30,9 @@ public class Appeal  {
     @CreatedDate
     private Date dataCreation;
 
-
-
-    private String color;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_color")
+    private ColorStatusId color;
 
 
 
@@ -40,9 +43,6 @@ public class Appeal  {
 
 
     private String fileName;
-
-
-
 
 
 
@@ -59,71 +59,103 @@ public class Appeal  {
 
     @Size(max = 75)
     private String briefDescription;
-    private String  text,surname, lastName, nameCompany;
+    private String  text,surname, lastName;
 
-    private Long executor, controller, authorUpdate,footing;
+    private Long  controller, authorUpdate;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Customer nameCompany;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User executor;
+
+    private Long footing;
 
 
 
-    private Long status;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private AppealStatus status;
 
     private String tel;
+
+   
 
     private String address, emailAddress;
 
 
 
 
-    public Appeal() {
-    }
+    public Appeal(User user, String briefDescription, Long footing,
+                  String text, User executor, Long controller, AppealStatus status,
+                  String surname, String lastName, Date dataAnswer, Date dataCreation,
+                  Customer nameCompany, String address, String tel, String emailAddress,
+                  Long authorUpdate, ColorStatusId color) {
 
 
-
-    public Appeal(User user, String briefDescription, Long footing, String text, Long executor, Long controller, Long status,
-                  String surname, String lastName, java.sql.Date dataAnswer, java.sql.Date dataCreation,
-                  String nameCompany, String tel, String address, String emailAddress, Long authorUpdate ,String color) {
-
-        this.briefDescription = briefDescription;
-        this.footing = footing;
-        this.text = text;
-        this.executor = executor;
-        this.controller = controller;
-        this.status = status;
-        this.surname = surname;
-        this.lastName = lastName;
-        this.dataCreation = dataCreation;
-        this.dataAnswer = dataAnswer;
-        this.nameCompany = nameCompany;
-        this.tel = tel;
-        this.address = address;
-        this.emailAddress = emailAddress;
-        this.author = user;
+        this.briefDescription= briefDescription;
+        this.footing=footing;
+        this.text=text;
+        this.executor=executor;
+        this.controller=controller;
+        this.status=status;
+        this.surname=surname;
+        this.lastName=lastName;
+        this.dataAnswer=dataAnswer;
+        this.dataCreation=dataCreation;
+        this.nameCompany=nameCompany;
+        this.address=address;
+        this.tel= tel;
+        this.emailAddress=emailAddress;
+        this.authorUpdate=authorUpdate;
         this.authorUpdate = authorUpdate;
-        this.color = color;
+        this.author = user;
+        this.color=color;
 
 
-    }
-    public String getBriefDescription() {
-        return briefDescription;
-    }
-    public String getColor() {
-        return color;
+
     }
 
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public void setBriefDescription(String briefDescription) {
-        this.briefDescription = briefDescription;
-    }
     public Long getFooting() {
         return footing;
+    }
+
+    public Customer getNameCompany() {
+        return nameCompany;
+    }
+
+    public void setNameCompany(Customer nameCompany) {
+        this.nameCompany = nameCompany;
     }
 
     public void setFooting(Long footing) {
         this.footing = footing;
     }
+
+    public ColorStatusId getColor() {
+        return color;
+    }
+
+    public void setColor(ColorStatusId color) {
+        this.color = color;
+    }
+    public Appeal() {
+    }
+
+    public AppealStatus getStatus() {
+        return status;
+    }
+
+
+    public void setStatus(AppealStatus status) {
+        this.status = status;
+    }
+    public String getBriefDescription() {
+        return briefDescription;
+    }
+
+
+    public void setBriefDescription(String briefDescription) {
+        this.briefDescription = briefDescription;
+    }
+
     public LocalDateTime getDataChange() {
         return dataChange;
     }
@@ -148,13 +180,7 @@ public class Appeal  {
         this.emailAddress = emailAddress;
     }
 
-    public String getNameCompany() {
-        return nameCompany;
-    }
 
-    public void setNameCompany(String nameCompany) {
-        this.nameCompany = nameCompany;
-    }
 
     public String getTel() {
         return tel;
@@ -214,11 +240,11 @@ public class Appeal  {
         this.text = text;
     }
 
-    public Long getExecutor() {
+    public User getExecutor() {
         return executor;
     }
 
-    public void setExecutor(Long executor) {
+    public void setExecutor(User executor) {
         this.executor = executor;
     }
 
@@ -230,13 +256,7 @@ public class Appeal  {
         this.controller = controller;
     }
 
-    public Long getStatus() {
-        return status;
-    }
-
-    public void setStatus(Long status) {
-        this.status = status;
-    }
+   
 
     public String getSurname() {
         return surname;

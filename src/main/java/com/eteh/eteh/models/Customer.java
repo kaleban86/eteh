@@ -1,8 +1,11 @@
 package com.eteh.eteh.models;
 
 
+import org.hibernate.envers.Audited;
+
 import javax.persistence.*;
 
+@Audited
 @Entity
 public class Customer {
 

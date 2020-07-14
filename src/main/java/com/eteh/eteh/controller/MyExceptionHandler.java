@@ -14,7 +14,7 @@ public class MyExceptionHandler {
 
 
 
-/*
+
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(Exception.class)
     public String handler(Exception ex){
@@ -25,7 +25,7 @@ public class MyExceptionHandler {
 
     }
 
- */
+
 
 
 

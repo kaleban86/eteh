@@ -104,8 +104,8 @@
                                 <div class="form-group blu-margin">
                                     <label>Компания:</label>
                                     <select disabled class="form-control" th:field="*{nameCompany}">
-                                        <option value="Нет в списке">Нет в списке</option>
-                                        <option th:each="user : ${customerList}" th:value="${user.fullNameCompany }"
+                                        <option th:each="user : ${customerList}"
+                                                th:value="${user.id }"
                                                 th:text="${user.fullNameCompany } "></option>
                                     </select>
                                     <label>Телефон:</label>
