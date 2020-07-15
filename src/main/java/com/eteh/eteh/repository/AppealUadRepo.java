@@ -109,30 +109,30 @@ public class AppealUadRepo {
 
 
 
-    public void test(){
-        Session session = entityManager.unwrap(Session.class);
-
-
-//        AuditQuery query = auditReader.createQuery()
-//                .forEntitiesAtRevision(Appeal.class, 201);
-
+//    public void test(){
+//        Session session = entityManager.unwrap(Session.class);
 //
-//        Query query = session.createQuery("from Appeal ");
-//        List<Appeal> list = query.list();
-//        System.out.println(list.size());
-
-
-        AuditReader reader = AuditReaderFactory.get(entityManager);
-
-        Appeal event = reader.findRevision(Appeal.class,201);
-
-        System.out.println(event);
-        AuditQuery query = reader
-                .createQuery().forEntitiesAtRevision(Appeal.class,201);
-
-        System.out.println(query);
-
-    }
+//
+////        AuditQuery query = auditReader.createQuery()
+////                .forEntitiesAtRevision(Appeal.class, 201);
+//
+////
+////        Query query = session.createQuery("from Appeal ");
+////        List<Appeal> list = query.list();
+////        System.out.println(list.size());
+//
+//
+//        AuditReader reader = AuditReaderFactory.get(entityManager);
+//
+//        Appeal event = reader.findRevision(Appeal.class,201);
+//
+//        System.out.println(event);
+//        AuditQuery query = reader
+//                .createQuery().forEntitiesAtRevision(Appeal.class,201);
+//
+//        System.out.println(query);
+//
+//    }
 
 
 
