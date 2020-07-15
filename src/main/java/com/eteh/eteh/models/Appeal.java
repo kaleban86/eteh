@@ -61,15 +61,16 @@ public class Appeal  {
     private String briefDescription;
     private String  text,surname, lastName;
 
-    private Long  controller, authorUpdate;
+    private Long   authorUpdate;
     @ManyToOne(fetch = FetchType.LAZY)
     private Customer nameCompany;
     @ManyToOne(fetch = FetchType.LAZY)
     private User executor;
-
-    private Long footing;
-
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "footing_id")
+    private Footing footing;
+    @ManyToOne(fetch = FetchType.LAZY)
+   private User controller;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private AppealStatus status;
@@ -83,8 +84,8 @@ public class Appeal  {
 
 
 
-    public Appeal(User user, String briefDescription, Long footing,
-                  String text, User executor, Long controller, AppealStatus status,
+    public Appeal(User user, String briefDescription, Footing footing,
+                  String text, User executor, User controller, AppealStatus status,
                   String surname, String lastName, Date dataAnswer, Date dataCreation,
                   Customer nameCompany, String address, String tel, String emailAddress,
                   Long authorUpdate, ColorStatusId color) {
@@ -113,9 +114,7 @@ public class Appeal  {
 
     }
 
-    public Long getFooting() {
-        return footing;
-    }
+
 
     public Customer getNameCompany() {
         return nameCompany;
@@ -125,7 +124,11 @@ public class Appeal  {
         this.nameCompany = nameCompany;
     }
 
-    public void setFooting(Long footing) {
+    public Footing getFooting() {
+        return footing;
+    }
+
+    public void setFooting(Footing footing) {
         this.footing = footing;
     }
 
@@ -248,15 +251,13 @@ public class Appeal  {
         this.executor = executor;
     }
 
-    public Long getController() {
+    public User getController() {
         return controller;
     }
 
-    public void setController(Long controller) {
+    public void setController(User controller) {
         this.controller = controller;
     }
-
-   
 
     public String getSurname() {
         return surname;

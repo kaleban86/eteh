@@ -144,10 +144,10 @@ public class FormControllerTest {
     public @ResponseBody
     void downloadA(HttpServletResponse response, @PathVariable("id") Long id, Model model) throws IOException, SQLException {
         File file = getFile();
-        List<AppealAud> appealAud = appealUadRepo.faindAllBiUD(id);
+//        List<AppealAud> appealAud = appealUadRepo.faindAllBiUD(id);
         InputStream in = new FileInputStream(file);
 
-        response.setContentType(String.valueOf(appealAud));
+//        response.setContentType(String.valueOf(appealAud));
         response.setHeader("Content-Disposition", "attachment; filename=" + file.getName());
         response.setHeader("Content-Length", String.valueOf(file.length()));
         FileCopyUtils.copy(in, response.getOutputStream());

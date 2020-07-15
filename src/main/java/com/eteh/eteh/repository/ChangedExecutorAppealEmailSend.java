@@ -32,7 +32,7 @@ public class ChangedExecutorAppealEmailSend {
 
         try (Connection c = dataSource.getConnection()) {
 
-            String sql = "select executor from appeal where id = ?";
+            String sql = "select executor_id from appeal where id = ?";
             PreparedStatement preparedStatement = c.prepareStatement(sql);
             preparedStatement.setObject(1, AppealId);
             ResultSet resultSet = preparedStatement.executeQuery();

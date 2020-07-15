@@ -151,9 +151,7 @@ public class FormControllerAppealHome {
         Iterable<Customer> customersList = customerRepository.findAll();
         model.addAttribute("customerList", customersList);
 
-        List<AppealAud> appealAud = appealUadRepo.faindAllBiUD(id);
 
-        model.addAttribute("appealAud", appealAud);
         Long idUserUpdate = userUpdate.getId();
 
         model.addAttribute("idUpdateAppeal", idUserUpdate);
@@ -193,16 +191,15 @@ public class FormControllerAppealHome {
         Iterable<Customer> customersList = customerRepository.findAll();
         model.addAttribute("customerList", customersList);
 
-        List<AppealAud> appealAud = appealUadRepo.faindAllBiUD(id);
-
-        model.addAttribute("appealAud", appealAud);
 
 
        Long idUserUpdate = userUpdate.getId();
         model.addAttribute("idUpdateAppeal", idUserUpdate);
 
-     //   appealUadRepo.test();
-//        model.addAttribute(  appealUadRepo.findAuditByRevision(id,407));
+       List<Appeal> appeals = appealUadRepo.getEntityRevisionsById(id);
+       model.addAttribute("appeals",appeals);
+
+
 
 
         return "/appeal-update";
@@ -260,7 +257,7 @@ public class FormControllerAppealHome {
                 public void run() {
 
                     changedControllerAppealEmailSend.checkController(appeal.getId(),
-                            appeal.getController(),appeal.getBriefDescription(),
+                            appeal.getController().getId(),appeal.getBriefDescription(),
                             appeal.getDataCreation(),appeal.getDataAnswer());
                     changedExecutorAppealEmailSend.checkExecutor(appeal.getId(),
                             appeal.getExecutor().getId(),appeal.getBriefDescription(),

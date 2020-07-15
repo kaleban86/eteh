@@ -53,7 +53,7 @@
 
                     <select class="custom-select" name="footing" required>
                         <option th:each="footing : ${footings}"
-                                th:value="${footing.id}"
+                                th:value="${footing.footingId}"
                                 th:text="${footing.footing}"></option>
                     </select>
 
@@ -125,7 +125,7 @@
                 <div class="form-group">
                     <label>Телефон:</label>
                     <!--/*@thymesVar id="error" type="com"*/-->
-                    <input type="text" class="form-control" id="nam" name="address" placeholder="+7 (000) 000-00-00"
+                    <input type="number" class="form-control" id="nam" name="address" placeholder="+7 (000) 000-00-00"
                            required>
                 </div>
                 <div class="form-group">

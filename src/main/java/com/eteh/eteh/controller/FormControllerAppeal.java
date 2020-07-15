@@ -26,7 +26,15 @@ import java.util.List;
 public class FormControllerAppeal {
 
 
+    /**
+     *
+     * Путь для храннеия файлов на сервере
+     */
     @Value("${upload.path}")
+
+    /**
+     * Внедренные зависимости
+     */
     private String uploadPath;
 
     private final MailSender mailSender;
@@ -41,6 +49,19 @@ public class FormControllerAppeal {
     private final AppealRepository appealRepository;
     private UserService userService;
 
+    /**
+     *
+     * @param mailSender Отправляем почту
+     * @param userRepository Репозиторий пользователей
+     * @param customerRepository Репозиторий покупателей
+     * @param appealStatusRepo Репозиторий статус
+     * @param footingRepo Репозиторий основание
+     * @param statusColor Репозиторий цвет статуса
+     * @param colorIdRepo
+     * @param userProfileRepo Репозиторий профиль пользователей
+     * @param appealRepository Репозиторий входящие обращения
+     * @param userService
+     */
     @Autowired
     public FormControllerAppeal(MailSender mailSender, UserRepository userRepository, CustomerRepository customerRepository, AppealStatusRepo appealStatusRepo, FootingRepo footingRepo, StatusColor statusColor, ColorIdRepo colorIdRepo, UserProfileRepo userProfileRepo, AppealRepository appealRepository, UserService userService) {
         this.mailSender = mailSender;
@@ -55,8 +76,8 @@ public class FormControllerAppeal {
         this.userService = userService;
     }
 
-    /*
-    Страница новое обращение
+    /**
+     * Страница новое обращение
      */
 
     @GetMapping("/appeal")
@@ -78,20 +99,40 @@ public class FormControllerAppeal {
     }
 
 
-
-    /*
-
-   Данные для bd
+    /**
+     * Параметры   новое входящие обращения
+     * @param briefDescription Короткое описание
+     * @param user пользователь
+     * @param file файлы
+     * @param file2
+     * @param footing основание
+     * @param text текст
+     * @param executor иполнитель
+     * @param controller контралёр
+     * @param status статус
+     * @param surname не используется
+     * @param lastName ФИО
+     * @param dataCreation дата создания
+     * @param dataAnswer дата ответа
+     * @param nameCompany название компании
+     * @param address адрес
+     * @param tel телефон
+     * @param emailAddress почта
+     * @param authorUpdate автор изменнений
+     * @param color цвет
+     * @return
+     * @throws IOException
+     * @throws SQLException
      */
     @PostMapping("/appeal/appalAdd")
     public String appealAdd(@RequestParam String briefDescription,
                             @AuthenticationPrincipal User user,
                             @RequestParam("file") MultipartFile[] file,
                             @RequestParam("file2") MultipartFile[] file2,
-                            @RequestParam Long footing,
+                            @RequestParam Footing footing,
                             @RequestParam String text,
                             @RequestParam User executor,
-                            @RequestParam Long controller,
+                            @RequestParam User controller,
                             @RequestParam AppealStatus status,
                             @RequestParam String surname,
                             @RequestParam(required = false) String lastName,
@@ -105,8 +146,8 @@ public class FormControllerAppeal {
                             @RequestParam(required = false) ColorStatusId color) throws IOException, SQLException {
 
 
-        Long lastNameAuthorUpdate = user.getId();
-        Long nameAuthorUpdate = user.getId();
+
+
 
 
         authorUpdate = user.getId();
@@ -172,24 +213,24 @@ public class FormControllerAppeal {
         }
 
 
-        /*
-        Сохраняем новое обрашение
+        /**
+         *  Сохраняем новое обрашение
          */
         appealRepository.save(appeal);
 
 
 
-        /*
-        Отправляем письмо пользователям контролёр и исполнитель, в новом потоке
+        /**
+         * Отправляем письмо пользователям контролёр и исполнитель, в новом потоке
          */
+        Long executorId =    executor.getId();
 
-     Long executorId =    executor.getId();
         try {
 
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    userProfileRepo.userEmailIdSendExecutor(controller,appeal.getId(),
+                    userProfileRepo.userEmailIdSendExecutor(controller.getId(),appeal.getId(),
                             appeal.getBriefDescription(),
                             appeal.getDataCreation(),appeal.getDataAnswer());
                     userProfileRepo.userEmailIdSendController(executorId,appeal.getId(),

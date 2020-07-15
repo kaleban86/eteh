@@ -16,9 +16,18 @@ public class Footing {
     private Long id;
 
     private String footing;
+    private Long footingId;
 
 
     public Footing() {
+    }
+
+    public Long getFootingId() {
+        return footingId;
+    }
+
+    public void setFootingId(Long footingId) {
+        this.footingId = footingId;
     }
 
     public Long getId() {
