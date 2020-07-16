@@ -52,9 +52,9 @@
                 </li>
                 </li>
 
-                <li  class="nav-item">
+                 <li  class="nav-item">
 
-                    <select id="organizationpicker" class="custom-select" required>
+                    <select class="custom-select" required>
                         <option value="" disabled selected>Выберите из списка</option>
                         <option value="Официальное письмо">ГазПром</option>
                         <option value="Обращение от оператора">Обращение от оператора</option>
@@ -65,13 +65,16 @@
 
                 <li class="nav-item">
                     <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-                        <div id="statuspicker" class="btn-group mr-2" role="group" aria-label="First group">
+                        <div class="btn-group mr-2" role="group" aria-label="First group">
                             <button type="button" id="digits" class="btn btn-primary">Новое</button>
                             <button type="button" class="btn btn-success">В работе</button>
                             <button type="button" class="btn btn-secondary">Ответ отправлен</button>
                             <button type="button" class="btn btn-secondary">Закрыто</button>
+
                         </div>
-                    </div>
+
+                        </div>
+
                 </li>
 
             </ul>
@@ -190,26 +193,32 @@
     }
 
     (function() {
-        // окрашивает просроченные обращения в красный
+
         let day = new Date();
-        let nowDate = new Date( day.getFullYear(), day.getMonth(),
-            day.getDate() );
+        let nowDate = new Date( day.getFullYear(), day.getMonth(), day.getDate() );
         let nowTimeUnix = nowDate.getTime();
         let trArr = document.querySelectorAll('#myTable tr');
+
         for (let i = 1; i < trArr.length; i++) {
             let tdArr = trArr[i].querySelectorAll('td');
+
             let answerDate = tdArr[3].innerHTML;
             let status = tdArr[5].innerHTML;
+
             let answerUnixTime = new Date(
                 answerDate.substr(6, 4),
                 answerDate.substr(3, 2) - 1,
                 answerDate.substr(0, 2)
             ).getTime();
+
+
+
             if ( ( status == 'Новое' || status == 'В работе' )
                 && ( nowTimeUnix > answerUnixTime ) ) {
                 //просрочено
                 tdArr[5].style.backgroundColor = '#fa6565';
             }
+
         }
     })();
 
@@ -234,46 +243,70 @@
         }
     }
 
-    (function picker() {
-        //реализация фильтраций
-        (function statusPicker() {
-            //фильтрация по статусу
-            let picker = document.getElementById('statuspicker');
-            picker.onclick = function(element) {
-                let status = element.target.innerHTML;
-                let trArr = document.querySelectorAll('#myTable tr');
-                for (let i = 1; i < trArr.length; i++) {
-                    let tdArr = trArr[i].querySelectorAll('td');
-                    let tableStatus = tdArr[5].innerHTML;
-                    if (status == tableStatus) {
-                        trArr[i].style.display = '';
-                        break;
-                    } else {
-                        trArr[i].style.display = 'none';
-                    }
+    filterTable(
+        /* Ссылка на элемент <tbody> таблицы */
+        document.getElementById("myTable"),
+
+        /* Объект-конфигурация фильтров: */
+        {
+            /* Фильтр для первого столбца чекбоксы: */
+            0: new filterTable.Filter([ /* Элементы фильтра */
+                    document.getElementById("charA"),
+                    document.getElementById("charB"),
+                    document.getElementById("charC")
+                ],
+                /* Коллбэк ф-ция валидации */
+                function (value, filters, i) {
+                    /* Если чекбокс не отмечен - его значение не учавствует
+                     в валидации поэтому мы обязаны вернуть true */
+                    if (false === filters[i].checked) return true;
+                    /* Далее, при проверке, мы должны одновременно проверять
+                     значения всех элементов набора при условии чекбокс
+                     отмечен */
+                    return filters[0].checked && filters[0].value === value ||
+                        filters[1].checked && filters[1].value === value ||
+                        filters[2].checked && filters[2].value === value;
                 }
-            }
-        })();
-        (function organizationPicker() {
-            //фильтрация по организации
-            //происходит по атрибутам value (...<option value="газпром">...)
-            let picker = document.getElementById('organizationpicker');
-            picker.onchange = function() {
-                let organization = picker.value;
-                let trArr = document.querySelectorAll('#myTable tr');
-                for (let i = 1; i < trArr.length; i++) {
-                    let tdArr = trArr[i].querySelectorAll('td');
-                    let tableOrganization = tdArr[1].innerHTML;
-                    if (organization == tableOrganization) {
-                        trArr[i].style.display = '';
-                        break;
-                    } else {
-                        trArr[i].style.display = 'none';
-                    }
+            ),
+
+            /* Фильтр для второго столбца текстовое поле - только точное совпадение: */
+            1: document.getElementById("text"),
+
+            /* Фильтр для третьего столбца выпадающий список: */
+            2: document.getElementById("digits"),
+
+            /* Фильтр для четвертого столбца радио кнопки: */
+            3: new filterTable.Filter([/* Элеменеты фильтра */
+                    document.getElementById("radioZ"),
+                    document.getElementById("radioA"),
+                    document.getElementById("radioB"),
+                    document.getElementById("radioC")
+                ],
+                /* Коллбэк ф-ция валидации */
+                function (value, filters, i) {
+                    /* В filters[0] - у нас радио кнопка "Не выбрано", если она
+                     установлена фильтр не участвует в валидации и мы
+                     обязаны вернуть true */
+                    if (true === filters[0].checked) return true;
+                    /* Если какая то радио-кнопка отмечена и содержимое проверяемой
+                     ячейки совпало то вернем true */
+                    return filters[1].checked && filters[1].value === value ||
+                        filters[2].checked && filters[2].value === value ||
+                        filters[3].checked && filters[3].value === value;
                 }
-            }
-        })();
-    })();
+            ),
+
+            /* Фильтр для пятого столбца Постепенный ввод слова: */
+            4: new filterTable.Filter(document.getElementById("regexp"),
+                /* Коллбэк ф-ция валидации */
+                function (value, filters, i) {
+                    return value.indexOf(filters[i].value) === 0;
+                },
+                /* Будем вызывать валидацию по событию onkeyup фильтра */
+                "onkeyup"
+            )
+        }
+    );
 
 </script>
 </body>
