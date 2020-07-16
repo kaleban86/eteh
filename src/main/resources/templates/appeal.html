@@ -94,7 +94,7 @@
                 <label for=>Статус:</label>
                 <select class="custom-select" name="status" required>
                     <option th:each="status : ${appealStatusList} "
-                    th:value="${status.id }"
+                    th:value="${status.idStatus }"
                     th:text="${status.status}"></option>
                 </select>
 
@@ -183,6 +183,7 @@
 
 
 <script type="text/javascript">
+
     (function () {
         let date = new Date();
         let year = date.getFullYear();

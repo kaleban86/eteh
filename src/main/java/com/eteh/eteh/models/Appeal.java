@@ -59,8 +59,10 @@ public class Appeal  {
 
     @Size(max = 75)
     private String briefDescription;
-    private String  text,surname, lastName;
+    private String surname, lastName;
 
+    @Size(max = 9000)
+    private String  text;
     private Long   authorUpdate;
     @ManyToOne(fetch = FetchType.LAZY)
     private Customer nameCompany;
@@ -146,10 +148,10 @@ public class Appeal  {
         return status;
     }
 
-
     public void setStatus(AppealStatus status) {
         this.status = status;
     }
+
     public String getBriefDescription() {
         return briefDescription;
     }
