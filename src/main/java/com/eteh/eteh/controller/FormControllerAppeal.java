@@ -3,7 +3,6 @@ package com.eteh.eteh.controller;
 
 import com.eteh.eteh.models.*;
 import com.eteh.eteh.repository.*;
-import com.eteh.eteh.service.CostumerService;
 import com.eteh.eteh.service.MailSender;
 import com.eteh.eteh.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,8 +47,10 @@ public class FormControllerAppeal {
     private final AppealRepository appealRepository;
     private UserService userService;
 
+    private final AppealFileRepo appealFileRepo;
+
+
     /**
-     *
      * @param mailSender Отправляем почту
      * @param userRepository Репозиторий пользователей
      * @param customerRepository Репозиторий покупателей
@@ -61,9 +61,10 @@ public class FormControllerAppeal {
      * @param userProfileRepo Репозиторий профиль пользователей
      * @param appealRepository Репозиторий входящие обращения
      * @param userService
+     * @param appealFileRepo1
      */
     @Autowired
-    public FormControllerAppeal(MailSender mailSender, UserRepository userRepository, CustomerRepository customerRepository, AppealStatusRepo appealStatusRepo, FootingRepo footingRepo, StatusColor statusColor, ColorIdRepo colorIdRepo, UserProfileRepo userProfileRepo, AppealRepository appealRepository, UserService userService) {
+    public FormControllerAppeal(MailSender mailSender, UserRepository userRepository, CustomerRepository customerRepository, AppealStatusRepo appealStatusRepo, FootingRepo footingRepo, StatusColor statusColor, ColorIdRepo colorIdRepo, UserProfileRepo userProfileRepo, AppealRepository appealRepository, UserService userService, AppealFileRepo appealFileRepo1) {
         this.mailSender = mailSender;
         this.userRepository = userRepository;
         this.customerRepository = customerRepository;
@@ -74,6 +75,8 @@ public class FormControllerAppeal {
         this.userProfileRepo = userProfileRepo;
         this.appealRepository = appealRepository;
         this.userService = userService;
+        this.appealFileRepo = appealFileRepo1;
+
     }
 
     /**
@@ -182,7 +185,12 @@ public class FormControllerAppeal {
                 if (resultFilename.isEmpty()) {
                     resultFilename = " ";
                 }
-                file1.transferTo(new File(uploadPath + resultFilename));
+
+                  file1.transferTo(new File(uploadPath + resultFilename));
+
+
+
+
 
 
             }
@@ -216,6 +224,8 @@ public class FormControllerAppeal {
         /**
          *  Сохраняем новое обрашение
          */
+
+
         appealRepository.save(appeal);
 
 
