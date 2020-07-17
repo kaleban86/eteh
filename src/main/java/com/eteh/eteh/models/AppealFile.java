@@ -1,6 +1,6 @@
 package com.eteh.eteh.models;
 
-import com.sun.javafx.beans.IDProperty;
+import lombok.Builder;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +17,12 @@ public class AppealFile {
 
     private String name;
 
+
+    private Long size;
+
+
+
+    private LocalDate uploadDate;
     public AppealFile() {
     }
 
@@ -34,5 +40,22 @@ public class AppealFile {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getSize() {
+        return size;
+    }
+
+    public void setSize(Long size) {
+        this.size = size;
+    }
+
+
+    public LocalDate getUploadDate() {
+        return uploadDate;
+    }
+
+    public void setUploadDate(LocalDate uploadDate) {
+        this.uploadDate = uploadDate;
     }
 }

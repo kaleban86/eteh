@@ -1,7 +1,6 @@
 package com.eteh.eteh.controller;
 
 
-import com.eteh.eteh.models.AppealAud;
 import com.eteh.eteh.models.User;
 import com.eteh.eteh.models.UserProfileModels;
 import com.eteh.eteh.repository.AppealRepository;
@@ -76,7 +75,7 @@ public class FormControllerTest {
 
 
 
-       return "/test";
+       return "2";
 
 
     }

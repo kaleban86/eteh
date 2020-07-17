@@ -13,16 +13,27 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.File;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 
 @PreAuthorize("hasAnyAuthority('APPEAL_CREATE','SUPER_ADMIN')  ")
 @Controller
 public class FormControllerAppeal {
-
+    private static String UPLOADED_FOLDER = "/home/nikolai/temp/";
 
     /**
      *
@@ -46,6 +57,7 @@ public class FormControllerAppeal {
     private final UserProfileRepo userProfileRepo;
     private final AppealRepository appealRepository;
     private UserService userService;
+    private final AppealFileSave appealFileSave;
 
     private final AppealFileRepo appealFileRepo;
 
@@ -61,10 +73,11 @@ public class FormControllerAppeal {
      * @param userProfileRepo Репозиторий профиль пользователей
      * @param appealRepository Репозиторий входящие обращения
      * @param userService
+     * @param appealFileSave
      * @param appealFileRepo1
      */
     @Autowired
-    public FormControllerAppeal(MailSender mailSender, UserRepository userRepository, CustomerRepository customerRepository, AppealStatusRepo appealStatusRepo, FootingRepo footingRepo, StatusColor statusColor, ColorIdRepo colorIdRepo, UserProfileRepo userProfileRepo, AppealRepository appealRepository, UserService userService, AppealFileRepo appealFileRepo1) {
+    public FormControllerAppeal(MailSender mailSender, UserRepository userRepository, CustomerRepository customerRepository, AppealStatusRepo appealStatusRepo, FootingRepo footingRepo, StatusColor statusColor, ColorIdRepo colorIdRepo, UserProfileRepo userProfileRepo, AppealRepository appealRepository, UserService userService, AppealFileSave appealFileSave, AppealFileRepo appealFileRepo1) {
         this.mailSender = mailSender;
         this.userRepository = userRepository;
         this.customerRepository = customerRepository;
@@ -75,6 +88,7 @@ public class FormControllerAppeal {
         this.userProfileRepo = userProfileRepo;
         this.appealRepository = appealRepository;
         this.userService = userService;
+        this.appealFileSave = appealFileSave;
         this.appealFileRepo = appealFileRepo1;
 
     }
@@ -106,8 +120,6 @@ public class FormControllerAppeal {
      * Параметры   новое входящие обращения
      * @param briefDescription Короткое описание
      * @param user пользователь
-     * @param file файлы
-     * @param file2
      * @param footing основание
      * @param text текст
      * @param executor иполнитель
@@ -130,8 +142,6 @@ public class FormControllerAppeal {
     @PostMapping("/appeal/appalAdd")
     public String appealAdd(@RequestParam String briefDescription,
                             @AuthenticationPrincipal User user,
-                            @RequestParam("file") MultipartFile[] file,
-                            @RequestParam("file2") MultipartFile[] file2,
                             @RequestParam Footing footing,
                             @RequestParam String text,
                             @RequestParam User executor,
@@ -146,16 +156,7 @@ public class FormControllerAppeal {
                             @RequestParam String tel,
                             @RequestParam String emailAddress,
                             @RequestParam Long authorUpdate,
-                            @RequestParam(required = false) ColorStatusId color) throws IOException, SQLException {
-
-
-
-
-
-
-
-
-
+                            @RequestParam(required = false) ColorStatusId color) throws IOException, SQLException, ServletException {
 
 
         Appeal appeal = new Appeal(user, briefDescription, footing,
@@ -166,59 +167,6 @@ public class FormControllerAppeal {
         appeal.getId();
 
 
-        for (MultipartFile file1 : file) {
-
-            if (file != null) {
-
-
-                File uploadDir = new File(uploadPath);
-
-                if (!uploadDir.exists()) {
-                    uploadDir.mkdir();
-                }
-
-
-                //   String uuidFile = UUID.randomUUID().toString();
-                String resultFilename = file1.getOriginalFilename();
-                appeal.setFileName(resultFilename);
-
-                if (resultFilename.isEmpty()) {
-                    resultFilename = " ";
-                }
-
-                file1.transferTo(new File(uploadPath + resultFilename));
-
-
-
-
-
-
-            }
-
-
-            for (MultipartFile file3 : file2) {
-
-                if (file2 != null) {
-
-                    File uploadDir = new File(uploadPath);
-
-                    if (!uploadDir.exists()) {
-                        uploadDir.mkdir();
-                    }
-
-                    //   String uuidFile = UUID.randomUUID().toString();
-                    String resultFilename2 = file3.getOriginalFilename();
-                    appeal.setFileName2(resultFilename2);
-
-                    if (resultFilename2.isEmpty()) {
-                        resultFilename2 = " ";
-                    }
-                    file3.transferTo(new File(uploadPath + resultFilename2));
-                }
-
-
-            }
-        }
 
 
         /**
@@ -227,6 +175,7 @@ public class FormControllerAppeal {
 
 
         appealRepository.save(appeal);
+
 
 
 
@@ -258,6 +207,34 @@ public class FormControllerAppeal {
 
         return "redirect:/appealHome";
     }
+
+
+    @PostMapping("/upload-save") // //new annotation since 4.3
+    public String singleFileUpload(@RequestParam("file") MultipartFile file,
+                                   RedirectAttributes redirectAttributes, HttpServletRequest request) throws IOException, ServletException {
+        String Data = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+        Collection<Part> parts = request.getParts();
+        String[] names = new String[parts.size()];
+        int i = 0;
+        for (Part part : parts) {
+            BufferedInputStream in = new BufferedInputStream(part.getInputStream());
+            byte[] data = new byte[in.available()];
+            in.read(data, 0, data.length);
+            String fileName = part.getSubmittedFileName();
+            Path path = Paths.get(UPLOADED_FOLDER + fileName);
+            Files.write(path, data);
+            names[i++] = fileName;
+
+            appealFileSave.saveDbFile(part.getSubmittedFileName(), data.length, Data);
+
+        }
+
+        redirectAttributes.addFlashAttribute("message",
+                "You successfully uploaded '" + Arrays.toString(names) + "'");
+
+        return "redirect:/appeal";
+    }
+
 
 
 }

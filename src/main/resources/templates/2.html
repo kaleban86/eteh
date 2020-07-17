@@ -7,40 +7,56 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Новости компании </title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 </head>
 
 </head>
 <body>
-<form action="uploadImages.php" method="post" enctype="multipart/form-data" id="uploadImages">
+<!-- Button to Open the Modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+    Прикрепить файлы
+</button>
 
-<!--    <input type="file" id="addImages" multiple="">-->
+<!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
 
-<!--    <input type="hidden" name="azaza" value="zazaza">-->
+            <!-- Modal Header -->
+            <div class="modal-header">
 
-<!--    <ul id="uploadImagesList">-->
-<!--        <li class="item template">-->
-<!--            <span class="img-wrap">-->
-<!--                <img src="image.jpg" alt="">-->
-<!--            </span>-->
-<!--            <span class="delete-link" title="Удалить">Удалить</span>-->
-<!--        </li>-->
-<!--    </ul>-->
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
 
-<!--    <div class="clear"></div>-->
+            <!-- Modal body -->
+            <div class="modal-body">
+<!--                <form enctype="multipart/form-data" th:action="@{/upload-save} " method="post">-->
+<!--                    <input style="height: auto" type="file" name="file" multiple data-toggle="tooltip"-->
+<!--                           data-placement="top" title="Максимальный размер файла 100 MB">-->
+<!--                    <input type="submit" value="Отправить"></p>-->
 
-<!--    <div>-->
-<!--        <input type="submit" value="Отправить">-->
-<!--    </div>-->
+<!--                </form>-->
+                <button type="submit" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
 
-    <!--добавляем для тего input атрибут multiple -->
-    <input id="the-file-input" type="file" multiple>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</div>
 
 
-</form>
-
+</div>
 </body>
 
 

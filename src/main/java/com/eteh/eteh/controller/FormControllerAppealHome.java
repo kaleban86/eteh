@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class FormControllerAppealHome {
     private final AppealUadRepo appealUadRepo;
     private final StatusColor statusColor;
 
+    private final AppealFileSave appealFileSave;
 
     private final ChangedExecutorAppealEmailSend changedExecutorAppealEmailSend;
 
@@ -61,7 +63,7 @@ public class FormControllerAppealHome {
     public FormControllerAppealHome(AppealRepository appealRepository, ChangedControllerAppealEmailSend
             changedControllerAppealEmailSend,
                                     AppealService appealService, AppealUadRepo appealUadRepo,
-                                    StatusColor statusColor, ChangedExecutorAppealEmailSend executorAppealEmailSend,
+                                    StatusColor statusColor, AppealFileSave appealFileSave, ChangedExecutorAppealEmailSend executorAppealEmailSend,
                                     AppealStatusRepo appealStatusRepo, UserProfileRepo userProfileRepo,
                                     UserService userService, CustomerRepository customerRepository,
                                     UpdateIdRepository updateIdRepository,
@@ -73,6 +75,7 @@ public class FormControllerAppealHome {
         this.appealService = appealService;
         this.appealUadRepo = appealUadRepo;
         this.statusColor = statusColor;
+        this.appealFileSave = appealFileSave;
         this.changedExecutorAppealEmailSend = executorAppealEmailSend;
         this.appealStatusRepo = appealStatusRepo;
         this.userProfileRepo = userProfileRepo;
@@ -112,9 +115,7 @@ public class FormControllerAppealHome {
 
 
 
-    public void getTasks(Long userId) throws SQLException {
 
-    }
 
     @GetMapping("/appeal-delete/{id}")
     public String deleteBlog(@PathVariable("id") Long id) {
