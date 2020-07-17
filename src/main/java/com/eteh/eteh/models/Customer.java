@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class Customer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nameCompany;
     private String fullNameCompany;
@@ -23,7 +23,16 @@ public class Customer {
     private String site;
     private String phone;
 
-    public Customer(String nameCompany, String fullNameCompany, String legalAddress, String actualAddress, Long inn, Long ogrnip, Long okpo, String email, String site, String phone) {
+    public Customer(String nameCompany,
+                    String fullNameCompany,
+                    String legalAddress,
+                    String actualAddress,
+                    Long inn,
+                    Long ogrnip,
+                    Long okpo,
+                    String email,
+                    String site,
+                    String phone) {
         this.nameCompany = nameCompany;
         this.fullNameCompany = fullNameCompany;
         this.legalAddress = legalAddress;

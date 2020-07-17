@@ -153,14 +153,14 @@ public class FormControllerAppeal {
 
 
 
-        authorUpdate = user.getId();
+
 
 
 
 
         Appeal appeal = new Appeal(user, briefDescription, footing,
                 text, executor, controller, status, surname,
-                lastName, dataAnswer, dataCreation, nameCompany, address, tel, emailAddress, authorUpdate, color);
+                lastName, dataAnswer, dataCreation, nameCompany, address, tel, emailAddress, authorUpdate= user.getId(), color);
 
 
         appeal.getId();
@@ -186,7 +186,7 @@ public class FormControllerAppeal {
                     resultFilename = " ";
                 }
 
-                  file1.transferTo(new File(uploadPath + resultFilename));
+                file1.transferTo(new File(uploadPath + resultFilename));
 
 
 
@@ -266,16 +266,12 @@ public class FormControllerAppeal {
 /*
    if (file != null && !file.getOriginalFilename().isEmpty()) {
             File uploadDir = new File(uploadPath);
-
             if (!uploadDir.exists()) {
                 uploadDir.mkdir();
             }
-
             String uuidFile = UUID.randomUUID().toString();
             String resultFilename = uuidFile + "." + file.getOriginalFilename();
-
             file.transferTo(new File(uploadPath  + resultFilename));
-
  */
 //        SecurityContext context = SecurityContextHolder.getContext();
 //        Authentication authentication = context.getAuthentication();

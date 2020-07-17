@@ -9,7 +9,6 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <link rel="stylesheet" th:href="@{/css/appeal-update.css}"/>
-    <script type="text/javascript" th:src="@{/static/js/appeal-update.js}" src="js/text.js"></script>
     <title>Входящeе обращение</title>
 </head>
 <body>
@@ -20,7 +19,6 @@
     </a>
     <div id="tabBlocks">
         <button class="tablinks incomingCall" onclick="openCity(event, 'London')">Входящeе обращение</button>
-        <!--    <button class="tablinks" onclick="openCity(event, 'Paris')">Внести изменение</button>-->
         <button class="tablinks" onclick="openCity(event, 'Tokyo')">История</button>
     </div>
 
@@ -200,10 +198,9 @@
     <details class="form-group row col-lg-50" th:each="user : ${appeals}">
 
 
-
         <summary>
 
-            <text  th:text="  ' Дата изменения: '+ ${#dates.format(user.dataCreation, 'dd.MM.yyyy')} +' ' + ${  'Автор: ' +user.authorUpdate }" ></text>
+            <text th:text="  ' Дата изменения: '+ ${#dates.format(user.dataCreation, 'dd.MM.yyyy')} +' ' + ${  'Автор: ' +user.authorUpdate }"></text>
 
         </summary>
 
@@ -212,37 +209,45 @@
             <div id="leftBlock1" class="col-md-6">
                 <div th:each="userId : ${userId}">
                     <label>Автор:</label>
-                    <text readonly type="text" th:text="${userId.name + ' ' + userId.lastName}"
+                    <text readonly type="text" th:text="${userId.lastName + ' ' + userId.name}"
                           class="form-control"></text>
 
                 </div>
 
-
                 <label>Краткое описание:</label>
                 <text readonly type="text" th:text="${user.briefDescription}" class="form-control"></text>
-                <label for=>Основание:</label>
-
 
 
 
                 <label>Текст:</label>
-                <textarea readonly class="form-control" th:text="${user.text}" rows="23"></textarea>
+                <textarea readonly class="form-control" th:text="${user.text}" rows="25"></textarea>
 
             </div>
 
             <div id="rightBlock1" class="col-md-6">
+                <label for=>Основание:</label>
+                <text readonly type="text" th:text="${ user.footing.id }" class="form-control"></text>
+
+                <label for=>Статус:</label>
+                <text readonly type="text" th:text="${user.status.id }" class="form-control"></text>
                 <label>Дата создания:</label>
                 <text readonly type="text" th:text="${#dates.format(user.dataCreation, 'dd.MM.yyyy') }"
                       class="form-control"></text>
+
                 <label>Дата закрытия:</label>
                 <text readonly type="text" th:text="${#dates.format(user.dataAnswer, 'dd.MM.yyyy') }"
                       class="form-control"></text>
                 <label>Исполнители:</label>
 
-                <text readonly type="text" th:text="${user.executor.lastName  +' '+ user.executor.name +' '+ user.executor.firstName }" class="form-control"></text>
+                <text readonly type="text"
+                      th:text="${user.executor.lastName  +' '+ user.executor.name +' '+ user.executor.firstName }"
+                      class="form-control"></text>
                 <label>Контролёр:</label>
-               <text readonly type="text" th:text="${user.controller.lastName + ' ' +user.controller.name+ ' '+ user.controller.firstName }" class="form-control"></text>
-
+                <text readonly type="text"
+                      th:text="${user.controller.lastName + ' ' +user.controller.name+ ' '+ user.controller.firstName }"
+                      class="form-control"></text>
+                <label>Компания:</label>
+                <text readonly type="text" th:text="${user.nameCompany.id}" class="form-control"></text>
                 <label>ФИО:</label>
                 <text readonly type="text" th:text="${user.surname}" class="form-control"></text>
                 <label>Телефон:</label>
@@ -264,103 +269,8 @@
 </div>
 </div>
 
-
+<script th:src="@{/js/appeal-update.js}"></script>
 </body>
 
-<script>
-    (function () {
-        let link = document.querySelector('#download');
-        if ((/\/$/).test(link.href)) link.style.display = 'none';
-    })();
-    (function () {
-        let link = document.querySelector('#downloadFile');
-        if ((/\/$/).test(link.href)) link.style.display = 'none';
-    })();
-
-    (function () {
-        //подсвечивает изменённые поля
-        let detList = document.querySelectorAll('details');
-        let detArr = [];
-        if (detList.length > 1) {
-
-            for (let i = 0; i < detList.length; i++) {
-                let fieldsArr = [];
-                let fields = detList[i].querySelectorAll('.form-control');
-                for (let i = 0; i < fields.length; i++) {
-                    let field = fields[i];
-                    let val = fields[i].value;
-                    if (!val) {
-                        val = fields[i].innerHTML;
-                    }
-                    fieldsArr.push([val, field]);
-                }
-                detArr.push(fieldsArr);
-            }
-        }
-        //console.log(detArr);
-        for (let i = 1; i < detArr.length; i++) {
-            let det = detArr[i];
-            for (let j = 0; j < det.length; j++) {
-                let val = det[j][0];
-                let prevVal = detArr[i - 1][j][0];
-                let valField = det[j][1];
-                if (val != prevVal) {
-                    valField.style.border = '2px dashed red';
-                }
-            }
-        }
-    })();
-
-    function openCity(evt, cityName) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-        }
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-        document.getElementById(cityName).style.display = "block";
-        evt.currentTarget.className += " active";
-    }
-
-    (function () {
-        let date = new Date();
-        let year = date.getFullYear();
-        let month = ('0' + (date.getMonth() + 1)).slice(-2);
-        let day = ('0' + date.getDate()).slice(-2);
-        let formedDate = year + '-' + month + '-' + day;
-
-        let picker = document.getElementById('datepicker');
-        picker.setAttribute('min', formedDate);
-
-        maxDate = new Date(year + 3, day, month);
-        let maxYear = maxDate.getFullYear();
-        let maxMonth = ('0' + (maxDate.getMonth() + 1)).slice(-2);
-        let maxDay = ('0' + maxDate.getDate()).slice(-2);
-        maxFormedDate = maxYear + '-' + maxMonth + '-' + maxDay;
-
-        picker.setAttribute('max', maxFormedDate);
-    })();
-
-    (function () {
-        // приписывает версию согласно номеру по списку
-        let fields = document.querySelectorAll('#Tokyo summary');
-        let i = 0;
-        for (let field of fields) {
-            field.innerHTML = `<div style="display:inline; color:red">Версия ${++i}</div> ${field.innerHTML}`;
-        }
-    })();
-
-    (function () {
-        // открывается вкладка "входящие обращения"
-        //(чтобы по умолчанию было что-то открыто)
-        let incomingCallbutton = document.getElementsByClassName('incomingCall')[0];
-        incomingCallbutton.click();
-    })();
-
-
-</script>
 
 </html>

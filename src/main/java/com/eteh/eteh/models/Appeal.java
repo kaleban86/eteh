@@ -2,11 +2,8 @@ package com.eteh.eteh.models;
 
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.OptimisticLockType;
-import org.hibernate.annotations.OptimisticLocking;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.Audited;
-import org.hibernate.type.ClassType;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -63,6 +60,8 @@ public class Appeal  {
 
     @Size(max = 9000)
     private String  text;
+
+
     private Long   authorUpdate;
     @ManyToOne(fetch = FetchType.LAZY)
     private Customer nameCompany;
@@ -74,7 +73,7 @@ public class Appeal  {
     @ManyToOne(fetch = FetchType.LAZY)
    private User controller;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private AppealStatus status;
 
     private String tel;
@@ -107,10 +106,9 @@ public class Appeal  {
         this.address=address;
         this.tel= tel;
         this.emailAddress=emailAddress;
-        this.authorUpdate=authorUpdate;
-        this.authorUpdate = authorUpdate;
         this.author = user;
         this.color=color;
+        this.authorUpdate=authorUpdate;
 
 
 

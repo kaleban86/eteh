@@ -96,13 +96,11 @@ public class FormControllerAppealHome {
         model.addAttribute("appeal", appealRepository.findAll());
 
 
-        List<UserProfileModels> userId = userProfileRepo.fainBiId(appeal.getAuthorUpdate());
-        model.addAttribute("userId", userId);
-
         List<AppealStatus> appealStatusList = appealStatusRepo.findAll();
         model.addAttribute("appealStatusList",appealStatusList);
 
-
+        Iterable<Customer> customersList = customerRepository.findAll();
+        model.addAttribute("customerList", customersList);
 
 
 
@@ -198,6 +196,7 @@ public class FormControllerAppealHome {
 
        List<Appeal> appeals = appealUadRepo.getEntityRevisionsById(id);
        model.addAttribute("appeals",appeals);
+
 
 
 

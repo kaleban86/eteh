@@ -38,7 +38,7 @@ public class ChangedControllerAppealEmailSend {
 
         try (Connection c = dataSource.getConnection()) {
 
-            String sql = "select controller from appeal where id = ?";
+            String sql = "select controller_id from appeal where id = ?";
             PreparedStatement preparedStatement = c.prepareStatement(sql);
             preparedStatement.setObject(1, AppealId);
             ResultSet resultSet = preparedStatement.executeQuery();

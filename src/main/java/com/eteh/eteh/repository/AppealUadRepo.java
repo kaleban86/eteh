@@ -35,7 +35,7 @@ public class AppealUadRepo {
 //
 //        try (Connection c = dataSource.getConnection()) {
 //
-//            String sql = "select * from appeal_aud where id = ? ";
+//            String sql = "select  last_name, first_name,name from user where id in (select author_update from appeal_aud where appeal_aud.id = ?)";
 //            PreparedStatement preparedStatement = c.prepareStatement(sql);
 //            preparedStatement.setObject(1, id);
 //            ResultSet resultSet = preparedStatement.executeQuery();
@@ -65,6 +65,7 @@ public class AppealUadRepo {
 //
 //                String surname = resultSet.getString("surname");
 //                String lastName = resultSet.getString("last_Name");
+//                String name = resultSet.getString("name");
 //                Long nameCompany = resultSet.getLong("name_Company");
 //                String tel = resultSet.getString("tel");
 //
@@ -92,6 +93,7 @@ public class AppealUadRepo {
 //                appealAud.setDataAnswer(dataAnswer);
 //                appealAud.setUserId(userId);
 //                appealAud.setAuthorUpdate(authorUpdate);
+//                appealAud.setName(name);
 //
 //
 //                appealAuds.add(appealAud);
@@ -148,7 +150,7 @@ public class AppealUadRepo {
                 .add(AuditEntity.id().eq(id))
                 .addOrder(AuditEntity.revisionNumber().asc());
 
-        AppealAud appealAud = new AppealAud();
+
         // get results
         for(Object row : query.getResultList()) {
             if(row instanceof Object[]) {
@@ -164,14 +166,11 @@ public class AppealUadRepo {
 
 
 
-    public List<Appeal> findAll()
-    {
-        return null;
-    }
+
 
     public Appeal findById(Long id) {
         TypedQuery<Appeal> query = entityManager.createQuery(
-                "select authorUpdate from Appeal  where Appeal .id = :id", Appeal.class);
+                "select authorUpdate from Appeal  where authorUpdate  = :id", Appeal.class);
         query.setParameter("id", id);
         return query.getSingleResult();
     }

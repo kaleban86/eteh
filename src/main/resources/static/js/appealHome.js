@@ -128,7 +128,7 @@ function tableSearch() {
             for (let i = 1; i < trArr.length; i++) {
                 let tdArr = trArr[i].querySelectorAll('td');
                 let tableOrganization = tdArr[1].innerHTML;
-                if (organization == tableOrganization) {
+                if (organization ==''|| organization == tableOrganization) {
                     trArr[i].style.display = '';
                 } else {
                     trArr[i].style.display = 'none';
