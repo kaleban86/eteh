@@ -3,18 +3,17 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <head>
-    <head>
-        <title>Новое входящее обращение</title>
-        <meta charset="utf-8">
 
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-              crossorigin="anonymous">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-    </head>
+    <title>Новое входящее обращение</title>
+    <meta charset="utf-8">
 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+    <link rel="stylesheet" th:href="@{/css/appeal.css}"/>
 </head>
 <div class="tab">
     <a href="/appealHome" class="backLink" style="color: #000 !important; text-decoration: none">
@@ -42,7 +41,8 @@
                 <div class="row">
 
                     <div class="col">
-                        <input type="text" name="briefDescription" class="form-control    " placeholder="Краткое описание "
+                        <input type="text" name="briefDescription" class="form-control    "
+                               placeholder="Краткое описание "
                                required maxlength="75" data-toggle="tooltip" data-placement="top"
                                title="Описание не должно превышать 75 символов.">
 
@@ -64,7 +64,7 @@
                 <div>
                     <label for=>Введите текст:</label>
                     <br><textarea class="form-control" name="text" id="exampleFormControlTextarea1" rows="23"
-                              required></textarea>
+                                  required></textarea>
                 </div>
 
         </div>
@@ -90,14 +90,14 @@
                         <!--/*@thymesVar id="users" type="com"*/-->
                         <option th:each="user : ${user}"
                                 th:value="${user.id}"
-                                th:text="${user.lastName +' '+ user.name + ' ' + user.firstName  }" ></option>
+                                th:text="${user.lastName +' '+ user.name + ' ' + user.firstName  }"></option>
                     </select>
                 </div>
                 <label for=>Статус:</label>
                 <select class="custom-select" name="status" required>
                     <option th:each="status : ${appealStatusList} "
-                    th:value="${status.idStatus }"
-                    th:text="${status.status}"></option>
+                            th:value="${status.idStatus }"
+                            th:text="${status.status}"></option>
                 </select>
 
                 <h3> Информация о клиенте </h3>
@@ -133,7 +133,7 @@
                 <div class="form-group">
                     <label for="inputAddress2">Адрес:</label>
                     <input type="text" class="form-control " name="tel" id="inputAddress2"
-                           >
+                    >
                 </div>
                 <div class="form-row">
                     <div class="form-group">
@@ -144,67 +144,66 @@
 
                     </div>
                     <div class="col-md-4 col-md-offset-4 ">
-                        <label for="inputAddress2"></label> <div class="container">
 
-                        <!-- Button to Open the Modal -->
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                            Прикрепить файлы
-                        </button>
+                        <label for="inputAddress2"></label>
 
-                        <!-- The Modal -->
-                        <div class="modal" id="myModal">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
 
-                                    <!-- Modal Header -->
-                                    <div class="modal-header">
+                        <input style="display: none" type="text" class="form-control" name="authorUpdate">
+                        <div id="img-container">
 
-                                        <button type="button" class="close" data-dismiss="modal">×</button>
-                                    </div>
 
-                                    <!-- Modal body -->
-                                    <div class="modal-body">
-                                        <form enctype="multipart/form-data" th:action="@{/upload-save} " method="post">
-                                            <input style="height: auto" type="file" name="file" multiple data-toggle="tooltip"
-                                                   data-placement="top" title="Максимальный размер файла 100 MB">
-                                            <input type="submit" value="Отправить"></p>
-                                            <input style="display: none" type="text" class="form-control" name="authorUpdate">
-                                        </form>
-                                        <button type="submit" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                    </div>
 
-                                    <!-- Modal footer -->
-                                    <div class="modal-footer">
 
-                                    </div>
+                            <a href="#" id="fileSelect">Прикрепить файлы</a>
+                            <input type="file" name="file" id="fileElem" multiple  style="display:none">
+
+
+
+
+
+                            <div>
+
+                                <div class="overflow" id="fileList">
+
 
                                 </div>
-                            </div>
+                            </div><br>
+
+
                         </div>
+                        <button type="submit" href="/appealHome" class="btn btn-success">Сохранить</button>
+                        </form>
 
                     </div>
 
 
-                    </div>
-                    <button type="submit" href="/appealHome" class="btn btn-success">Сохранить</button>
-
-                <div>
 
                 </div>
-
             </div>
-
-
         </div>
+    </div>
+
+
+
+
+    <div>
 
 
     </div>
 
+</div>
 
-    <div class="col-4" style="border-block-end-color: ivory">
+
+</div>
 
 
-    </div>
+</div>
+
+
+<div class="col-4" style="border-block-end-color: ivory">
+
+
+</div>
 
 </div>
 
@@ -215,102 +214,11 @@
 </div>
 
 
-<script type="text/javascript">
+<script th:src="@{/js/appeal.js}">
 
-    (function () {
-        let date = new Date();
-        let year = date.getFullYear();
-        let month = ('0' + (date.getMonth() + 1)).slice(-2);
-        let day = ('0' + date.getDate()).slice(-2);
-        let formedDate = year + '-' + month + '-' + day;
 
-        let picker = document.getElementById('datepicker');
-        picker.setAttribute('min', formedDate);
-
-        maxDate = new Date(year + 3, day, month);
-        let maxYear = maxDate.getFullYear();
-        let maxMonth = ('0' + (maxDate.getMonth() + 1)).slice(-2);
-        let maxDay = ('0' + maxDate.getDate()).slice(-2);
-        maxFormedDate = maxYear + '-' + maxMonth + '-' + maxDay;
-
-        picker.setAttribute('max', maxFormedDate);
-    })();
 
 </script>
+
 </body>
-<style>
-    body {
-        font-family: Arial;
-    }
-
-    /* Style the tab */
-    .tab {
-        overflow: hidden;
-    / / border: 1 px solid #ccc;
-        background-color: #f1f1f1;
-        height: 38px;
-    }
-
-    /* Style the buttons inside the tab */
-    .tab button {
-        background-color: inherit;
-        float: left;
-        border: none;
-    / / border-radius: 5 px;
-        outline: none;
-        cursor: pointer;
-        padding: 2px 16px;
-        transition: 0.3s;
-        height: 38px;
-    / / margin: 5 px 5 px 5 px 5 px;
-        color: #3f3939;
-    }
-
-    /* Change background color of buttons on hover */
-    .tab button:hover, .backButton:hover {
-        background-color: #b5f1cf;
-    }
-
-    /* Create an active/current tablink class */
-    .tab button.active {
-        background-color: #b5f1cf;
-        color: #3f3939;
-    }
-
-    .backButton {
-        font-size: 17px;
-        height: 38px;
-        font-weight: bold;
-        padding-right: 20px;
-        padding-left: 20px;
-        padding-top: 5px;
-        display: block;
-    / / margin: 6 px;
-        float: left;
-        vertical-align:
-    }
-
-    #tabBlocks {
-    . . margin-left: 20 px;
-        display: inline-block;
-
-        font-size: 17px;
-    }
-
-    /* Style the tab content */
-    .tabcontent {
-        display: none;
-        padding: 6px 12px;
-        border: 1px solid #ccc;
-        border-top: none;
-    }
-
-    .bigText {
-        height: auto;
-    }
-
-
-
-
-</style>
 </html>

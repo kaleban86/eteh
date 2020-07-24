@@ -17,11 +17,12 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @PreAuthorize("hasAnyAuthority('ADMIN ','SUPER_ADMIN','USER_READING')  ")
 @Controller
@@ -53,22 +54,20 @@ public class FormControllerAppealHome {
     private final MailSender mailSender;
     private final FootingRepo footingRepo;
     private final UserRepository userRepository;
-
-
-
-
+    private final AppealFileRepo appealFileRepo;
 
 
     @Autowired
     public FormControllerAppealHome(AppealRepository appealRepository, ChangedControllerAppealEmailSend
             changedControllerAppealEmailSend,
                                     AppealService appealService, AppealUadRepo appealUadRepo,
-                                    StatusColor statusColor, AppealFileSave appealFileSave, ChangedExecutorAppealEmailSend executorAppealEmailSend,
+                                    StatusColor statusColor, AppealFileSave appealFileSave,
+                                    ChangedExecutorAppealEmailSend executorAppealEmailSend,
                                     AppealStatusRepo appealStatusRepo, UserProfileRepo userProfileRepo,
                                     UserService userService, CustomerRepository customerRepository,
                                     UpdateIdRepository updateIdRepository,
                                     MailSender mailSender, FootingRepo footingRepo,
-                                    UserRepository userRepository) {
+                                    UserRepository userRepository, AppealFileRepo appealFileRepo) {
         this.appealRepository = appealRepository;
         this.changedControllerAppealEmailSend = changedControllerAppealEmailSend;
 
@@ -87,7 +86,7 @@ public class FormControllerAppealHome {
         this.userRepository = userRepository;
 
 
-
+        this.appealFileRepo = appealFileRepo;
     }
 
 
@@ -95,26 +94,20 @@ public class FormControllerAppealHome {
     Домашняя страница Appeal
      */
     @GetMapping("/appealHome")
-    public String appealHome(String name, Model model,User user,AppealAud appealAud,Appeal appeal) throws SQLException {
+    public String appealHome(String name, Model model, User user, AppealAud appealAud, Appeal appeal, HttpServletRequest request) throws SQLException {
         model.addAttribute("appeal", appealRepository.findAll());
 
 
         List<AppealStatus> appealStatusList = appealStatusRepo.findAll();
-        model.addAttribute("appealStatusList",appealStatusList);
+        model.addAttribute("appealStatusList", appealStatusList);
 
         Iterable<Customer> customersList = customerRepository.findAll();
         model.addAttribute("customerList", customersList);
 
 
-
-
-
         return "/appealHome";
 
     }
-
-
-
 
 
     @GetMapping("/appeal-delete/{id}")
@@ -128,16 +121,16 @@ public class FormControllerAppealHome {
      */
     @PreAuthorize("hasAnyAuthority('ADMIN ','SUPER_ADMIN','USER_READING','APPEAL_CREATE')  ")
     @RequestMapping(value = "/appeal-reading/{id}", method = {RequestMethod.GET})
-    public String readingAppeal(@PathVariable("id") Long id, Model model,@AuthenticationPrincipal User userUpdate) throws SQLException {
+    public String readingAppeal(@PathVariable("id") Long id, Model model,
+                                @AuthenticationPrincipal User userUpdate) throws SQLException {
         Appeal appeal = appealRepository.getOne(id);
         model.addAttribute("Update", appeal);
 
 
-
         List<Footing> footings = footingRepo.findAll();
-        model.addAttribute("footings",footings);
+        model.addAttribute("footings", footings);
         List<AppealStatus> appealStatusList = appealStatusRepo.findAll();
-        model.addAttribute("appealStatusList",appealStatusList);
+        model.addAttribute("appealStatusList", appealStatusList);
 
         List<UserProfileModels> userId = userProfileRepo.fainBiId(id);
         model.addAttribute("userId", userId);
@@ -155,11 +148,8 @@ public class FormControllerAppealHome {
 
         model.addAttribute("idUpdateAppeal", idUserUpdate);
 
-
-
-
-
-
+        List<AppealFile> appealFiles = appealUadRepo.findByIdFile(id);
+        model.addAttribute("appealFiles", appealFiles);
 
 
         return "/appeal-reading";
@@ -168,7 +158,8 @@ public class FormControllerAppealHome {
 
     @PreAuthorize("hasAnyAuthority('ADMIN ','SUPER_ADMIN','APPEAL_CREATE')  ")
     @RequestMapping(value = "/appeal/{id}", method = {RequestMethod.GET})
-    public String updateAppeal(@PathVariable("id") Long id, Model model, @AuthenticationPrincipal User userUpdate) throws SQLException {
+    public String updateAppeal(@PathVariable("id") Long id, Model model,
+                               @AuthenticationPrincipal User userUpdate) throws SQLException {
         Appeal appeal = appealRepository.getOne(id);
         model.addAttribute("Update", appeal);
 
@@ -176,12 +167,12 @@ public class FormControllerAppealHome {
         model.addAttribute("userId", userId);
 
         List<Footing> footings = footingRepo.findAll();
-        model.addAttribute("footings",footings);
+        model.addAttribute("footings", footings);
 
         List<AppealStatus> appealStatusList = appealStatusRepo.findAll();
-        model.addAttribute("appealStatusList",appealStatusList);
+        model.addAttribute("appealStatusList", appealStatusList);
 
-       List<UserProfileModels> userName = userProfileRepo.userNameMod(id);
+        List<UserProfileModels> userName = userProfileRepo.userNameMod(id);
         model.addAttribute("userName", userName);
 
         List<User> user = userService.findAll();
@@ -191,15 +182,15 @@ public class FormControllerAppealHome {
         model.addAttribute("customerList", customersList);
 
 
-
-       Long idUserUpdate = userUpdate.getId();
+        Long idUserUpdate = userUpdate.getId();
         model.addAttribute("idUpdateAppeal", idUserUpdate);
 
-       List<Appeal> appeals = appealUadRepo.getEntityRevisionsById(id);
-       model.addAttribute("appeals",appeals);
+        List<Appeal> appeals = appealUadRepo.getEntityRevisionsById(id);
+        model.addAttribute("appeals", appeals);
 
 
-
+        List<AppealFile> appealFiles = appealUadRepo.findByIdFile(id);
+        model.addAttribute("appealFiles", appealFiles);
 
 
         return "/appeal-update";
@@ -211,12 +202,12 @@ public class FormControllerAppealHome {
      */
     @RequestMapping(value = "/download-document/{fileName}", method = RequestMethod.GET)
     public @ResponseBody
-    HttpEntity<byte[]> downloadDocument(Appeal appeal) throws IOException {
+    HttpEntity<byte[]> downloadDocument(AppealFile appealFile) throws IOException {
 
 
-        byte[] document = FileCopyUtils.copyToByteArray(new File(uploadPath + appeal.getFileName()));
+        byte[] document = FileCopyUtils.copyToByteArray(new File(uploadPath + appealFile.getFileName()));
 
-        if (appeal.getFileName().isEmpty()) {
+        if (appealFile.getFileName().isEmpty()) {
 
         }
         HttpHeaders header = new HttpHeaders();
@@ -225,7 +216,7 @@ public class FormControllerAppealHome {
         header.setContentType(new MediaType("application", "jpg"));
         header.setContentType(new MediaType("application", "rar"));
         header.setContentType(new MediaType("application", "exe"));
-        header.set("Content-Disposition", "inline; filename=" + appeal.getFileName());
+        header.set("Content-Disposition", "inline; filename=" + appealFile.getFileName());
         header.setContentLength(document.length);
 
 
@@ -248,27 +239,25 @@ public class FormControllerAppealHome {
          */
 
 
-
         try {
 
             new Thread(new Runnable() {
                 @Override
 
-                public void run() {
+                public synchronized void run() {
 
                     changedControllerAppealEmailSend.checkController(appeal.getId(),
-                            appeal.getController().getId(),appeal.getBriefDescription(),
-                            appeal.getDataCreation(),appeal.getDataAnswer());
+                            appeal.getController().getId(), appeal.getBriefDescription(),
+                            appeal.getDataCreation(), appeal.getDataAnswer());
                     changedExecutorAppealEmailSend.checkExecutor(appeal.getId(),
-                            appeal.getExecutor().getId(),appeal.getBriefDescription(),
-                            appeal.getDataCreation(),appeal.getDataAnswer());
+                            appeal.getExecutor().getId(), appeal.getBriefDescription(),
+                            appeal.getDataCreation(), appeal.getDataAnswer());
                 }
             }).start();
 
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
-
 
 
         appealRepository.save(appeal);

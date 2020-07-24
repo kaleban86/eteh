@@ -21,16 +21,18 @@ public class AppealFileSave {
 
   
 
-    public boolean saveDbFile(String name, int size, String upload_date )  {
+    public boolean saveDbFile(String fileName, int size, String upload_date,Long idFile,String keiId )  {
 
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try (Connection c = dataSource.getConnection()) {
-            String sql = "INSERT INTO appeal_file (name,size,upload_date) values (?,?,?)";
+            String sql = "INSERT INTO appeal_file (file_name,size,upload_date,id_File,kei_Id) values (?,?,?,?,?)";
             PreparedStatement ps = c.prepareStatement(sql);
-            ps.setString(1, name );
+            ps.setString(1, fileName );
             ps.setInt(2, size);
             Date date = format.parse(String.valueOf(upload_date));
             ps.setTimestamp(3, new Timestamp(date.getTime()));
+            ps.setLong(4, idFile);
+            ps.setString(5, keiId);
             ps.execute();
         } catch (Exception ex) {
             throw new RuntimeException(ex);

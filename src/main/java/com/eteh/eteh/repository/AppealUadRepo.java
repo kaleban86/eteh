@@ -2,6 +2,7 @@ package com.eteh.eteh.repository;
 
 import com.eteh.eteh.models.Appeal;
 import com.eteh.eteh.models.AppealAud;
+import com.eteh.eteh.models.AppealFile;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.envers.AuditReader;
@@ -31,83 +32,48 @@ public class AppealUadRepo {
         this.dataSource = dataSource;
     }
 
-//    public List<AppealAud> faindAllBiUD(Long id) throws SQLException {
-//
-//        try (Connection c = dataSource.getConnection()) {
-//
-//            String sql = "select  last_name, first_name,name from user where id in (select author_update from appeal_aud where appeal_aud.id = ?)";
-//            PreparedStatement preparedStatement = c.prepareStatement(sql);
-//            preparedStatement.setObject(1, id);
-//            ResultSet resultSet = preparedStatement.executeQuery();
-//            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-//            int n = resultSetMetaData.getColumnCount();
-//
-//            List<AppealAud> appealAuds = new ArrayList<>();
-//            while (resultSet.next()) {
-//
-//
-//                String address = resultSet.getString("address");
-//                Long authorUpdate = resultSet.getLong("author_update");
-//
-//                String briefDescription = resultSet.getString("brief_Description");
-//
-//                Long controller = resultSet.getLong("controller");
-//                Date dataChange = resultSet.getDate("data_Change");
-//                Date dataCreation = resultSet.getDate("data_creation");
-//                Date dataAnswer = resultSet.getDate("data_answer");
-//                String emailAddress = resultSet.getString("email_Address");
-//                String footing = resultSet.getString("footing");
-//                String text = resultSet.getString("text");
-//                Long executor = resultSet.getLong("executor");
-//
-//
-//               String status = resultSet.getString("appeal_status_id");
-//
-//                String surname = resultSet.getString("surname");
-//                String lastName = resultSet.getString("last_Name");
-//                String name = resultSet.getString("name");
-//                Long nameCompany = resultSet.getLong("name_Company");
-//                String tel = resultSet.getString("tel");
-//
-//
-//                int userId = resultSet.getInt("user_id");
-//
-//
-//                AppealAud appealAud = new AppealAud();
-//
-//                appealAud.setAddress(address);
-//                appealAud.setBriefDescription(briefDescription);
-//                appealAud.setFooting(footing);
-//                appealAud.setTel(tel);
-//                appealAud.setText(text);
-//
-//                appealAud.setExecutor(executor);
-//                appealAud.setController(controller);
-//                appealAud.setStatus(status);
-//                appealAud.setSurname(surname);
-//                appealAud.setLastName(lastName);
-//                appealAud.setNameCompany(nameCompany);
-//                appealAud.setEmailAddress(emailAddress);
-//                appealAud.setDataChange(dataChange);
-//                appealAud.setDataCreation(dataCreation);
-//                appealAud.setDataAnswer(dataAnswer);
-//                appealAud.setUserId(userId);
-//                appealAud.setAuthorUpdate(authorUpdate);
-//                appealAud.setName(name);
-//
-//
-//                appealAuds.add(appealAud);
-//
-//
-//
-//            }
-//
-//
-//            return appealAuds;
-//        }
-//
-//
-//    }
+    public List<AppealFile> findByIdFile(Long id) throws SQLException {
+
+        try (Connection c = dataSource.getConnection()) {
+
+            String sql = "select file_name from appeal_file where id_file = ?";
+            PreparedStatement preparedStatement = c.prepareStatement(sql);
+            preparedStatement.setObject(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+            int n = resultSetMetaData.getColumnCount();
+
+            List<AppealFile> appealFiles = new ArrayList<>();
+            while (resultSet.next()) {
+
+
+
+                String fileName = resultSet.getString("file_name");
+
+
+
+                AppealFile appealFile = new AppealFile();
+
+
+
+
+
+               appealFile.setFileName(fileName);
+
+                System.out.println(fileName+ "*******************************");
+
+
+
+                appealFiles.add(appealFile);
+
+            }
+
+
+            return appealFiles;
+        }
+
+
+    }
 
 
 
@@ -167,13 +133,13 @@ public class AppealUadRepo {
 
 
 
-
-    public Appeal findById(Long id) {
-        TypedQuery<Appeal> query = entityManager.createQuery(
-                "select authorUpdate from Appeal  where authorUpdate  = :id", Appeal.class);
-        query.setParameter("id", id);
-        return query.getSingleResult();
-    }
+//
+//    public AppealFile findByIdFile(Long id) {
+//        TypedQuery<AppealFile> query = entityManager.createQuery(
+//                "select fileName from AppealFile  where idFile  = :id", AppealFile.class);
+//        query.setParameter("id", id);
+//        return entityManager.find(AppealFile.class,id);
+//    }
 
 
 

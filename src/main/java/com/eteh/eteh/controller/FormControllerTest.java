@@ -1,18 +1,15 @@
 package com.eteh.eteh.controller;
 
 
-import com.eteh.eteh.models.User;
+import com.eteh.eteh.models.Customer;
 import com.eteh.eteh.models.UserProfileModels;
-import com.eteh.eteh.repository.AppealRepository;
-import com.eteh.eteh.repository.AppealUadRepo;
-import com.eteh.eteh.repository.UserProfileRepo;
+import com.eteh.eteh.repository.*;
 import com.eteh.eteh.service.MailSender;
 import com.eteh.eteh.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -25,6 +22,7 @@ import java.io.*;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -44,12 +42,17 @@ public class FormControllerTest {
     private final UserProfileRepo userProfileRepo;
     private final AppealUadRepo appealUadRepo;
     private final AppealRepository appealRepository;
-    public FormControllerTest(UserService userService, MailSender mailSender, UserProfileRepo userProfileRepo, AppealUadRepo appealUadRepo, AppealRepository appealRepository) {
+
+    private final AppealStatusRepo appealStatusRepo;
+    private final CustomerRepository customerRepository;
+    public FormControllerTest(UserService userService, MailSender mailSender, UserProfileRepo userProfileRepo, AppealUadRepo appealUadRepo, AppealRepository appealRepository, AppealStatusRepo appealStatusRepo, CustomerRepository customerRepository) {
         this.userService = userService;
         this.mailSender = mailSender;
         this.userProfileRepo = userProfileRepo;
         this.appealUadRepo = appealUadRepo;
         this.appealRepository = appealRepository;
+        this.appealStatusRepo = appealStatusRepo;
+        this.customerRepository = customerRepository;
     }
 
 
@@ -64,18 +67,22 @@ public class FormControllerTest {
 
     }
 
-    @RequestMapping("/test")
-    public String test(String name, Model model,@AuthenticationPrincipal User user){
-       List<User> user1 = userService.findAll();
-       model.addAttribute("user", user);
-        Long userId1 = user.getId();
-        List<UserProfileModels> userId = userProfileRepo.fainBiId(userId1);
-        model.addAttribute("appeal", appealRepository.findAll());
+    @RequestMapping(value = "/test", method = {RequestMethod.GET})
+    public String test(@RequestParam(value = "id", required = false) Long id,Model model) throws SQLException {
+
+
+
+        System.out.println(id+ "-------------------------------------");
+
+
+        Iterable<Customer> customersList = customerRepository.findAll();
+        model.addAttribute("customerListName", customersList);
+
+
+        List<UserProfileModels> userId = userProfileRepo.fainBiId(id);
         model.addAttribute("userId", userId);
 
-
-
-       return "2";
+        return "/test";
 
 
     }

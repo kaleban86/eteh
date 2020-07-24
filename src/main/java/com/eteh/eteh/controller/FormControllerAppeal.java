@@ -25,15 +25,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @PreAuthorize("hasAnyAuthority('APPEAL_CREATE','SUPER_ADMIN')  ")
 @Controller
 public class FormControllerAppeal {
-    private static String UPLOADED_FOLDER = "/home/nikolai/temp/";
+
 
     /**
      *
@@ -112,6 +109,10 @@ public class FormControllerAppeal {
         List<ColorStatusId> colorId = colorIdRepo.findAll();
         model.addAttribute("colorId", colorId);
 
+
+
+
+
         return "appeal";
     }
 
@@ -140,7 +141,9 @@ public class FormControllerAppeal {
      * @throws SQLException
      */
     @PostMapping("/appeal/appalAdd")
-    public String appealAdd(@RequestParam String briefDescription,
+    public String appealAdd(@RequestParam("file") MultipartFile  file,
+                            RedirectAttributes redirectAttributes, HttpServletRequest request,
+                            @RequestParam String briefDescription,
                             @AuthenticationPrincipal User user,
                             @RequestParam Footing footing,
                             @RequestParam String text,
@@ -161,12 +164,10 @@ public class FormControllerAppeal {
 
         Appeal appeal = new Appeal(user, briefDescription, footing,
                 text, executor, controller, status, surname,
-                lastName, dataAnswer, dataCreation, nameCompany, address, tel, emailAddress, authorUpdate= user.getId(), color);
+                lastName, dataAnswer, dataCreation, nameCompany, address, tel, emailAddress, authorUpdate = user.getId(), color);
 
 
         appeal.getId();
-
-
 
 
         /**
@@ -177,41 +178,29 @@ public class FormControllerAppeal {
         appealRepository.save(appeal);
 
 
-
-
         /**
          * Отправляем письмо пользователям контролёр и исполнитель, в новом потоке
          */
-        Long executorId =    executor.getId();
+        Long executorId = executor.getId();
 
         try {
 
             new Thread(new Runnable() {
                 @Override
-                public void run() {
-                    userProfileRepo.userEmailIdSendExecutor(controller.getId(),appeal.getId(),
+                public synchronized void run() {
+                    userProfileRepo.userEmailIdSendExecutor(controller.getId(), appeal.getId(),
                             appeal.getBriefDescription(),
-                            appeal.getDataCreation(),appeal.getDataAnswer());
-                    userProfileRepo.userEmailIdSendController(executorId,appeal.getId(),
-                            appeal.getBriefDescription(),appeal.getDataCreation(),
+                            appeal.getDataCreation(), appeal.getDataAnswer());
+                    userProfileRepo.userEmailIdSendController(executorId, appeal.getId(),
+                            appeal.getBriefDescription(), appeal.getDataCreation(),
                             appeal.getDataAnswer());
                 }
             }).start();
 
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 
-
-
-
-        return "redirect:/appealHome";
-    }
-
-
-    @PostMapping("/upload-save") // //new annotation since 4.3
-    public String singleFileUpload(@RequestParam("file") MultipartFile file,
-                                   RedirectAttributes redirectAttributes, HttpServletRequest request) throws IOException, ServletException {
         String Data = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
         Collection<Part> parts = request.getParts();
         String[] names = new String[parts.size()];
@@ -221,20 +210,59 @@ public class FormControllerAppeal {
             byte[] data = new byte[in.available()];
             in.read(data, 0, data.length);
             String fileName = part.getSubmittedFileName();
-            Path path = Paths.get(UPLOADED_FOLDER + fileName);
-            Files.write(path, data);
+            Path path = Paths.get(uploadPath + fileName);
+            try {
+
+                Files.write(path, data);
+            }catch (Exception e){
+
+
+            }
+
             names[i++] = fileName;
 
-            appealFileSave.saveDbFile(part.getSubmittedFileName(), data.length, Data);
+            if (part.getSubmittedFileName()== null) {
+
+
+
+
+
+
+            } else {
+
+                try {
+
+                    new Thread(new Runnable() {
+                        @Override
+
+
+                        public synchronized void run() {
+
+                            String uuidFile = UUID.randomUUID().toString();
+
+
+                            appealFileSave.saveDbFile(part.getSubmittedFileName(), data.length, Data, appeal.getId(), uuidFile);
+
+
+
+                        }
+                    }).start();
+
+                }catch (Exception e){
+
+                }
+
+
+
+
+            }
+
+
 
         }
 
-        redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded '" + Arrays.toString(names) + "'");
-
-        return "redirect:/appeal";
+        return "redirect:/appealHome";
     }
-
 
 
 }

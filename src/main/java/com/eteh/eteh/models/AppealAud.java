@@ -21,14 +21,6 @@ public class AppealAud {
 
     private String briefDescription;
     private int userId;
-
-
-
-
-
-
-   
-
     private String footing;
     private String text;
     private Long executor;

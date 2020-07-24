@@ -10,4 +10,5 @@ public interface AppealRepository extends JpaRepository<Appeal,Long> {
 
 
 
+
 }
