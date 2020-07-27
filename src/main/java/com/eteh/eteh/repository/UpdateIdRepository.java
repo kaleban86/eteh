@@ -22,10 +22,11 @@ public class UpdateIdRepository {
         this.dataSource = dataSource;
     }
 
-    public void updateIdAppeal(Long id,Long userId) {
+    public void updateIdAppealAuthor(Long id,Long userId) {
         try (Connection c = dataSource.getConnection()) {
 
-            PreparedStatement statement = c.prepareStatement("update  appeal set user_id = ? where id = ?");
+            PreparedStatement statement = c.prepareStatement("UPDATE appeal_aud SET author_update= ? where rev = " +
+                    "(SELECT max FROM (SELECT MAX(rev) as max FROM appeal_aud WHERE id= ?) AS t2 )");
 
             statement.setLong(1, userId);
             statement.setLong(2, id);

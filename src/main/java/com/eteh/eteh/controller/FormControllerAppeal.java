@@ -57,6 +57,7 @@ public class FormControllerAppeal {
     private final AppealFileSave appealFileSave;
 
     private final AppealFileRepo appealFileRepo;
+    private final UpdateIdRepository updateIdRepository;
 
 
     /**
@@ -72,9 +73,10 @@ public class FormControllerAppeal {
      * @param userService
      * @param appealFileSave
      * @param appealFileRepo1
+     * @param updateIdRepository
      */
     @Autowired
-    public FormControllerAppeal(MailSender mailSender, UserRepository userRepository, CustomerRepository customerRepository, AppealStatusRepo appealStatusRepo, FootingRepo footingRepo, StatusColor statusColor, ColorIdRepo colorIdRepo, UserProfileRepo userProfileRepo, AppealRepository appealRepository, UserService userService, AppealFileSave appealFileSave, AppealFileRepo appealFileRepo1) {
+    public FormControllerAppeal(MailSender mailSender, UserRepository userRepository, CustomerRepository customerRepository, AppealStatusRepo appealStatusRepo, FootingRepo footingRepo, StatusColor statusColor, ColorIdRepo colorIdRepo, UserProfileRepo userProfileRepo, AppealRepository appealRepository, UserService userService, AppealFileSave appealFileSave, AppealFileRepo appealFileRepo1, UpdateIdRepository updateIdRepository) {
         this.mailSender = mailSender;
         this.userRepository = userRepository;
         this.customerRepository = customerRepository;
@@ -88,6 +90,7 @@ public class FormControllerAppeal {
         this.appealFileSave = appealFileSave;
         this.appealFileRepo = appealFileRepo1;
 
+        this.updateIdRepository = updateIdRepository;
     }
 
     /**
@@ -151,20 +154,19 @@ public class FormControllerAppeal {
                             @RequestParam User controller,
                             @RequestParam AppealStatus status,
                             @RequestParam String surname,
-                            @RequestParam(required = false) String lastName,
                             @RequestParam(required = false) java.sql.Date dataCreation,
                             @RequestParam java.sql.Date dataAnswer,
                             @RequestParam Customer nameCompany,
                             @RequestParam String address,
                             @RequestParam String tel,
                             @RequestParam String emailAddress,
-                            @RequestParam Long authorUpdate,
+                            @RequestParam User authorUpdate,
                             @RequestParam(required = false) ColorStatusId color) throws IOException, SQLException, ServletException {
 
 
         Appeal appeal = new Appeal(user, briefDescription, footing,
                 text, executor, controller, status, surname,
-                lastName, dataAnswer, dataCreation, nameCompany, address, tel, emailAddress, authorUpdate = user.getId(), color);
+                dataAnswer, dataCreation, nameCompany, address, tel, emailAddress, authorUpdate, color);
 
 
         appeal.getId();
@@ -176,6 +178,8 @@ public class FormControllerAppeal {
 
 
         appealRepository.save(appeal);
+        updateIdRepository.updateIdAppealAuthor(appeal.getId(),user.getId());
+
 
 
         /**

@@ -43,8 +43,6 @@ public class Appeal  {
 
 
 
-    private String fileName2;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     @CreatedBy
@@ -56,13 +54,14 @@ public class Appeal  {
 
     @Size(max = 75)
     private String briefDescription;
-    private String surname, lastName;
+    private String surname;
 
     @Size(max = 9000)
     private String  text;
 
-
-    private Long   authorUpdate;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "authorUpdate")
+    private User   authorUpdate;
     @ManyToOne(fetch = FetchType.LAZY)
     private Customer nameCompany;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -87,9 +86,9 @@ public class Appeal  {
 
     public Appeal(User user, String briefDescription, Footing footing,
                   String text, User executor, User controller, AppealStatus status,
-                  String surname, String lastName, Date dataAnswer, Date dataCreation,
+                  String surname, Date dataAnswer, Date dataCreation,
                   Customer nameCompany, String address, String tel, String emailAddress,
-                  Long authorUpdate, ColorStatusId color) {
+                  User authorUpdate, ColorStatusId color) {
 
 
         this.briefDescription= briefDescription;
@@ -99,7 +98,7 @@ public class Appeal  {
         this.controller=controller;
         this.status=status;
         this.surname=surname;
-        this.lastName=lastName;
+
         this.dataAnswer=dataAnswer;
         this.dataCreation=dataCreation;
         this.nameCompany=nameCompany;
@@ -267,13 +266,7 @@ public class Appeal  {
         this.surname = surname;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
 
     public String getFileName() {
         return fileName;
@@ -283,20 +276,15 @@ public class Appeal  {
         this.fileName = fileName;
     }
 
-    public Long getAuthorUpdate() {
+
+    public User getAuthorUpdate() {
         return authorUpdate;
     }
 
-    public void setAuthorUpdate(Long authorUpdate) {
+    public void setAuthorUpdate(User authorUpdate) {
         this.authorUpdate = authorUpdate;
     }
-    public String getFileName2() {
-        return fileName2;
-    }
 
-    public void setFileName2(String fileName2) {
-        this.fileName2 = fileName2;
-    }
 
 
     @Override
@@ -312,7 +300,6 @@ public class Appeal  {
                 ", controller='" + controller + '\'' +
                 ", status='" + status + '\'' +
                 ", surname='" + surname + '\'' +
-                ", lastName='" + lastName + '\'' +
                 ", nameCompany='" + nameCompany + '\'' +
                 ", tel='" + tel + '\'' +
                 ", address='" + address + '\'' +

@@ -132,8 +132,6 @@
                                            name="surname">
                                     <input style="display: none" type="text" class="form-control" th:field="*{fileName}"
                                            name="surname">
-                                    <input style="display: none" type="text" class="form-control"
-                                           th:field="*{fileName2}" name="surname">
 
                                     <label>Email:</label>
                                     <input type="email" th:field="*{emailAddress}" class="form-control">
@@ -183,7 +181,7 @@
 
         <summary>
 
-            <text th:text="  ' Дата изменения: '+ ${#dates.format(user.dataCreation, 'dd.MM.yyyy')} +' ' + ${  'Автор: ' +user.authorUpdate }"></text>
+            <text th:text="  ' Дата изменения: '+ ${#dates.format(user.dataCreation, 'dd.MM.yyyy')} +' ' + ${  'Автор: ' +user.authorUpdate.name + ' '+ user.authorUpdate.lastName }"></text>
 
         </summary>
 
@@ -230,7 +228,7 @@
                       th:text="${user.controller.lastName + ' ' +user.controller.name+ ' '+ user.controller.firstName }"
                       class="form-control"></text>
                 <label>Компания:</label>
-                <text readonly type="text" th:text="${user.nameCompany.id}" class="form-control"></text>
+                <text readonly type="text" th:text="${user.nameCompany.fullNameCompany}" class="form-control"></text>
                 <label>ФИО:</label>
                 <text readonly type="text" th:text="${user.surname}" class="form-control"></text>
                 <label>Телефон:</label>
