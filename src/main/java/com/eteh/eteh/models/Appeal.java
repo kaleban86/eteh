@@ -28,7 +28,7 @@ public class Appeal  {
     private Date dataCreation;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_color")
+    @JoinColumn(name = "color")
     private ColorStatusId color;
 
 
@@ -67,12 +67,13 @@ public class Appeal  {
     @ManyToOne(fetch = FetchType.LAZY)
     private User executor;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "footing_id")
+    @JoinColumn(name = "footing")
     private Footing footing;
     @ManyToOne(fetch = FetchType.LAZY)
    private User controller;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "status")
     private AppealStatus status;
 
     private String tel;

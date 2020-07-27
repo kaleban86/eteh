@@ -25,6 +25,13 @@ public class AppealStatus {
     public AppealStatus() {
     }
 
+    public AppealStatus(String status, Long idStatus, String color) {
+
+        this.status=status;
+        this.idStatus=idStatus;
+        this.color=color;
+    }
+
     public String getColor() {
         return color;
     }

@@ -22,6 +22,11 @@ public class Footing {
     public Footing() {
     }
 
+    public Footing(String footing, Long footingId) {
+        this.footing=footing;
+        this.footingId=footingId;
+    }
+
     public Long getFootingId() {
         return footingId;
     }

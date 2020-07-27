@@ -207,10 +207,10 @@
 
             <div id="rightBlock1" class="col-md-6">
                 <label for=>Основание:</label>
-                <text readonly type="text" th:text="${ user.footing.id }" class="form-control"></text>
+                <text readonly type="text" th:text="${user.footing.footing}" class="form-control"></text>
 
                 <label for=>Статус:</label>
-                <text readonly type="text" th:text="${user.status.id }" class="form-control"></text>
+                <text readonly type="text" th:text="${user.status.status}" class="form-control"></text>
                 <label>Дата создания:</label>
                 <text readonly type="text" th:text="${#dates.format(user.dataCreation, 'dd.MM.yyyy') }"
                       class="form-control"></text>

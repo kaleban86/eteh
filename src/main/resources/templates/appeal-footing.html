@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<link rel="stylesheet" th:href="@{/css/user-update.css}"/>
+<title>Create user</title>
+</head>
+<body>
+<div class="tab">
+    <a href="/hello" class="backLink" style="color: #000 !important; text-decoration: none">
+        <div class="backButton">⟵</div>
+    </a>
+    <div id="tabBlocks">
+
+    </div>
+
+</div>
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-3" style="border-block-end-color: ivory"></div>
+        <div class="form-group col-5" mt-5 style="border-block-end-color: ivory">
+            <form action="#" th:action="@{/appeal-footing/add}"  method="post">
+
+                <div class="form-group">
+                    <label for=>Основание:</label>
+                    <input type="text"name="footing" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for=>idS:</label>
+                    <input type="text"name="footingId" class="form-control">
+                </div>
+
+                <div>
+                    <button type="submit" href="/user" class="btn btn-success">Сохранить</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
