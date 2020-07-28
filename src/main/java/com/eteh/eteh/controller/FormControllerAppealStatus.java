@@ -24,11 +24,10 @@ public class FormControllerAppealStatus {
 
     @RequestMapping(value = "/appeal-status/add", method = {RequestMethod.POST})
     public String appealStatusAdd(@RequestParam String status,
-                                  @RequestParam Long idStatus,
                                   @RequestParam String color) {
 
 
-        AppealStatus appealStatus = new AppealStatus(status, idStatus,color);
+        AppealStatus appealStatus = new AppealStatus(status,color);
         appealStatusRepo.save(appealStatus);
 
 

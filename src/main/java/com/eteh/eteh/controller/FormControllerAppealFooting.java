@@ -27,11 +27,10 @@ public class FormControllerAppealFooting {
 
 
     @RequestMapping(value = "/appeal-footing/add", method = {RequestMethod.POST})
-    public String appealStatusAdd(@RequestParam String footing,
-                                  @RequestParam Long footingId) {
+    public String appealStatusAdd(@RequestParam String footing) {
 
 
-        Footing footing1 = new Footing(footing,footingId);
+        Footing footing1 = new Footing(footing);
         footingRepo.save(footing1);
 
 

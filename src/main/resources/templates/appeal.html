@@ -55,7 +55,7 @@
 
                     <select class="custom-select" name="footing" required>
                         <option th:each="footing : ${footings}"
-                                th:value="${footing.footingId}"
+                                th:value="${footing.id}"
                                 th:text="${footing.footing}"></option>
                     </select>
 
@@ -96,7 +96,7 @@
                 <label for=>Статус:</label>
                 <select class="custom-select" name="status" required>
                     <option th:each="status : ${appealStatusList} "
-                            th:value="${status.idStatus }"
+                            th:value="${status.id }"
                             th:text="${status.status}"></option>
                 </select>
 

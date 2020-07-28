@@ -17,7 +17,6 @@ public class AppealStatus {
     private Long id;
 
     private String status;
-    private Long idStatus;
     private String color;
 
 
@@ -25,10 +24,10 @@ public class AppealStatus {
     public AppealStatus() {
     }
 
-    public AppealStatus(String status, Long idStatus, String color) {
+    public AppealStatus(String status,  String color) {
 
         this.status=status;
-        this.idStatus=idStatus;
+
         this.color=color;
     }
 
@@ -57,13 +56,6 @@ public class AppealStatus {
     }
 
 
-    public Long getIdStatus() {
-        return idStatus;
-    }
-
-    public void setIdStatus(Long idStatus) {
-        this.idStatus = idStatus;
-    }
 
 
 }

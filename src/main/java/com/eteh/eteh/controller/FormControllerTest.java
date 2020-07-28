@@ -68,18 +68,20 @@ public class FormControllerTest {
     }
 
     @RequestMapping(value = "/test", method = {RequestMethod.GET})
-    public String test(@RequestParam(value = "id", required = false) Long id,Model model) throws SQLException {
+    public String test(@RequestParam(value = "search", required = false) Long search,Model model) throws SQLException {
 
 
 
-        System.out.println(id+ "-------------------------------------");
+        System.out.println(search+ "-------------------------------------");
 
 
         Iterable<Customer> customersList = customerRepository.findAll();
         model.addAttribute("customerListName", customersList);
+        Optional<Customer> customerList = customerRepository.findById(search);
+        model.addAttribute("customerList",customerList);
 
 
-        List<UserProfileModels> userId = userProfileRepo.fainBiId(id);
+        List<UserProfileModels> userId = userProfileRepo.fainBiId(search);
         model.addAttribute("userId", userId);
 
         return "/test";
