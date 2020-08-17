@@ -83,7 +83,7 @@
         </div>
     </nav>
     <div  th:switch="${appeal}">
-        <table style=""  id="myTable" class="table table-bordered">
+        <table   id="myTable" class="table table-bordered,table table-sm">
             <thead >
             <tr>
                 <th class="table-active" onclick="sortTable(0)">№</th>
@@ -100,7 +100,7 @@
 
             <tbody >
             <tr  th:each="user : ${appeal} " >
-                <td th:text="${user.id}"></td>
+                <td  th:text="${user.id}"></td>
                 <td th:text="${user.nameCompany.fullNameCompany}"></td>
                 <td th:text="${#dates.format(user.dataCreation, 'dd.MM.yyyy')}"></td>
                 <td th:text="${#dates.format(user.dataAnswer, 'dd.MM.yyyy')}"></td>

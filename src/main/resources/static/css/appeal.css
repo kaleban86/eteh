@@ -77,7 +77,7 @@ body {
 
 .overflow {
     overflow: scroll;
-    width: 388px;
+    width: 430px;
     height: 100px;
     border: 1px solid black;
 }

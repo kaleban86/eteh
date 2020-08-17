@@ -16,22 +16,11 @@ public class FormControllerLogin {
     @NotNull
     @RequestMapping(value = "/login")
     public String login(Model model, String error, String logout) {
-        if (error != null) {
-            model.addAttribute("error", "Username or password is incorrect.");
-        }
 
-        if (logout != null) {
-            model.addAttribute("message", "Logged out successfully.");
-        }
 
         return "/login";
     }
 
 
-    @GetMapping("/activate")
-    public String activate(String name, Model model){
-        model.addAttribute("name", name);
 
-        return "/login";
-    }
 }

@@ -20,11 +20,7 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 @EnableGlobalMethodSecurity(prePostEnabled = true )
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Bean
-    public PasswordEncoder getPasswordEncoder()
-    {
-        return new BCryptPasswordEncoder(8);
-    }
+
 
     private  UserService userService;
     private final PasswordEncoder passwordEncoder;

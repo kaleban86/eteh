@@ -29,7 +29,7 @@ th {
 
 th, td {
     text-align: left;
-    padding: 10px;
+    /*padding: 5px;*/
 }
 
 tr:nth-child(even) {
@@ -44,7 +44,7 @@ tr:nth-child(even) {
     left: 0;
     background-color: #708090;
     overflow-x: hidden;
-    padding-top: 20px;
+    padding-top: 15px;
 }
 
 .sidenav a {

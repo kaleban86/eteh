@@ -16,13 +16,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @PreAuthorize("hasAnyAuthority('ADMIN ','SUPER_ADMIN','USER_READING')  ")
 @Controller
@@ -159,7 +165,9 @@ public class FormControllerAppealHome {
     @PreAuthorize("hasAnyAuthority('ADMIN ','SUPER_ADMIN','APPEAL_CREATE')  ")
     @RequestMapping(value = "/appeal/{id}", method = {RequestMethod.GET})
     public String updateAppeal(@PathVariable("id") Long id, Model model,
-                               @AuthenticationPrincipal User userUpdate) throws SQLException {
+                               @AuthenticationPrincipal User userUpdate,
+                               RedirectAttributes redirectAttributes, HttpServletRequest request)
+            throws SQLException, IOException, ServletException {
         Appeal appeal = appealRepository.getOne(id);
         model.addAttribute("Update", appeal);
 
@@ -191,6 +199,8 @@ public class FormControllerAppealHome {
 
         List<AppealFile> appealFiles = appealUadRepo.findByIdFile(id);
         model.addAttribute("appealFiles", appealFiles);
+
+
 
 
         return "/appeal-update";

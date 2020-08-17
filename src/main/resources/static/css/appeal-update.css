@@ -67,3 +67,11 @@ body {
 .bigText {
     height: auto;
 }
+
+
+.overflow {
+    overflow: scroll;
+    width: 430px;
+    height: 100px;
+    border: 1px solid black;
+}
