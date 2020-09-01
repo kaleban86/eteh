@@ -3,6 +3,7 @@ package com.eteh.eteh.repository;
 import com.eteh.eteh.models.Appeal;
 import com.eteh.eteh.models.AppealAud;
 import com.eteh.eteh.models.AppealFile;
+import com.eteh.eteh.models.ServiceNote;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.envers.AuditReader;
@@ -60,7 +61,7 @@ public class AppealUadRepo {
 
                appealFile.setFileName(fileName);
 
-                System.out.println(fileName+ "*******************************");
+
 
 
 
@@ -129,6 +130,7 @@ public class AppealUadRepo {
         }
         return results;
     }
+
 
 
 

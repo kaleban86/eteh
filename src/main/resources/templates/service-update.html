@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" th:href="@{/css/service-update.css}"/>
+    <title>Служебная записка</title>
+</head>
+<body>
+
+<div class="tab">
+    <a href="/service-home" class="backLink" style="color: #000 !important; text-decoration: none">
+        <div class="backButton">⟵</div>
+    </a>
+    <div id="tabBlocks">
+        <button class="tablinks incomingCall" onclick="openCity(event, 'London')">Служебные записки</button>
+        <button class="tablinks" onclick="openCity(event, 'Tokyo')">История</button>
+    </div>
+
+
+</div>
+
+<div id="London" class="tabcontent">
+    <h3>Служебня записка</h3>
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="form-group col-8" mt-8 style="border-block-end-color: ivory">
+
+
+                <!--/*@thymesVar id="Update" type="com"*/-->
+                <form class="form-group row col-lg-50" enctype="multipart/form-data" th:action="@{/service-update}"
+                      th:object="${serviceNote}"
+                      method="post">
+                    <div id="leftBlock" class="col-md-6">
+
+                        <label>№:</label>
+                        <input readonly type="number" th:field="*{id}" class="form-control">
+
+                        <div th:each="userId : ${serviceNote}">
+                            <label>Автор:</label>
+                            <text readonly type="text" th:text="${userId.author.firstName + ' ' + userId.author.name}"
+                                  class="form-control"></text>
+
+                        </div>
+
+                        <input style="display: none" type="text" th:field="*{dataCreation}" class="form-control">
+                        <label>Краткое описание:</label>
+
+                        <input type="text" th:field="*{briefDescription}" class="form-control" maxlength="50">
+
+
+                        <label for=>Текст:</label>
+                        <!--/*@thymesVar id="user" type="com"*/-->
+                        <textarea class="form-control" th:field="*{mainText}" rows="23"></textarea>
+
+                    </div>
+
+                    <div id="rightBlock" class="col-md-6">
+
+                        <div class="form-group blu-margin">
+                            <label for=>Исполнители:</label>
+                            <select class="custom-select" th:field="*{executor}">
+                                <option value="0">Выберите из списка</option>
+                                <option th:each="user : ${user}"
+                                        th:value="${user.id}"
+                                        th:text="${user.lastName +'  '+ user.name +' ' + user.firstName }"></option>
+                            </select>
+                            <div class="form-group blu-margin">
+                                <label>Контролёр:</label>
+                                <select class="custom-select" th:field="*{controller}">
+                                    <option value="0">Выберите из списка</option>
+                                    <option th:each="user : ${user}"
+                                            th:value="${user.id }"
+                                            th:text="${user.lastName +'  '+ user.name +' ' + user.firstName }"></option>
+                                </select>
+
+                                <label>Дата создания:</label>
+                                <input readonly type="date" th:field="*{{dataCreation}}" class="form-control">
+                                <div class="form-group blu-margin">
+
+
+                                    <label for=>Комментарий к служебной записки:</label>
+
+
+                                    <textarea class="form-control" th:field="*{commentsText}" rows="23"></textarea>
+                                </div>
+
+                                <input style="display: none" type="text" class="form-control" th:field="*{author}"
+                                       name="surname">
+
+
+                                <div class="col-md-4 col-md-offset-4 ">
+
+
+                                </div>
+
+                                <br>
+
+
+                                <div class="form-select-button">
+                                    <button type="submit" class="btn btn-success">Сохранить</button>
+
+                                    <div th:each="file : ${appealFiles}">
+
+
+                                        <a id="download" th:href="@{|/download-document/${file.fileName}|}">
+
+
+                                            <text readonly type="text" th:text="${file.fileName}"></text>
+                                        </a>
+                                        <a id="downloadFile"></a>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+<div id="Tokyo" class="tabcontent">
+
+
+    <details class="form-group row col-lg-50" th:each="user : ${serviceNoteAud}">
+
+
+        <summary>
+
+            <text th:text="  ' Дата изменения: '+ ${#dates.format(user.dataCreation, 'dd.MM.yyyy')} +' ' + ${  'Автор: ' +user.author.name + ' '+ user.author.lastName }"></text>
+
+        </summary>
+
+        <div class="row col-2"></div>
+        <div class="form-group col-8 row " mt-8 style="border-block-end-color: ivory">
+            <div id="leftBlock1" class="col-md-6">
+                <div th:each="userId : ${userId}">
+                    <label>Автор:</label>
+                    <text readonly type="text" th:text="${userId.lastName + ' ' + userId.name}"
+                          class="form-control"></text>
+
+                </div>
+
+                <label>Краткое описание:</label>
+                <text readonly type="text" th:text="${user.briefDescription}" class="form-control"></text>
+
+
+                <label>Текст:</label>
+                <textarea readonly class="form-control" th:text="${user.mainText}" rows="25"></textarea>
+
+            </div>
+
+            <div id="rightBlock1" class="col-md-6">
+
+
+                <label>Дата создания:</label>
+                <text readonly type="text" th:text="${#dates.format(user.dataCreation, 'dd.MM.yyyy') }"
+                      class="form-control"></text>
+
+
+                <label>Исполнители:</label>
+                <text readonly type="text"
+                      th:text="${user.executor.lastName  +' '+ user.executor.name +' '+ user.executor.firstName }"
+                      class="form-control"></text>
+                <label>Контролёр:</label>
+                <text readonly type="text"
+                      th:text="${user.controller.lastName + ' ' +user.controller.name+ ' '+ user.controller.firstName }"
+                      class="form-control"></text>
+
+            </div>
+        </div>
+
+    </details>
+
+
+</div>
+
+
+</body>
+<script th:src="@{/js/service-update.js}"></script>
+
+
+</html>

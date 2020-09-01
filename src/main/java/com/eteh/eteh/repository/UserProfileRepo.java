@@ -181,7 +181,7 @@ public class UserProfileRepo {
                 "Новое входящие обращение: № . "  +appealId+ "\n"+
 
 
-                        "Название компании:  ." + BriefDescription+ "\n"+
+                        "Краткое описание:  ." + BriefDescription+ "\n"+
 
                         "Дата создания: " +DataCreation+"\n"+
 
@@ -203,7 +203,7 @@ public class UserProfileRepo {
                 "Новое входящие обращение: № . "  +appealId+ "\n"+
 
 
-                        "Название компании:  ." + BriefDescription+ "\n"+
+                        "Краткое описание:  ." + BriefDescription+ "\n"+
 
                         "Дата создания: " +DataCreation+"\n"+
 

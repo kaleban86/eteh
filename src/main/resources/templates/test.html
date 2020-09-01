@@ -1,34 +1,283 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-          crossorigin="anonymous">
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
+    <link rel="stylesheet" th:href="@{/css/appeal-update.css}"/>
+    <title>Входящeе обращение</title>
 </head>
-
 <body>
 
+<div class="tab">
+    <a href="/appealHome" class="backLink" style="color: #000 !important; text-decoration: none">
+        <div class="backButton">⟵</div>
+    </a>
+    <div id="tabBlocks">
+        <button class="tablinks incomingCall" onclick="openCity(event, 'London')">Входящeе обращение</button>
+        <button class="tablinks" onclick="openCity(event, 'Tokyo')">История</button>
+    </div>
 
- <div class="container " id="app" >
 
-     <form class="form-inline my-2 my-lg-0">
-         <input class="form-control" type="text" placeholder="Поиск"name="search" onkeyup="tableSearch()">
+</div>
 
-     </form>
+<div id="London" class="tabcontent">
+    <h3>Входящeе обращение</h3>
 
-     <label>Компания:</label>
-     <select class="form-control" >
-         <option th:each="user : ${customerListName}"
-                 th:value="${user.id }"
-                 th:text="${user.fullNameCompany } "></option>
-     </select>
- </div>
+    <div class="container-fluid">
 
- <script th:src="@{/vue/vue.min.js}"></script>
+        <div class="row">
+            <div class="form-group col-8" mt-8 style="border-block-end-color: ivory">
+
+
+                <!--/*@thymesVar id="Update" type="com"*/-->
+<!--                <form   class="form-group row col-lg-50" enctype="multipart/form-data"  th:action="@{/appeal-update}" th:object="${Update}"-->
+<!--                        method="post">-->
+<!--                    <div id="leftBlock" class="col-md-6">-->
+
+<!--                        <label>№:</label>-->
+<!--                        <input readonly type="number" th:field="*{id}" class="form-control">-->
+
+<!--                        <div th:each="userId : ${userId}">-->
+<!--                            <label>Автор:</label>-->
+<!--                            <text readonly type="text" th:text="${userId.name + ' ' + userId.lastName}"-->
+<!--                                  class="form-control"></text>-->
+
+<!--                        </div>-->
+
+<!--                        <input style="display: none" type="text" th:field="*{dataCreation}" class="form-control">-->
+<!--                        <label>Краткое описание:</label>-->
+
+<!--                        <input type="text" th:field="*{briefDescription}" class="form-control" maxlength="50">-->
+
+
+<!--                        <label for=>Текст:</label>-->
+<!--                        &lt;!&ndash;/*@thymesVar id="user" type="com"*/&ndash;&gt;-->
+<!--                        <textarea class="form-control" th:field="*{text}" rows="23"></textarea>-->
+
+
+<!--                    </div>-->
+
+<!--                    <div id="rightBlock" class="col-md-6">-->
+<!--                        <div>-->
+<!--                            <label for=>Основание:</label>-->
+
+<!--                            <select class="custom-select" selected th:field="*{footing}">-->
+<!--                                <option th:each="footing : ${footings}"-->
+<!--                                        th:value="${footing.id}"-->
+<!--                                        th:text="${footing.footing}"></option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+
+<!--                        <label>Статус:</label>-->
+<!--                        <select class="custom-select" th:field="*{status}" required>-->
+<!--                            <option th:each="status : ${appealStatusList}"-->
+<!--                                    th:value="${status.id}"-->
+<!--                                    th:text="${status.status}"></option>-->
+<!--                        </select>-->
+<!--                        <div class="form-group blu-margin">-->
+<!--                            <label for=>Исполнители:</label>-->
+<!--                            <select class="custom-select" th:field="*{executor}">-->
+<!--                                <option value="0">Выберите из списка</option>-->
+<!--                                <option th:each="user : ${user}"-->
+<!--                                        th:value="${user.id}"-->
+<!--                                        th:text="${user.lastName +'  '+ user.name +' ' + user.firstName }"></option>-->
+<!--                            </select>-->
+<!--                            <div class="form-group blu-margin">-->
+<!--                                <label>Контролёр:</label>-->
+<!--                                <select class="custom-select" th:field="*{controller}">-->
+<!--                                    <option value="0">Выберите из списка</option>-->
+<!--                                    <option th:each="user : ${user}"-->
+<!--                                            th:value="${user.id }"-->
+<!--                                            th:text="${user.lastName +'  '+ user.name +' ' + user.firstName }"></option>-->
+<!--                                </select>-->
+
+
+<!--                                <div class="form-group blu-margin">-->
+<!--                                    <label>Компания:</label>-->
+<!--                                    <select class="form-control" th:field="*{nameCompany}">-->
+<!--                                        <option th:each="user : ${customerList}"-->
+<!--                                                th:value="${user.id }"-->
+<!--                                                th:text="${user.fullNameCompany } "></option>-->
+<!--                                    </select>-->
+<!--                                    <label>Телефон:</label>-->
+<!--                                    <input type="text" th:field="*{tel}" class="form-control">-->
+
+<!--                                    <label>Адрес:</label>-->
+<!--                                    <input type="text" th:field="*{address}" class="form-control">-->
+<!--                                    <label>Дата создания:</label>-->
+<!--                                    <input readonly type="date" th:field="*{{dataCreation}}" class="form-control">-->
+<!--                                    <label for=>Дата закрытия:</label>-->
+<!--                                    <input type="date" id="datepicker" th:field="*{{dataAnswer}}" class="form-control"-->
+<!--                                           name="dataAnswer" placeholder="Дата" required>-->
+<!--                                    <label for=>Сотрудник, от которого поступило обращение:</label>-->
+<!--                                    <div class="input-group">-->
+
+<!--                                        <div class="input-group-prepend">-->
+
+<!--                                            <span class="input-group-text">ФИО</span>-->
+<!--                                        </div>-->
+<!--                                        <input type="text" class="form-control" th:field="*{surname}" name="surname">-->
+
+<!--                                    </div>-->
+
+<!--                                    <input style="display: none" type="text" class="form-control" th:field="*{author}"-->
+<!--                                           name="surname">-->
+<!--                                    <input style="display: none" type="text" class="form-control"-->
+<!--                                           th:field="*{authorUpdate}"-->
+<!--                                           name="surname">-->
+<!--                                    <input style="display: none" type="text" class="form-control" th:field="*{fileName}"-->
+<!--                                           name="surname">-->
+
+<!--                                    <label>Email:</label>-->
+<!--                                    <input type="email" th:field="*{emailAddress}" class="form-control">-->
+
+<!--                                    <div class="col-md-4 col-md-offset-4 ">-->
+
+
+<!--                                    </div>-->
+
+<!--                                    <br>-->
+
+
+<!--                                    &lt;!&ndash;                                    <div id="img-container">&ndash;&gt;-->
+
+
+
+
+<!--                                    &lt;!&ndash;                                        <a href="#" id="fileSelect">Прикрепить файлы</a>&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                        <input type="file" name="file" id="fileElem" multiple  style="display:none">&ndash;&gt;-->
+
+
+
+
+
+<!--                                    &lt;!&ndash;                                        <div>&ndash;&gt;-->
+
+<!--                                    &lt;!&ndash;                                            <div class="overflow" id="fileList">&ndash;&gt;-->
+
+
+<!--                                    &lt;!&ndash;                                            </div>&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                        </div><br>&ndash;&gt;-->
+
+
+<!--                                    &lt;!&ndash;                                    </div>&ndash;&gt;-->
+<!--                                    <div class="form-select-button">-->
+<!--                                        <button type="submit" class="btn btn-success">Сохранить</button>-->
+
+<!--                                        <div th:each="file : ${appealFiles}">-->
+
+
+
+
+<!--                                            <a id="download" th:href="@{|/download-document/${file.fileName}|}">-->
+
+
+<!--                                                <text readonly type="text" th:text="${file.fileName}" ></text></a>-->
+<!--                                            <a id="downloadFile"></a>-->
+
+<!--                                        </div>-->
+
+
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+
+<!--                </form>-->
+
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+<div id="Tokyo" class="tabcontent">
+
+
+    <details  class="form-group row col-lg-50" th:each="user : ${appeals}">
+
+
+        <summary>
+
+            <text th:text="  ' Дата изменения: '+ ${#dates.format(user.dataCreation, 'dd.MM.yyyy')} +' ' + ${  'Автор: ' +user.authorUpdate.name + ' '+ user.authorUpdate.lastName }"></text>
+
+        </summary>
+
+        <div class="row col-2"></div>
+        <div class="form-group col-8 row " mt-8 style="border-block-end-color: ivory">
+            <div id="leftBlock1" class="col-md-6">
+<!--                <div th:each="userId : ${userId}">-->
+<!--                    <label>Автор:</label>-->
+<!--                    <text readonly type="text" th:text="${userId.lastName + ' ' + userId.name}"-->
+<!--                          class="form-control"></text>-->
+
+<!--                </div>-->
+
+<!--                <label>Краткое описание:</label>-->
+<!--                <text readonly type="text" th:text="${user.briefDescription}" class="form-control"></text>-->
+
+
+
+<!--                <label>Текст:</label>-->
+<!--                <textarea readonly class="form-control" th:text="${user.text}" rows="25"></textarea>-->
+
+<!--            </div>-->
+
+<!--            <div id="rightBlock1" class="col-md-6">-->
+<!--                <label for=>Основание:</label>-->
+<!--                <text readonly type="text" th:text="${user.footing.footing}" class="form-control"></text>-->
+
+<!--                <label for=>Статус:</label>-->
+<!--                <text readonly type="text" th:text="${user.status.status}" class="form-control"></text>-->
+<!--                <label>Дата создания:</label>-->
+<!--                <text readonly type="text" th:text="${#dates.format(user.dataCreation, 'dd.MM.yyyy') }"-->
+<!--                      class="form-control"></text>-->
+
+<!--                <label>Дата закрытия:</label>-->
+<!--                <text readonly type="text" th:text="${#dates.format(user.dataAnswer, 'dd.MM.yyyy') }"-->
+<!--                      class="form-control"></text>-->
+<!--                <label>Исполнители:</label>-->
+
+<!--                <text readonly type="text"-->
+<!--                      th:text="${user.executor.lastName  +' '+ user.executor.name +' '+ user.executor.firstName }"-->
+<!--                      class="form-control"></text>-->
+<!--                <label>Контролёр:</label>-->
+<!--                <text readonly type="text"-->
+<!--                      th:text="${user.controller.lastName + ' ' +user.controller.name+ ' '+ user.controller.firstName }"-->
+<!--                      class="form-control"></text>-->
+<!--                <label>Компания:</label>-->
+<!--                <text readonly type="text" th:text="${user.nameCompany.fullNameCompany}" class="form-control"></text>-->
+<!--                <label>ФИО:</label>-->
+<!--                <text readonly type="text" th:text="${user.surname}" class="form-control"></text>-->
+<!--                <label>Телефон:</label>-->
+<!--                <text readonly type="text" th:text="${user.tel}" class="form-control"></text>-->
+<!--                <label>Адрес:</label>-->
+<!--                <text readonly type="text" th:text="${user.address}" class="form-control"></text>-->
+<!--                <label>Email:</label>-->
+<!--                <text readonly type="text" th:text="${user.emailAddress}" class="form-control"></text>-->
+
+
+            </div>
+        </div>
+
+    </details>
+
+
+</div>
+</div>
+</div>
+</div>
+
+<script th:src="@{/js/appeal-update.js}"></script>
 </body>
+
 
 </html>

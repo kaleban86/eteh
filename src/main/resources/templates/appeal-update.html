@@ -35,7 +35,7 @@
 
 
                 <!--/*@thymesVar id="Update" type="com"*/-->
-                <form  class="form-group row col-lg-50"  th:action="@{/appeal-update}" th:object="${Update}"
+                <form   class="form-group row col-lg-50" enctype="multipart/form-data"  th:action="@{/appeal-update}" th:object="${Update}"
                       method="post">
                     <div id="leftBlock" class="col-md-6">
 
@@ -140,29 +140,32 @@
 
 
                                     </div>
+
                                     <br>
-                                    <div id="img-container">
+
+
+<!--                                    <div id="img-container">-->
 
 
 
 
-                                        <a href="#" id="fileSelect">Прикрепить файлы</a>
-                                        <input type="file" name="file" id="fileElem" multiple  style="display:none">
+<!--                                        <a href="#" id="fileSelect">Прикрепить файлы</a>-->
+<!--                                        <input type="file" name="file" id="fileElem" multiple  style="display:none">-->
 
 
 
 
 
-                                        <div>
+<!--                                        <div>-->
 
-                                            <div class="overflow" id="fileList">
-
-
-                                            </div>
-                                        </div><br>
+<!--                                            <div class="overflow" id="fileList">-->
 
 
-                                    </div>
+<!--                                            </div>-->
+<!--                                        </div><br>-->
+
+
+<!--                                    </div>-->
                                     <div class="form-select-button">
                                         <button type="submit" class="btn btn-success">Сохранить</button>
 

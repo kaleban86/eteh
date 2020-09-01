@@ -63,6 +63,7 @@ public class FormControllerAppealHome {
     private final AppealFileRepo appealFileRepo;
 
 
+
     @Autowired
     public FormControllerAppealHome(AppealRepository appealRepository, ChangedControllerAppealEmailSend
             changedControllerAppealEmailSend,
@@ -165,8 +166,7 @@ public class FormControllerAppealHome {
     @PreAuthorize("hasAnyAuthority('ADMIN ','SUPER_ADMIN','APPEAL_CREATE')  ")
     @RequestMapping(value = "/appeal/{id}", method = {RequestMethod.GET})
     public String updateAppeal(@PathVariable("id") Long id, Model model,
-                               @AuthenticationPrincipal User userUpdate,
-                               RedirectAttributes redirectAttributes, HttpServletRequest request)
+                               @AuthenticationPrincipal User userUpdate)
             throws SQLException, IOException, ServletException {
         Appeal appeal = appealRepository.getOne(id);
         model.addAttribute("Update", appeal);
@@ -199,6 +199,7 @@ public class FormControllerAppealHome {
 
         List<AppealFile> appealFiles = appealUadRepo.findByIdFile(id);
         model.addAttribute("appealFiles", appealFiles);
+
 
 
 
@@ -285,6 +286,8 @@ public class FormControllerAppealHome {
         Записываем автора который обновил входяшиие обрашение
          */
         updateIdRepository.updateIdAppealAud(id, userId);
+
+
 
 
         return "redirect:/appealHome";

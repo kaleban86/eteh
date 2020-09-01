@@ -1,0 +1,79 @@
+body, html {
+    height: 100%;
+}
+
+#menu {
+    background-color: #708090;
+}
+
+#menu * {
+    margin: 30px 5px;
+    height: 50px;
+    width: 50px;
+}
+
+#content {
+    height: 100%;
+    overflow-y: scroll;
+}
+
+table {
+
+    border-spacing: 0;
+    width: 100%;
+}
+
+th {
+    cursor: pointer;
+}
+
+th, td {
+    text-align: left;
+    /*padding: 5px;*/
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2
+}
+
+.sidenav {
+    height: 100%;
+    width: 90px;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #708090;
+    overflow-x: hidden;
+    padding-top: 15px;
+}
+
+.sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #3f3939;
+    display: block;
+}
+
+.sidenav a:hover {
+    color: #3f3939;
+}
+
+.main {
+    margin-left: 160px;
+    /* Same as the width of the sidenav */
+    font-size: 28px;
+    /* Increased text to enable scrolling */
+    padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
+}
+

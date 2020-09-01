@@ -1,0 +1,164 @@
+<!DOCTYPE HTML>
+<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+
+    <title>Новая служебная записка</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/service-note.css}"/>
+
+
+</head>
+<div class="tab">
+    <a href="/service-home" class="backLink" style="color: #000 !important; text-decoration: none">
+        <div class="backButton">⟵</div>
+    </a>
+    <div id="tabBlocks">
+
+    </div>
+
+</div>
+
+<body>
+<!--/*@thymesVar id="message" type="com"*/-->
+
+<div class="container-fluid">
+    <h3>Новая служебная записка</h3>
+    <div class="row">
+
+        <div class="col-5" style="border-block-end-color: ivory">
+
+
+            <!--/*@thymesVar id="customerList" type="com"*/-->
+            <form enctype="multipart/form-data" th:action="@{/service-note/add} " method="post">
+                <label for=>Краткое описание:</label>
+                <div class="row">
+
+                    <div class="col">
+                        <input type="text" name="briefDescription" class="form-control    "
+                               placeholder="Краткое описание "
+                               required maxlength="75" data-toggle="tooltip" data-placement="top"
+                               title="Описание не должно превышать 75 символов.">
+
+                    </div>
+
+
+                </div>
+                <div>
+
+                </div>
+
+                <div>
+                    <label for=>Введите текст:</label>
+                    <br><textarea class="form-control" name="mainText"  rows="23"
+                                  required></textarea>
+                </div>
+                <label for=>Исполнители:</label>
+                <select class="form-control" name="executor" id="executor" required>
+                    <option value="" disabled selected>Выберите из списка</option>
+
+
+
+                                        <option th:each="user : ${user}"
+                                                th:value="${user.id}"
+                                                th:text="${user.lastName +'  '+ user.name +' ' + user.firstName }"></option>
+                </select>
+                <!--/*@thymesVar id="user" type="com"*/-->
+                <label for=>Контролёр:</label>
+                <div class="form-group blu-margin">
+                    <select class="form-control" name="controller" id="controller" required>
+                        <option value="" disabled selected>Выберите из списка</option>
+
+                                                <option th:each="user : ${user}"
+                                                        th:value="${user.id}"
+                                                        th:text="${user.lastName +' '+ user.name + ' ' + user.firstName  }"></option>
+                    </select>
+                </div>
+
+        </div>
+        <div class="col-4" style="border-block-end-color: ivory">
+            <div class="form-group">
+
+
+
+                <div>
+                    <label for=>Комментарий к служебной записки:</label>
+                    <br><textarea class="form-control" name="commentsText" id="exampleFormControlTextarea1" rows="26"
+                                  ></textarea>
+                </div>
+
+
+                <input style="display: none" type="text" class="form-control" name="authorUpdate">
+                <div id="img-container">
+
+
+
+
+                    <a href="#" id="fileSelect">Прикрепить файлы</a>
+                    <input type="file" name="file" id="fileElem" multiple  style="display:none">
+
+
+
+
+
+                    <div>
+
+                        <div class="overflow" id="fileList">
+
+
+                        </div>
+                    </div><br>
+
+
+                </div>
+                <button type="submit" href="/service-home" class="btn btn-success">Сохранить</button>
+                </form>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+</div>
+
+
+<div>
+
+
+</div>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+<div class="col-4" style="border-block-end-color: ivory">
+
+
+</div>
+
+</div>
+
+
+</form>
+
+
+</div>
+
+
+
+</body>
+<script th:src="@{/js/service-note.js}"></script>
+
+</html>

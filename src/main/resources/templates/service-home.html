@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ru" class="container-fluid">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Служебные записки</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/service-home.css}"/>
+</head>
+
+<body class="row">
+
+<div id="menu" class="">
+    <a class="data-placement= right"
+       title="Новая служебная записка" href="/service-note"><svg  style="color : black" class="bi bi-file-earmark-plus" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9 1H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h5v-1H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h5v2.5A1.5 1.5 0 0 0 10.5 6H13v2h1V6L9 1z"/>
+        <path fill-rule="evenodd" d="M13.5 10a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1H13v-1.5a.5.5 0 0 1 .5-.5z"/>
+        <path fill-rule="evenodd" d="M13 12.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0v-2z"/>
+    </svg></a><br>
+    <a class="data-placement= right"
+       title="Главная" href="/hello"><svg style="color : black" class="bi bi-arrow-left-circle-fill" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.646 2.646a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L6.207 7.5H11a.5.5 0 0 1 0 1H6.207l2.147 2.146z"/>
+    </svg></a><br>
+</div>
+
+<div id="content" class="col">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+
+
+                <li class="nav-item active">
+
+<!--                    <input type="date"  id="datepicker" class="form-control"   >-->
+                </li>
+
+                <li class="nav-item dropdown">
+
+<!--                    <input type="date" id="datepicker1" class="form-control"  >-->
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                        <div class="dropdown-divider"></div>
+
+                    </div>
+                </li>
+                </li>
+
+                <li  class="nav-item">
+<!--                    <select id="organizationpicker" class="form-control" >-->
+<!--                        <option value="" >Показать все обращения</option>-->
+<!--                        <option th:each="user : ${user}"-->
+<!--                                th:value="${user.firstName + ' ' + user.lastName + ' ' +user.name}"-->
+<!--                                th:text="${user.firstName + ' ' + user.lastName + ' ' + user.name} "></option>-->
+<!--                    </select>-->
+                </li>
+                </li>
+
+                <li class="nav-item">
+<!--                    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">-->
+<!--                        <div id="statuspicker" class="btn-group mr-2" role="group" aria-label="First group">-->
+<!--                            <button type="button" id="digits" class="btn btn-primary">Новое</button>-->
+<!--                            <button type="button" class="btn btn-success">В работе</button>-->
+<!--                            <button type="button" class="btn btn-secondary">Ответ отправлен</button>-->
+<!--                            <button type="button" class="btn btn-secondary">Закрыто</button>-->
+
+
+<!--                        </div>-->
+<!--                    <div>-->
+<!--                        <input type='button' class="btn btn-danger" onclick='window.location.reload()'  value ='Сбросить фильтры' />-->
+<!--                    </div>-->
+                </li>
+
+            </ul>
+
+
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control" type="text" placeholder="Поиск" id="search-text" onkeyup="tableSearch()">
+
+            </form>
+        </div>
+    </nav>
+    <div>
+        <table   id="myTable" class="table table-bordered,table table-sm">
+            <thead >
+            <tr>
+                <th class="table-active" onclick="sortTable(0)">№</th>
+
+                <th class="table-active" onclick="sortTable(1)">Дата создания</th>
+                <th class="table-active" onclick="sortTable(3)">Ответственный</th>
+                <th class="table-active" onclick="sortTable(4)">Описание</th>
+                <th class="table-active" onclick="sortTable(5)"></th>
+            </tr>
+            </thead>
+
+            <tbody >
+            <tr  th:each="user : ${serviceNote} " >
+                <td  th:text="${user.id}"></td>
+                <td th:text="${#dates.format(user.dataCreation, 'dd.MM.yyyy')}"></td>
+                <td th:text="${user.executor.lastName + ' ' +  user.executor.name +' ' + user.executor.firstName}"></a></td>
+                <td th:text="${user.briefDescription}"></td>
+
+
+                <td>
+                    <a th:href="@{service-update/{id}(id=${user.id})}">
+                        <svg style="color : black" class="bi bi-pencil" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M11.293 1.293a1 1 0 0 1 1.414 0l2 2a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z"></path>
+                            <path fill-rule="evenodd" d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"></path>
+                        </svg>
+                    </a>
+                </td>
+<!--                <td>-->
+<!--                    <a th:href="@{appeal-reading/{id}(id=${user.id})}">-->
+<!--                        <svg style="color : black" class="bi bi-eye" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">-->
+<!--                            <path fill-rule="evenodd" d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.134 13.134 0 0 0 1.66 2.043C4.12 11.332 5.88 12.5 8 12.5c2.12 0 3.879-1.168 5.168-2.457A13.134 13.134 0 0 0 14.828 8a13.133 13.133 0 0 0-1.66-2.043C11.879 4.668 10.119 3.5 8 3.5c-2.12 0-3.879 1.168-5.168 2.457A13.133 13.133 0 0 0 1.172 8z"></path>-->
+<!--                            <path fill-rule="evenodd" d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"></path>-->
+<!--                        </svg>-->
+<!--                    </a>-->
+<!--                </td>-->
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+</body>
+
+<script  th:src="@{/js/service-home.js}">
+
+</script>
+</html>

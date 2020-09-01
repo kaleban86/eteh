@@ -68,21 +68,13 @@ public class FormControllerTest {
     }
 
     @RequestMapping(value = "/test", method = {RequestMethod.GET})
-    public String test(@RequestParam(value = "search", required = false) Long search,Model model) throws SQLException {
+    public String test(@PathVariable(value = "search", required = false) Long search,Model model) throws SQLException {
 
 
 
         System.out.println(search+ "-------------------------------------");
 
 
-        Iterable<Customer> customersList = customerRepository.findAll();
-        model.addAttribute("customerListName", customersList);
-        Optional<Customer> customerList = customerRepository.findById(search);
-        model.addAttribute("customerList",customerList);
-
-
-        List<UserProfileModels> userId = userProfileRepo.fainBiId(search);
-        model.addAttribute("userId", userId);
 
         return "/test";
 

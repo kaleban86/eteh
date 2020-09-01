@@ -3,6 +3,7 @@ package com.eteh.eteh.controller;
 
 import com.eteh.eteh.models.*;
 import com.eteh.eteh.repository.*;
+import com.eteh.eteh.service.AppealService;
 import com.eteh.eteh.service.MailSender;
 import com.eteh.eteh.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.Part;
-import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @PreAuthorize("hasAnyAuthority('APPEAL_CREATE','SUPER_ADMIN')  ")
@@ -59,6 +54,8 @@ public class FormControllerAppeal {
     private final AppealFileRepo appealFileRepo;
     private final UpdateIdRepository updateIdRepository;
 
+    private final AppealService appealService;
+
 
     /**
      * @param mailSender Отправляем почту
@@ -74,9 +71,10 @@ public class FormControllerAppeal {
      * @param appealFileSave
      * @param appealFileRepo1
      * @param updateIdRepository
+     * @param appealService
      */
     @Autowired
-    public FormControllerAppeal(MailSender mailSender, UserRepository userRepository, CustomerRepository customerRepository, AppealStatusRepo appealStatusRepo, FootingRepo footingRepo, StatusColor statusColor, ColorIdRepo colorIdRepo, UserProfileRepo userProfileRepo, AppealRepository appealRepository, UserService userService, AppealFileSave appealFileSave, AppealFileRepo appealFileRepo1, UpdateIdRepository updateIdRepository) {
+    public FormControllerAppeal(MailSender mailSender, UserRepository userRepository, CustomerRepository customerRepository, AppealStatusRepo appealStatusRepo, FootingRepo footingRepo, StatusColor statusColor, ColorIdRepo colorIdRepo, UserProfileRepo userProfileRepo, AppealRepository appealRepository, UserService userService, AppealFileSave appealFileSave, AppealFileRepo appealFileRepo1, UpdateIdRepository updateIdRepository, AppealService appealService) {
         this.mailSender = mailSender;
         this.userRepository = userRepository;
         this.customerRepository = customerRepository;
@@ -91,6 +89,7 @@ public class FormControllerAppeal {
         this.appealFileRepo = appealFileRepo1;
 
         this.updateIdRepository = updateIdRepository;
+        this.appealService = appealService;
     }
 
     /**
@@ -130,7 +129,6 @@ public class FormControllerAppeal {
      * @param controller контралёр
      * @param status статус
      * @param surname не используется
-     * @param lastName ФИО
      * @param dataCreation дата создания
      * @param dataAnswer дата ответа
      * @param nameCompany название компании
@@ -205,7 +203,21 @@ public class FormControllerAppeal {
 
         }
 
-        String Data = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+        /**
+         *  Сохраняем файлы
+         */
+        appealFileSave.saveFile(file,redirectAttributes,request,appeal.getId());
+
+
+
+
+        return "redirect:/appealHome";
+    }
+
+
+}
+/*
+   String Data = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
         Collection<Part> parts = request.getParts();
         String[] names = new String[parts.size()];
         int i = 0;
@@ -264,13 +276,7 @@ public class FormControllerAppeal {
 
 
         }
-
-        return "redirect:/appealHome";
-    }
-
-
-}
-
+ */
 
 /*
    if (file != null && !file.getOriginalFilename().isEmpty()) {
