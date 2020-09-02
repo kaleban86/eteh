@@ -45,7 +45,7 @@
 
                         <div th:each="userId : ${serviceNote}">
                             <label>Автор:</label>
-                            <text readonly type="text" th:text="${userId.author.firstName + ' ' + userId.author.name}"
+                            <text readonly type="text" th:text="${userId.author.lastName + ' ' + userId.author.name}"
                                   class="form-control"></text>
 
                         </div>
@@ -86,7 +86,7 @@
                                 <div class="form-group blu-margin">
 
 
-                                    <label for=>Комментарий к служебной записки:</label>
+                                    <label for=>Комментарий к служебной записке:</label>
 
 
                                     <textarea class="form-control" th:field="*{commentsText}" rows="23"></textarea>
@@ -156,6 +156,10 @@
 
                 </div>
 
+
+                <label>Дата создания:</label>
+                <text readonly type="text" th:text="${#dates.format(user.dataCreation, 'dd.MM.yyyy') }"
+                      class="form-control"></text>
                 <label>Краткое описание:</label>
                 <text readonly type="text" th:text="${user.briefDescription}" class="form-control"></text>
 
@@ -168,9 +172,6 @@
             <div id="rightBlock1" class="col-md-6">
 
 
-                <label>Дата создания:</label>
-                <text readonly type="text" th:text="${#dates.format(user.dataCreation, 'dd.MM.yyyy') }"
-                      class="form-control"></text>
 
 
                 <label>Исполнители:</label>
@@ -181,6 +182,10 @@
                 <text readonly type="text"
                       th:text="${user.controller.lastName + ' ' +user.controller.name+ ' '+ user.controller.firstName }"
                       class="form-control"></text>
+                <label for=>Комментарий к служебной записке:</label>
+
+
+                <textarea readonly class="form-control" th:text="${user.commentsText}" rows="25"></textarea>
 
             </div>
         </div>

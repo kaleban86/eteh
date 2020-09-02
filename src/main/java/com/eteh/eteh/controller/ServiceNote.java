@@ -14,6 +14,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Email;
+import java.awt.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -47,11 +49,12 @@ public class ServiceNote {
 
 
     @GetMapping("/service-home")
-    public String serviceNoteHome(String name, Model model){
+    public String serviceNoteHome(String name, Model model) throws AWTException {
 
         model.addAttribute("serviceNote", serviceNoteRepo.findAll());
         List<User> user = userService.findAll();
         model.addAttribute("user", user);
+
         return "/service-home";
     }
 
@@ -73,11 +76,12 @@ public class ServiceNote {
                               @RequestParam String mainText,
                               @RequestParam String commentsText,
                               @RequestParam User executor,
-                              @RequestParam User controller) throws IOException, ServletException {
+                              @RequestParam User controller) throws IOException, ServletException, AWTException {
 
 
         com.eteh.eteh.models.ServiceNote serviceNote = new com.eteh.eteh.models.ServiceNote(briefDescription,user,mainText,commentsText,executor,controller);
        serviceNoteRepo.save(serviceNote);
+       
 
 
 
@@ -229,5 +233,17 @@ public class ServiceNote {
         return "redirect:/service-home";
     }
 
+//
+//    public static void message() throws AWTException {
+//        if (SystemTray.isSupported()) {
+//            SystemTray tray = SystemTray.getSystemTray();
+//
+//            java.awt.Image image = Toolkit.getDefaultToolkit().getImage("images/tray.gif");
+//            TrayIcon trayIcon = new TrayIcon(image);
+//            tray.add(trayIcon);
+//            trayIcon.displayMessage("Привет.", "Я служебная записка",
+//                    TrayIcon.MessageType.INFO);
+//        }
+//    }
 
 }

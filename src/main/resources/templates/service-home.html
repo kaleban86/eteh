@@ -91,7 +91,8 @@
                 <th class="table-active" onclick="sortTable(0)">№</th>
 
                 <th class="table-active" onclick="sortTable(1)">Дата создания</th>
-                <th class="table-active" onclick="sortTable(3)">Ответственный</th>
+                <th class="table-active" onclick="sortTable(2)">Ответственный</th>
+                <th class="table-active" onclick="sortTable(3)">Автор</th>
                 <th class="table-active" onclick="sortTable(4)">Описание</th>
                 <th class="table-active" onclick="sortTable(5)"></th>
             </tr>
@@ -102,6 +103,7 @@
                 <td  th:text="${user.id}"></td>
                 <td th:text="${#dates.format(user.dataCreation, 'dd.MM.yyyy')}"></td>
                 <td th:text="${user.executor.lastName + ' ' +  user.executor.name +' ' + user.executor.firstName}"></a></td>
+                <td th:text="${user.author.lastName + ' ' +  user.author.name +' ' + user.author.firstName}"></a></td>
                 <td th:text="${user.briefDescription}"></td>
 
 
