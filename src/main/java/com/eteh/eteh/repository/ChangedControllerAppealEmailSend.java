@@ -18,7 +18,7 @@ import java.sql.*;
 @Service
 public class ChangedControllerAppealEmailSend {
 
-    @Value("${UrlEmail")
+  //  @Value("${UrlEmail")
     private String UrlEmail;
 
     private DataSource dataSource;
@@ -106,16 +106,16 @@ public class ChangedControllerAppealEmailSend {
     public void sendEmailChangedController(String emailController, Long appealId, String BriefDescription, Date DataCreation, Date DataAnswer) {
 
         String message = String.format(
-                "Новое входящие обращение: № . " + appealId + "\n" +
+                "Новое входящие обращение: №  " + appealId + "\n" +
 
 
-                        "Название компании:  ." + BriefDescription + "\n" +
+                        "Название компании:  " + BriefDescription + "\n" +
 
                         "Дата создания: " + DataCreation + "\n" +
 
                         "Дата закрытия: " + DataAnswer + "\n" +
 
-                        UrlEmail + appealId
+                        "http://10.1.1.1:8080/appeal-reading/" + appealId
 
         );
         mailSender.send(emailController, "Вы назначены контролёром ", message);

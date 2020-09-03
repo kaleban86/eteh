@@ -106,16 +106,16 @@ public class ChangedExecutorAppealEmailSend {
     public  void sendEmailChangedExecutor(String emailExecutor,Long appealId, String BriefDescription,Date DataCreation , Date DataAnswer) {
 
         String message = String.format(
-                "Новое входящие обращение: № . " + appealId + "\n" +
+                "Новое входящие обращение: №  " + appealId + "\n" +
 
 
-                        "Название компании:  ." + BriefDescription + "\n" +
+                        "Название компании: " + BriefDescription + "\n" +
 
                         "Дата создания: " + DataCreation + "\n" +
 
                         "Дата закрытия: " + DataAnswer + "\n" +
 
-                        UrlEmail + appealId
+                        "http://10.1.1.1:8080/appeal-reading/" + appealId
 
         );
         mailSender.send(emailExecutor, "Вы назначены исполнителем ", message);

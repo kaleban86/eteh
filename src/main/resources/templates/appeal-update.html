@@ -44,7 +44,7 @@
 
                         <div th:each="userId : ${userId}">
                             <label>Автор:</label>
-                            <text readonly type="text" th:text="${userId.name + ' ' + userId.lastName}"
+                            <text readonly type="text" th:text="${userId.lastName + ' ' + userId.name}"
                                   class="form-control"></text>
 
                         </div>
@@ -207,7 +207,7 @@
 
         <summary>
 
-            <text th:text="  ' Дата изменения: '+ ${#dates.format(user.dataCreation, 'dd.MM.yyyy')} +' ' + ${  'Автор: ' +user.authorUpdate.name + ' '+ user.authorUpdate.lastName }"></text>
+            <text th:text="  ' Дата изменения: '+ ${#dates.format(user.dataCreation, 'dd.MM.yyyy')} +' ' + ${  'Автор: ' +user.authorUpdate.lastName + ' '+ user.authorUpdate.name }"></text>
 
         </summary>
 

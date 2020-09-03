@@ -178,10 +178,10 @@ public class UserProfileRepo {
     public  void sendEmailAppealReadingExecutor(String emailExecutor,Long appealId, String BriefDescription,Date DataCreation , Date DataAnswer) {
 
         String message = String.format(
-                "Новое входящие обращение: № . "  +appealId+ "\n"+
+                "Новое входящие обращение: №  "  +appealId+ "\n"+
 
 
-                        "Краткое описание:  ." + BriefDescription+ "\n"+
+                        "Краткое описание:  " + BriefDescription+ "\n"+
 
                         "Дата создания: " +DataCreation+"\n"+
 
@@ -200,10 +200,10 @@ public class UserProfileRepo {
     public  void sendEmailAppealReadingController(String emailController,Long appealId, String BriefDescription,Date DataCreation , Date DataAnswer) {
 
         String message = String.format(
-                "Новое входящие обращение: № . "  +appealId+ "\n"+
+                "Новое входящие обращение: № "  +appealId+ "\n"+
 
 
-                        "Краткое описание:  ." + BriefDescription+ "\n"+
+                        "Краткое описание: " + BriefDescription+ "\n"+
 
                         "Дата создания: " +DataCreation+"\n"+
 

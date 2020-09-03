@@ -64,6 +64,7 @@ public class FormControllerAppealHome {
 
 
 
+
     @Autowired
     public FormControllerAppealHome(AppealRepository appealRepository, ChangedControllerAppealEmailSend
             changedControllerAppealEmailSend,
@@ -202,8 +203,6 @@ public class FormControllerAppealHome {
 
 
 
-
-
         return "/appeal-update";
     }
 
@@ -260,6 +259,22 @@ public class FormControllerAppealHome {
                     changedControllerAppealEmailSend.checkController(appeal.getId(),
                             appeal.getController().getId(), appeal.getBriefDescription(),
                             appeal.getDataCreation(), appeal.getDataAnswer());
+
+                }
+            }).start();
+
+        } catch (Exception e) {
+
+        }
+
+
+        try {
+
+            new Thread(new Runnable() {
+                @Override
+
+                public synchronized void run() {
+
                     changedExecutorAppealEmailSend.checkExecutor(appeal.getId(),
                             appeal.getExecutor().getId(), appeal.getBriefDescription(),
                             appeal.getDataCreation(), appeal.getDataAnswer());
