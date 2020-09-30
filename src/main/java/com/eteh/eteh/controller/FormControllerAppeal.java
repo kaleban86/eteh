@@ -64,14 +64,14 @@ public class FormControllerAppeal {
      * @param appealStatusRepo Репозиторий статус
      * @param footingRepo Репозиторий основание
      * @param statusColor Репозиторий цвет статуса
-     * @param colorIdRepo
+     * @param colorIdRepo  Репозиторий цвет статуса
      * @param userProfileRepo Репозиторий профиль пользователей
      * @param appealRepository Репозиторий входящие обращения
-     * @param userService
-     * @param appealFileSave
-     * @param appealFileRepo1
-     * @param updateIdRepository
-     * @param appealService
+     * @param userService       Репозиторий пользователей
+     * @param appealFileSave  Сохраняем
+     * @param appealFileRepo1 Репозиторий файлы
+     * @param updateIdRepository Репозиторий кто обновил
+     * @param appealService Репозиторий Входяшие обрашения
      */
     @Autowired
     public FormControllerAppeal(MailSender mailSender, UserRepository userRepository, CustomerRepository customerRepository, AppealStatusRepo appealStatusRepo, FootingRepo footingRepo, StatusColor statusColor, ColorIdRepo colorIdRepo, UserProfileRepo userProfileRepo, AppealRepository appealRepository, UserService userService, AppealFileSave appealFileSave, AppealFileRepo appealFileRepo1, UpdateIdRepository updateIdRepository, AppealService appealService) {
@@ -92,8 +92,8 @@ public class FormControllerAppeal {
         this.appealService = appealService;
     }
 
-    /**
-     * Страница новое обращение
+    /** @param  @GetMapping("/appeal") Страница Новое входящее обращение
+     *
      */
 
     @GetMapping("/appeal")
@@ -141,6 +141,10 @@ public class FormControllerAppeal {
      * @throws IOException
      * @throws SQLException
      */
+
+    /** @param   @PostMapping("/appeal/appalAdd") Страница Новое входящее обращение
+     *
+     */
     @PostMapping("/appeal/appalAdd")
     public String appealAdd(@RequestParam("file") MultipartFile  file,
                             RedirectAttributes redirectAttributes, HttpServletRequest request,
@@ -170,8 +174,8 @@ public class FormControllerAppeal {
         appeal.getId();
 
 
-        /**
-         *  Сохраняем новое обрашение
+        /** @param   @appealRepository.save(appeal);  Сохраняем новое входящее обращение
+         *
          */
 
 
@@ -216,85 +220,4 @@ public class FormControllerAppeal {
 
 
 }
-/*
-   String Data = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
-        Collection<Part> parts = request.getParts();
-        String[] names = new String[parts.size()];
-        int i = 0;
-        for (Part part : parts) {
-            BufferedInputStream in = new BufferedInputStream(part.getInputStream());
-            byte[] data = new byte[in.available()];
-            in.read(data, 0, data.length);
-            String fileName = part.getSubmittedFileName();
-            Path path = Paths.get(uploadPath + fileName);
-            try {
 
-                Files.write(path, data);
-            }catch (Exception e){
-
-
-            }
-
-            names[i++] = fileName;
-
-            if (part.getSubmittedFileName()== null) {
-
-
-
-
-
-
-            } else {
-
-                try {
-
-                    new Thread(new Runnable() {
-                        @Override
-
-
-                        public synchronized void run() {
-
-                            String uuidFile = UUID.randomUUID().toString();
-
-
-                            appealFileSave.saveDbFile(part.getSubmittedFileName(), data.length, Data, appeal.getId(), uuidFile);
-
-
-
-                        }
-                    }).start();
-
-                }catch (Exception e){
-
-                }
-
-
-
-
-            }
-
-
-
-        }
- */
-
-/*
-   if (file != null && !file.getOriginalFilename().isEmpty()) {
-            File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists()) {
-                uploadDir.mkdir();
-            }
-            String uuidFile = UUID.randomUUID().toString();
-            String resultFilename = uuidFile + "." + file.getOriginalFilename();
-            file.transferTo(new File(uploadPath  + resultFilename));
- */
-//        SecurityContext context = SecurityContextHolder.getContext();
-//        Authentication authentication = context.getAuthentication();
-//        String username = authentication.getName();
-//        Object principal = authentication.getPrincipal();
-//        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-//
-//        System.out.println(username);
-//        System.out.println(principal);
-//        System.out.println(authorities);
-//

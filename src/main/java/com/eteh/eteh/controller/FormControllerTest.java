@@ -1,8 +1,7 @@
 package com.eteh.eteh.controller;
 
 
-import com.eteh.eteh.models.Customer;
-import com.eteh.eteh.models.UserProfileModels;
+import com.eteh.eteh.models.Appeal;
 import com.eteh.eteh.repository.*;
 import com.eteh.eteh.service.MailSender;
 import com.eteh.eteh.service.UserService;
@@ -16,13 +15,19 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -42,15 +47,19 @@ public class FormControllerTest {
     private final UserProfileRepo userProfileRepo;
     private final AppealUadRepo appealUadRepo;
     private final AppealRepository appealRepository;
+    private final UserRepository userRepository;
 
+    private final AppealFileSave appealFileSave;
     private final AppealStatusRepo appealStatusRepo;
     private final CustomerRepository customerRepository;
-    public FormControllerTest(UserService userService, MailSender mailSender, UserProfileRepo userProfileRepo, AppealUadRepo appealUadRepo, AppealRepository appealRepository, AppealStatusRepo appealStatusRepo, CustomerRepository customerRepository) {
+    public FormControllerTest(UserService userService, MailSender mailSender, UserProfileRepo userProfileRepo, AppealUadRepo appealUadRepo, AppealRepository appealRepository, UserRepository userRepository, AppealFileSave appealFileSave, AppealStatusRepo appealStatusRepo, CustomerRepository customerRepository) {
         this.userService = userService;
         this.mailSender = mailSender;
         this.userProfileRepo = userProfileRepo;
         this.appealUadRepo = appealUadRepo;
         this.appealRepository = appealRepository;
+        this.userRepository = userRepository;
+        this.appealFileSave = appealFileSave;
         this.appealStatusRepo = appealStatusRepo;
         this.customerRepository = customerRepository;
     }
@@ -68,13 +77,61 @@ public class FormControllerTest {
     }
 
     @RequestMapping(value = "/test", method = {RequestMethod.GET})
-    public String test(@PathVariable(value = "search", required = false) Long search,Model model) throws SQLException {
+ //    @GetMapping("/test")
+    public String test(@RequestParam("file") MultipartFile  file,
+                       RedirectAttributes redirectAttributes, HttpServletRequest request, Model model, Appeal appeal) throws SQLException, IOException, ServletException {
+
+
+         String Data = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+         Collection<Part> parts = request.getParts();
+         String[] names = new String[parts.size()];
+         int i = 0;
+         for (Part part : parts) {
+             BufferedInputStream in = new BufferedInputStream(part.getInputStream());
+             byte[] data = new byte[in.available()];
+             in.read(data, 0, data.length);
+             String fileName = part.getSubmittedFileName();
+             Path path = Paths.get(uploadPath + fileName);
+             try {
+
+                 Files.write(path, data);
+             } catch (Exception e) {
+
+
+             }
+
+             names[i++] = fileName;
+
+             if (part.getSubmittedFileName() == null) {
+
+
+             } else {
+
+                 try {
+
+                     new Thread(new Runnable() {
+                         @Override
+
+
+                         public synchronized void run() {
+
+                             String uuidFile = UUID.randomUUID().toString();
 
 
 
-        System.out.println(search+ "-------------------------------------");
+
+                         }
+                     }).start();
+
+                 } catch (Exception e) {
+
+                 }
 
 
+             }
+
+
+         }
 
         return "/test";
 
@@ -124,17 +181,7 @@ public class FormControllerTest {
     //сохранить файл
     private void saveUploadedFiles(List files) throws IOException {
 
-//        for (MultipartFile file : files) {
-//
-//            if (file.isEmpty()) {
-//                continue; // следующий пожалуйста
-//            }
-//
-//            byte[] bytes = file.getBytes();
-//            Path path = Paths.get(uploadPath + file.getOriginalFilename());
-//            Files.write(path, bytes);
-//
-//        }
+
 
     }
 

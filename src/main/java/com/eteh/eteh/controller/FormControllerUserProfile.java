@@ -34,25 +34,20 @@ public class FormControllerUserProfile {
     }
 
     @GetMapping("/user-profile")
-    public String findAll(Model model, @AuthenticationPrincipal User user){
+    public String findAll(Model model, @AuthenticationPrincipal User user) {
         Long id = user.getId();
         List<UserProfileModels> userId = userProfileRepo.fainBiId(id);
 
         Optional<User> userIdRepo = userRepository.findById(id);
 
-        model.addAttribute("userIdRepo",userIdRepo);
-
-
-
-
-
+        model.addAttribute("userIdRepo", userIdRepo);
 
 
         return "/user-profile";
     }
 
     @PostMapping("/user-profile")
-    public String updateUser(User user){
+    public String updateUser(User user) {
         userService.saveUser(user);
         return "redirect:/hello";
     }

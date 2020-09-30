@@ -11,6 +11,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -98,11 +99,14 @@ public class FormControllerAppealHome {
     }
 
 
-    /*
-    Домашняя страница Appeal
+    /** @param  @GetMapping("/appealHome") Домашняя страница  входящее обращение
+     *
      */
     @GetMapping("/appealHome")
-    public String appealHome(String name, Model model, User user, AppealAud appealAud, Appeal appeal, HttpServletRequest request) throws SQLException {
+    public String appealHome(String name, Model model, @AuthenticationPrincipal User user) throws SQLException {
+
+
+
         model.addAttribute("appeal", appealRepository.findAll());
 
 
@@ -117,15 +121,18 @@ public class FormControllerAppealHome {
 
     }
 
-
+    /** @param @GetMapping("/appeal-delete/{id}") Удалить не используется
+     *
+     */
     @GetMapping("/appeal-delete/{id}")
     public String deleteBlog(@PathVariable("id") Long id) {
         appealRepository.deleteById(id);
         return "redirect:/appealHome";
     }
 
-    /*
-    Страница просмотра
+
+    /** @param  @RequestMapping(value = "/appeal-reading/{id}" Страница чтения входящее обращение
+     *
      */
     @PreAuthorize("hasAnyAuthority('ADMIN ','SUPER_ADMIN','USER_READING','APPEAL_CREATE')  ")
     @RequestMapping(value = "/appeal-reading/{id}", method = {RequestMethod.GET})
@@ -163,7 +170,9 @@ public class FormControllerAppealHome {
         return "/appeal-reading";
     }
 
-
+    /** @param    @RequestMapping(value = "/appeal/{id}" Страница оновления входящее обращение
+     *
+     */
     @PreAuthorize("hasAnyAuthority('ADMIN ','SUPER_ADMIN','APPEAL_CREATE')  ")
     @RequestMapping(value = "/appeal/{id}", method = {RequestMethod.GET})
     public String updateAppeal(@PathVariable("id") Long id, Model model,
@@ -207,8 +216,8 @@ public class FormControllerAppealHome {
     }
 
 
-    /*
-    Скачать файил
+    /** @param    @RequestMapping(value = "/download-document/{fileName}" Скачать файлы
+     *
      */
     @RequestMapping(value = "/download-document/{fileName}", method = RequestMethod.GET)
     public @ResponseBody
@@ -238,8 +247,10 @@ public class FormControllerAppealHome {
     Сохраняем измения
      */
     @RequestMapping("/appeal-update")
-    public String saveAppeal(Appeal appeal, Model model, @AuthenticationPrincipal User user) {
+    public String saveAppeal(Appeal appeal, Model model, @AuthenticationPrincipal User user,HttpServletRequest request) {
         model.addAttribute("appeal", appealRepository.findAll());
+
+        String keiId= request.getParameter("keiId");
 
 
         /*
@@ -285,6 +296,15 @@ public class FormControllerAppealHome {
 
         }
 
+        if (keiId != null){
+
+            try {
+                appealUadRepo.deleteFile(keiId);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+
 
         appealRepository.save(appeal);
         Long id = appeal.getId();
@@ -310,13 +330,3 @@ public class FormControllerAppealHome {
 
 
 }
-
-//    @RequestMapping(value = "/view-document/{fileName}", method = RequestMethod.GET)
-//    public @ResponseBody
-//    Resource viewDocument(HttpServletResponse response,Appeal appeal) throws FileNotFoundException {
-//
-//        response.setContentType(uploadPath+appeal.getFileName());
-//        response.setHeader("Content-Disposition", "inline; filename=" + uploadPath+appeal.getFileName());
-//        response.setHeader("Content-Length", String.valueOf(uploadPath.length()));
-//        return new FileSystemResource(uploadPath+appeal.getFileName());
-//    }

@@ -26,8 +26,11 @@ public class FormControllerHello {
 
     @GetMapping("/hello")
     public String orderAdd(String name, Model model, @AuthenticationPrincipal User user){
+
         model.addAttribute("appeal" , blogRepository.findAll());
         Long id = user.getId();
+
+
 
         return "/hello";
     }

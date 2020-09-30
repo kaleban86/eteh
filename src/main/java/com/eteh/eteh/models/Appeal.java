@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Audited
 @Entity
 //@OptimisticLocking(type = OptimisticLockType.DIRTY)
-public class Appeal  {
+public class Appeal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,7 +32,6 @@ public class Appeal  {
     private ColorStatusId color;
 
 
-
     private Date dataAnswer;
     @UpdateTimestamp
     @CreatedDate
@@ -42,7 +41,6 @@ public class Appeal  {
     private String fileName;
 
 
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     @CreatedBy
@@ -50,18 +48,16 @@ public class Appeal  {
     private User author;
 
 
-
-
     @Size(max = 75)
     private String briefDescription;
     private String surname;
 
     @Size(max = 9000)
-    private String  text;
+    private String text;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "authorUpdate")
-    private User   authorUpdate;
+    private User authorUpdate;
     @ManyToOne(fetch = FetchType.LAZY)
     private Customer nameCompany;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -70,7 +66,7 @@ public class Appeal  {
     @JoinColumn(name = "footing")
     private Footing footing;
     @ManyToOne(fetch = FetchType.LAZY)
-   private User controller;
+    private User controller;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status")
@@ -78,11 +74,8 @@ public class Appeal  {
 
     private String tel;
 
-   
 
     private String address, emailAddress;
-
-
 
 
     public Appeal(User user, String briefDescription, Footing footing,
@@ -92,28 +85,26 @@ public class Appeal  {
                   User authorUpdate, ColorStatusId color) {
 
 
-        this.briefDescription= briefDescription;
-        this.footing=footing;
-        this.text=text;
-        this.executor=executor;
-        this.controller=controller;
-        this.status=status;
-        this.surname=surname;
+        this.briefDescription = briefDescription;
+        this.footing = footing;
+        this.text = text;
+        this.executor = executor;
+        this.controller = controller;
+        this.status = status;
+        this.surname = surname;
 
-        this.dataAnswer=dataAnswer;
-        this.dataCreation=dataCreation;
-        this.nameCompany=nameCompany;
-        this.address=address;
-        this.tel= tel;
-        this.emailAddress=emailAddress;
+        this.dataAnswer = dataAnswer;
+        this.dataCreation = dataCreation;
+        this.nameCompany = nameCompany;
+        this.address = address;
+        this.tel = tel;
+        this.emailAddress = emailAddress;
         this.author = user;
-        this.color=color;
-        this.authorUpdate=authorUpdate;
-
+        this.color = color;
+        this.authorUpdate = authorUpdate;
 
 
     }
-
 
 
     public Customer getNameCompany() {
@@ -139,6 +130,7 @@ public class Appeal  {
     public void setColor(ColorStatusId color) {
         this.color = color;
     }
+
     public Appeal() {
     }
 
@@ -182,7 +174,6 @@ public class Appeal  {
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
     }
-
 
 
     public String getTel() {
@@ -234,7 +225,6 @@ public class Appeal  {
     }
 
 
-
     public String getText() {
         return text;
     }
@@ -268,7 +258,6 @@ public class Appeal  {
     }
 
 
-
     public String getFileName() {
         return fileName;
     }
@@ -285,7 +274,6 @@ public class Appeal  {
     public void setAuthorUpdate(User authorUpdate) {
         this.authorUpdate = authorUpdate;
     }
-
 
 
     @Override

@@ -35,7 +35,8 @@
 
 
                 <!--/*@thymesVar id="Update" type="com"*/-->
-                <form   class="form-group row col-lg-50" enctype="multipart/form-data"  th:action="@{/appeal-update}" th:object="${Update}"
+                <form class="form-group row col-lg-50" enctype="multipart/form-data" th:action="@{/appeal-update}"
+                      th:object="${Update}"
                       method="post">
                     <div id="leftBlock" class="col-md-6">
 
@@ -147,13 +148,8 @@
 <!--                                    <div id="img-container">-->
 
 
-
-
 <!--                                        <a href="#" id="fileSelect">Прикрепить файлы</a>-->
-<!--                                        <input type="file" name="file" id="fileElem" multiple  style="display:none">-->
-
-
-
+<!--                                        <input type="file" name="file" id="fileElem" multiple style="display:none">-->
 
 
 <!--                                        <div>-->
@@ -162,7 +158,8 @@
 
 
 <!--                                            </div>-->
-<!--                                        </div><br>-->
+<!--                                        </div>-->
+<!--                                        <br>-->
 
 
 <!--                                    </div>-->
@@ -178,6 +175,11 @@
 
 
                                                 <text readonly type="text" th:text="${file.fileName}" ></text></a>
+
+
+                                        </div>
+
+
                                             <a id="downloadFile"></a>
 
                                         </div>
@@ -202,7 +204,7 @@
 <div id="Tokyo" class="tabcontent">
 
 
-    <details  class="form-group row col-lg-50" th:each="user : ${appeals}">
+    <details class="form-group row col-lg-50" th:each="user : ${appeals}">
 
 
         <summary>
@@ -223,7 +225,6 @@
 
                 <label>Краткое описание:</label>
                 <text readonly type="text" th:text="${user.briefDescription}" class="form-control"></text>
-
 
 
                 <label>Текст:</label>
@@ -271,9 +272,6 @@
     </details>
 
 
-</div>
-</div>
-</div>
 </div>
 
 <script th:src="@{/js/appeal-update.js}"></script>

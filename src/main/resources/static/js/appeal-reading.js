@@ -1,11 +1,11 @@
-(function () {
-    let link = document.querySelector('#download');
-    if ((/\/$/).test(link.href)) link.style.display = 'none';
-})();
-(function () {
-    let link = document.querySelector('#downloadFile');
-    if ((/\/$/).test(link.href)) link.style.display = 'none';
-})();
+// (function () {
+//     let link = document.querySelector('#download');
+//     if ((/\/$/).test(link.href)) link.style.display = 'none';
+// })();
+// (function () {
+//     let link = document.querySelector('#downloadFile');
+//     if ((/\/$/).test(link.href)) link.style.display = 'none';
+// })();
 
 (function () {
     //подсвечивает изменённые поля

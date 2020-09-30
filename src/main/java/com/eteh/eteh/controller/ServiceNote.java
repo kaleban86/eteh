@@ -34,6 +34,7 @@ public class ServiceNote {
     private final AppealUadRepo appealUadRepo;
     private final ServiceNoteAudRepo serviceNoteAudRepo;
     private final MailSender mailSender;
+
     public ServiceNote(UserService userService, ServiceNoteRepo serviceNoteRepo, UserProfileRepo userProfileRepo, AppealFileSave appealFileSave, AppealUadRepo appealUadRepo, ServiceNoteAudRepo serviceNoteAudRepo, MailSender mailSender) {
         this.userService = userService;
         this.serviceNoteRepo = serviceNoteRepo;
@@ -44,8 +45,6 @@ public class ServiceNote {
         this.serviceNoteAudRepo = serviceNoteAudRepo;
         this.mailSender = mailSender;
     }
-
-
 
 
     @GetMapping("/service-home")
@@ -59,7 +58,7 @@ public class ServiceNote {
     }
 
     @GetMapping("/service-note")
-    public String serviceNote(String name, org.springframework.ui.Model model){
+    public String serviceNote(String name, org.springframework.ui.Model model) {
 
         model.addAttribute("name", name);
         List<User> user = userService.findAll();
@@ -79,14 +78,12 @@ public class ServiceNote {
                               @RequestParam User controller) throws IOException, ServletException, AWTException {
 
 
-        com.eteh.eteh.models.ServiceNote serviceNote = new com.eteh.eteh.models.ServiceNote(briefDescription,user,mainText,commentsText,executor,controller);
-       serviceNoteRepo.save(serviceNote);
-       
+        com.eteh.eteh.models.ServiceNote serviceNote = new com.eteh.eteh.models.ServiceNote(briefDescription, user, mainText, commentsText, executor, controller);
+        serviceNoteRepo.save(serviceNote);
 
 
-
-      String emailExecutor =executor.getEmail();
-      String emailController = controller.getEmail();
+        String emailExecutor = executor.getEmail();
+        String emailController = controller.getEmail();
 
         String message = String.format(
                 "Новая служебная записка: №  " + serviceNote.getId() + "\n" +
@@ -94,10 +91,9 @@ public class ServiceNote {
 
                         "Краткое описание:  " + serviceNote.getBriefDescription() + "\n" +
 
-                        "Дата создания: " + serviceNote.getDataCreation()+ "\n" +
+                        "Дата создания: " + serviceNote.getDataCreation() + "\n" +
 
                         UrlEmailNote + serviceNote.getId()
-
 
 
         );
@@ -109,8 +105,8 @@ public class ServiceNote {
                 @Override
 
                 public synchronized void run() {
-                    mailSender.send(emailExecutor,"Вы назначены исполнителем ",message);
-                    mailSender.send(emailController,"Вы назначены контролёром ",message);
+                    mailSender.send(emailExecutor, "Вы назначены исполнителем ", message);
+                    mailSender.send(emailController, "Вы назначены контролёром ", message);
 
                 }
             }).start();
@@ -120,25 +116,24 @@ public class ServiceNote {
         }
 
 
-
         try {
 
-           new Thread(new Runnable() {
-               @Override
+            new Thread(new Runnable() {
+                @Override
 
                 public synchronized void run() {
-                   try {
-                       appealFileSave.saveFile(file,redirectAttributes,request,serviceNote.getId());
-                   } catch (IOException e) {
-                       e.printStackTrace();
-                   } catch (ServletException e) {
-                       e.printStackTrace();
-                   }
+                    try {
+                        appealFileSave.saveFile(file, redirectAttributes, request, serviceNote.getId());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ServletException e) {
+                        e.printStackTrace();
+                    }
 
-               }
+                }
             }).start();
 
-       } catch (Exception e) {
+        } catch (Exception e) {
 
         }
 
@@ -147,7 +142,7 @@ public class ServiceNote {
     }
 
     @GetMapping("/service-update")
-    public String serviceUpdate(String name, org.springframework.ui.Model model){
+    public String serviceUpdate(String name, org.springframework.ui.Model model) {
 
         model.addAttribute("name", name);
         List<User> user = userService.findAll();
@@ -158,10 +153,10 @@ public class ServiceNote {
 
     @RequestMapping(value = "/service-update/{id}", method = {RequestMethod.GET})
     public String updateNote(@PathVariable("id") Long id, Model model,
-                               @AuthenticationPrincipal User userUpdate)
+                             @AuthenticationPrincipal User userUpdate)
             throws SQLException, IOException, ServletException {
 
-        com.eteh.eteh.models.ServiceNote serviceNote  = serviceNoteRepo.getOne(id);
+        com.eteh.eteh.models.ServiceNote serviceNote = serviceNoteRepo.getOne(id);
         model.addAttribute("serviceNote", serviceNote);
         List<User> user = userService.findAll();
         model.addAttribute("user", user);
@@ -180,70 +175,13 @@ public class ServiceNote {
 
     @RequestMapping("/service-update")
     public String saveNote(com.eteh.eteh.models.ServiceNote serviceNote, Model model, @AuthenticationPrincipal User user) {
-        model.addAttribute("serviceNote",serviceNoteRepo .findAll());
+        model.addAttribute("serviceNote", serviceNoteRepo.findAll());
 
         serviceNoteRepo.save(serviceNote);
-
-        /*
-        Проверка и что поля контролёр и исполнитель
-         изменились, и отправляем письмо  в новом потоке
-
-         */
-
-//
-//        try {
-//
-//            new Thread(new Runnable() {
-//                @Override
-//
-//                public synchronized void run() {
-//
-//                    changedControllerAppealEmailSend.checkController(appeal.getId(),
-//                            appeal.getController().getId(), appeal.getBriefDescription(),
-//                            appeal.getDataCreation(), appeal.getDataAnswer());
-//                    changedExecutorAppealEmailSend.checkExecutor(appeal.getId(),
-//                            appeal.getExecutor().getId(), appeal.getBriefDescription(),
-//                            appeal.getDataCreation(), appeal.getDataAnswer());
-//                }
-//            }).start();
-//
-//        } catch (Exception e) {
-//
-//        }
-//
-//
-//        appealRepository.save(appeal);
-//        Long id = appeal.getId();
-//        Long userId = user.getId();
-//        String lastName = user.getLastName();
-//        String name = user.getName();
-//
-//
-//        appeal.getExecutor();
-//
-//
-//        /*
-//
-//        Записываем автора который обновил входяшиие обрашение
-//         */
-
-
 
 
         return "redirect:/service-home";
     }
 
-//
-//    public static void message() throws AWTException {
-//        if (SystemTray.isSupported()) {
-//            SystemTray tray = SystemTray.getSystemTray();
-//
-//            java.awt.Image image = Toolkit.getDefaultToolkit().getImage("images/tray.gif");
-//            TrayIcon trayIcon = new TrayIcon(image);
-//            tray.add(trayIcon);
-//            trayIcon.displayMessage("Привет.", "Я служебная записка",
-//                    TrayIcon.MessageType.INFO);
-//        }
-//    }
 
 }

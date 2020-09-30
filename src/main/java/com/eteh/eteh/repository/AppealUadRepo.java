@@ -1,24 +1,16 @@
 package com.eteh.eteh.repository;
 
 import com.eteh.eteh.models.Appeal;
-import com.eteh.eteh.models.AppealAud;
 import com.eteh.eteh.models.AppealFile;
-import com.eteh.eteh.models.ServiceNote;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.envers.AuditReader;
 import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.envers.query.AuditEntity;
 import org.hibernate.envers.query.AuditQuery;
-import org.hibernate.query.Query;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.sql.DataSource;
 import javax.transaction.Transactional;
-import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,16 +20,19 @@ public class AppealUadRepo {
     @PersistenceContext
     private EntityManager entityManager;
     private final DataSource dataSource;
+    private final EntityManagerFactory entityManagerFactory;
 
-    public AppealUadRepo(DataSource dataSource) {
+
+    public AppealUadRepo(DataSource dataSource, EntityManagerFactory entityManagerFactory) {
         this.dataSource = dataSource;
+        this.entityManagerFactory = entityManagerFactory;
     }
 
     public List<AppealFile> findByIdFile(Long id) throws SQLException {
 
         try (Connection c = dataSource.getConnection()) {
 
-            String sql = "select file_name from appeal_file where id_file = ?";
+            String sql = "select file_name,kei_id from appeal_file where id_file = ?";
             PreparedStatement preparedStatement = c.prepareStatement(sql);
             preparedStatement.setObject(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -50,6 +45,7 @@ public class AppealUadRepo {
 
 
                 String fileName = resultSet.getString("file_name");
+                String keyID = resultSet.getNString("kei_id");
 
 
 
@@ -60,6 +56,7 @@ public class AppealUadRepo {
 
 
                appealFile.setFileName(fileName);
+               appealFile.setKeiId(keyID);
 
 
 
@@ -103,6 +100,29 @@ public class AppealUadRepo {
 //
 //    }
 
+
+    public void deleteFile(String keiId) throws SQLException {
+
+            try (Connection c = dataSource.getConnection()) {
+
+                PreparedStatement statement = c.prepareStatement("DELETE FROM appeal_file WHERE kei_id = ?");
+
+
+                statement.setString(1,keiId);
+
+                int rowsUpdated = statement.executeUpdate();
+
+                if (rowsUpdated > 0) {
+                    System.out.println("updated successfully!");
+                }
+
+
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+
+            }
+
+        }
 
 
 
